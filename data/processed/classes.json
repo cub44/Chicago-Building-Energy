@@ -1,0 +1,81 @@
+{
+ "n_classes": 7,
+ "method": "quantiles k/7 of the display-year values, rounded to 3 significant figures; class k holds breaks[k-2] <= value < breaks[k-1]",
+ "metrics": {
+  "site_eui": {
+   "unit": "kBtu per sq ft per year",
+   "column": "site_eui_kbtu_sq_ft",
+   "population": "submitted properties with a published site EUI",
+   "years": {
+    "2022": {
+     "n": 2562,
+     "min": 3.7,
+     "max": 1440.9,
+     "breaks": [
+      50.4,
+      62.3,
+      73,
+      84.1,
+      95.9,
+      117
+     ]
+    }
+   }
+  },
+  "site_energy_kbtu": {
+   "unit": "kBtu per year",
+   "column": "site_energy_kbtu",
+   "population": "submitted properties with a published site EUI",
+   "years": {
+    "2022": {
+     "n": 2562,
+     "min": 91465,
+     "max": 1658391179,
+     "breaks": [
+      4940000,
+      6970000,
+      9580000,
+      14000000,
+      22100000,
+      39100000
+     ]
+    }
+   }
+  },
+  "kbtu_per_sqmi": {
+   "unit": "kBtu per year per square mile",
+   "column": "kbtu_per_sqmi",
+   "population": "hexagons / community areas with at least one included property",
+   "years": {
+    "2022": {
+     "hex": {
+      "n": 957,
+      "min": 16465484.6,
+      "max": 30998156910.5,
+      "breaks": [
+       101000000,
+       142000000,
+       209000000,
+       332000000,
+       603000000,
+       1980000000
+      ]
+     },
+     "ca": {
+      "n": 77,
+      "min": 2593607.4,
+      "max": 7573405419.8,
+      "breaks": [
+       15300000,
+       28600000,
+       45500000,
+       61200000,
+       143000000,
+       539000000
+      ]
+     }
+    }
+   }
+  }
+ }
+}
