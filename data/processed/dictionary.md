@@ -1,6 +1,6 @@
 # Data dictionary - chicago-building-energy
 
-Script output (`scripts/build.py`); never hand-edited. Data release 2026-09-21. Vintage of every figure: City release of 2025-02-05, snapshot 2026-09-18. Covered-buildings list (g5i5-yz37) rows updated 2025-03-14; community areas (igwz-8jzy) 2025-04-22; building footprints (syp8-uezg) 2015-08-15.
+Script output (`scripts/build.py`); never hand-edited. Data release 2026-09-22. Vintage of every figure: City release of 2025-02-05, snapshot 2026-09-18. Covered-buildings list (g5i5-yz37) rows updated 2025-03-14; community areas (igwz-8jzy) 2025-04-22; building footprints (syp8-uezg) 2015-08-15.
 
 **Years.** Published: [2022]. Excluded: 2023 - not yet reviewed for release. Its own row coordinates fail the community-area test for 91% of rows and are never used, but the year can be located by id and address (see the location test). No row from an excluded year is in any file here. An empty cell means the City published nothing; no value is interpolated, estimated or geocoded.
 
@@ -41,18 +41,18 @@ One row per benchmarking `id` seen in any published-or-admitted year: where the 
 | primary_property_type_latest | text | Chicago Energy Benchmarking (xq83-jr8c) `primary_property_type` | From the newest admitted year. |
 | year_built | year | Chicago Energy Benchmarking (xq83-jr8c) `year_built` | As reported by the owner. |
 | of_buildings_latest | count | Chicago Energy Benchmarking (xq83-jr8c) `of_buildings` | Buildings the property reports, newest admitted year. |
-| trusted_lat, trusted_lon | degrees, WGS84 | Chicago Energy Benchmarking (xq83-jr8c) or covered list (g5i5-yz37) `latitude`/`longitude` | A City-published coordinate, accepted only if inside its own row's stated community area (100 m buffer), or checked by hand (`coord_source` override). Empty when none. |
-| coord_source | row_<year> / covered_list / override / none | derived | Which source's coordinate is used. `override`: a City coordinate that could not pass the test, checked by hand; `footprint_overrides.csv` names which. Never an excluded year. |
+| trusted_lat, trusted_lon | degrees, WGS84 | Chicago Energy Benchmarking (xq83-jr8c) or covered list (g5i5-yz37) `latitude`/`longitude` | A City-published coordinate, accepted only if inside its own row's stated community area (100 m buffer), or accepted on review (`coord_source` override; see `footprint_overrides.csv`). Empty when none. |
+| coord_source | row_<year> / covered_list / override / none | derived | Which source's coordinate is used. `override`: a City coordinate that could not pass the test and was accepted on review; `footprint_overrides.csv` names which. Never an excluded year. |
 | footprint_ids | `bldg_id`s joined by ';' | Building Footprints (syp8-uezg), a 2015 snapshot `bldg_id` | Footprints attached to the property. Empty when none. |
 | n_footprints | count | derived | Length of `footprint_ids`. For a campus it is often fewer than `of_buildings_latest`: only footprints tied to the address or the coordinate are attached. |
 | footprint_year_built | year | Building Footprints (syp8-uezg), a 2015 snapshot `year_built` | Latest non-zero construction year among attached footprints. |
 | footprint_area_sqft | sq ft | Building Footprints (syp8-uezg), a 2015 snapshot geometry | Summed plan area of attached footprints, computed in EPSG:3435. |
 | implied_floors | floors | derived | Gross floor area / `footprint_area_sqft`; for a campus with fewer footprints than buildings, the floor area is first scaled by footprints / buildings. For a rejected match, the rejected footprints' figure. |
 | size_check | pass / doubtful / fail / empty | derived | fail: over 120 implied floors, footprint rejected. doubtful: over 60, or over 2 times the stories the City's layer gives the attached footprints, confidence lowered one step; not applied where the layer gives 40+ stories. Empty: no footprint found or no floor area. |
-| match_method | T1 / T1b / T1_multi / T2 / coord_pip / coord_nearest / override / none | derived | The PIPELINE §2 tier that attached the footprints. |
-| match_confidence | high / medium / low / none | derived | high: address agrees, or checked by hand. medium: coordinate-led or coordinate-confirmed. low: unconfirmed. none: no footprint. After the size check. |
+| match_method | T1 / T1b / T1_multi / T2 / coord_pip / coord_nearest / override / none | derived | The tier that attached the footprints, in the order `scripts/match_footprints.py` tries them; the README's match-precision table defines each one. |
+| match_confidence | high / medium / low / none | derived | high: address agrees, or set by an override. medium: coordinate-led or coordinate-confirmed. low: unconfirmed. none: no footprint. After the size check. |
 | match_note | text | derived | What was tried and refused on the way. |
-| located_by | footprint / trusted_coordinate / none | derived | Where the property is placed on the map and in the density tables: its largest footprint, or the trusted coordinate when it has no footprint or only a low-confidence one. |
+| located_by | footprint / trusted_coordinate / none | derived | Where the property is placed on the map and in the density tables: its largest footprint, or the trusted coordinate when it has no footprint or only a low-confidence one. A low-confidence match with no trusted coordinate keeps its footprint, there being nothing else to place it by: 1 of the 116 low matches in 2022. |
 | community_area_num, community_area_name | 1-77, text | igwz-8jzy `area_numbe`, `community` | The community area the property is located in, by geometry. Empty when not located. |
 
 ## energy.csv
@@ -87,12 +87,12 @@ One row per (`id`, `data_year`) for data years [2022]. Reported columns are as p
 
 ## density_hex.csv
 
-Hexagons 400 m flat to flat (0.053500 sq mi, constant, not clipped to the shoreline), pointy-top, anchored at the EPSG:3435 origin. Only hexagons holding at least one property are listed. A property is placed as `located_by` says; with no location it is left out and counted in `reconciliation.md`.
+Hexagons 400 m flat to flat (0.053500 sq mi, constant, not clipped to the shoreline), pointy-top, anchored at the EPSG:3435 origin. Only hexagons holding at least one property are listed. A property is placed as `located_by` says; with no location it is left out of both density tables, and `buildings.csv` marks it `located_by = none`.
 
 | column | unit / values | source | definition |
 |---|---|---|---|
 | hex_id | r<row>c<col> | derived | Grid cell; stable across builds. |
-| data_year | year |  |  |
+| data_year | year | derived | The display year the row aggregates; [2022] here. |
 | n_properties | count | derived | Benchmarked properties of any status located in the cell. |
 | n_submitted, n_not_submitted | count | derived | By `status`. |
 | site_energy_kbtu | kBtu per year | derived | Sum of `site_energy_kbtu` over submitted properties that have one. Empty when the cell has none - not zero. |
@@ -106,8 +106,8 @@ The 77 community areas (igwz-8jzy), assigned by geometry, never by the row's sta
 
 | column | unit / values | source | definition |
 |---|---|---|---|
-| community_area_num, name | 1-77, text | igwz-8jzy `area_numbe`, `community` |  |
-| data_year | year |  |  |
+| community_area_num, name | 1-77, text | igwz-8jzy `area_numbe`, `community` | The community area and its name, as the City's boundary layer publishes them. Key with `data_year`. |
+| data_year | year | derived | The display year the row aggregates; [2022] here. |
 | n_properties | count | derived | Benchmarked properties of any status located in the cell. |
 | n_submitted, n_not_submitted | count | derived | By `status`. |
 | site_energy_kbtu | kBtu per year | derived | Sum of `site_energy_kbtu` over submitted properties that have one. Empty when the cell has none - not zero. |
@@ -118,11 +118,30 @@ The 77 community areas (igwz-8jzy), assigned by geometry, never by the row's sta
 
 ## footprint_overrides.csv
 
-The hand-checked answers the matcher applies last: `id`, the `footprint_ids` to attach (empty for none), the City-published `coordinate` accepted after the check (`row_<year>` or `covered_list`; empty for none), and the `note`, `source` and `verified_on` for each. No footprints and no coordinate means the property is not placed.
+The answers the matcher applies last, after every tier. Each was resolved one id at a time against the evidence its `note` and `source` name, by the same AI desk review (Claude, working to a written rubric) that produced the match precision above; no person has re-checked them, and no imagery or site visit was used. No footprints and no coordinate means the property is deliberately not placed.
+
+| column | unit / values | source | definition |
+|---|---|---|---|
+| id | integer | Chicago Energy Benchmarking (xq83-jr8c) `id` | The property the row resolves. Key. |
+| footprint_ids | `bldg_id`s joined by ';' | Building Footprints (syp8-uezg), a 2015 snapshot `bldg_id` | The footprints to attach. Empty for none. |
+| coordinate | row_<year> / covered_list / empty | derived | Which City-published coordinate to trust for this property, accepted on the review although it could not pass the community-area test. Empty for none. Never an excluded year. |
+| note | text | derived | The reasoning, naming the evidence it rests on. |
+| source | text | derived | The dataset columns and rows the note was read from. |
+| verified_on | date, YYYY-MM-DD | derived | When the row was reviewed. |
 
 ## match_review.csv
 
-The precision check: one row per sampled match with its `match_method`, `match_confidence` and `footprint_ids` as reviewed, the `verdict` (correct / partial / wrong / unsure), a short `reason`, and `reviewed_on`.
+The precision check above, one row per sampled match, as reviewed. A row the build has since changed is stale and is not counted in the precision; the tables above say how many.
+
+| column | unit / values | source | definition |
+|---|---|---|---|
+| id | integer | Chicago Energy Benchmarking (xq83-jr8c) `id` | The property whose match was checked. Key with `footprint_ids`. |
+| match_method | T1 / T1b / T1_multi / T2 / coord_pip / coord_nearest / override / none | derived | The tier that attached the footprints, as reviewed. |
+| match_confidence | high / medium / low / none | derived | Its confidence, as reviewed. |
+| footprint_ids | `bldg_id`s joined by ';' | Building Footprints (syp8-uezg), a 2015 snapshot `bldg_id` | The footprints the reviewer judged. |
+| verdict | correct / partial / wrong / unsure | derived | correct: the attached footprints are the property's building or buildings. partial: one building of a campus, location right. wrong: a different building. unsure: the evidence did not decide it. |
+| reason | text | derived | Why, naming the evidence on the card. |
+| reviewed_on | date, YYYY-MM-DD | derived | When the verdict was recorded. |
 
 ## classes.json
 

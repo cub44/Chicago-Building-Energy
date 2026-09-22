@@ -1,0 +1,10 @@
+# Pinned: a rebuild from the same snapshot must be byte-identical, and float formatting,
+# geometry predicates and parquet encoding all move between releases.
+pandas==2.3.3
+numpy==2.5.3
+geopandas==1.1.4
+shapely==2.1.2
+pyproj==3.8.0
+pyogrio==0.13.0
+pyarrow==25.0.1
+pytest==9.1.1
