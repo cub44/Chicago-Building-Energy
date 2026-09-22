@@ -1,0 +1,407 @@
+id,match_method,match_confidence,footprint_ids,verdict,reason,reviewed_on
+100418,T1,high,768020,correct,"768020 (1744 W Pryor) holds the number, coordinate inside; 3 stories x 109,176 sq ft holds all floor area; no second building within 80 m.",2026-09-21
+101567,T1,high,360441,correct,"360441 at 53 W Jackson, 17 stories vs 17.2 implied floors; footprint name matches.",2026-09-21
+101691,T1,high,243726,correct,"243726 2701-2711 N Mildred holds exact range, coordinate inside; 16,217 sq ft at 3.8 implied floors plausible; neighbors are small houses.",2026-09-21
+101869,T1,high,351057,correct,"351057 at 333 N Dearborn holds the number, 6 m from coordinate; hotel-labeled footprint; floor area well within 13 stories.",2026-09-21
+102032,T1,high,861579,correct,"861579 at 450 W Briar, 1 m from coordinate; largest footprint nearby; 10 implied floors plausible.",2026-09-21
+102825,T1,high,118200,correct,"118200 range 4510-4518 N Ashland equals property range; 5.9 implied floors on 3 stories is high, but no better candidate.",2026-09-21
+103264,T1,high,402044,correct,"402044 at 2941 S Michigan holds the number, 11 m from coordinate; 4.7 implied floors plausible.",2026-09-21
+103643,T1,high,353237,correct,"353237 at 180 N La Salle, 39 stories vs 41 implied floors; footprint name matches.",2026-09-21
+104100,T1,high,140366,correct,"140366 at 711 W Gordon Ter, coordinate inside; 9 stories vs 10.4 implied floors.",2026-09-21
+104288,T1,high,195776,correct,"195776 range 452-500 W Aldine, 3 m; 5.6 implied floors on 4 stories, modest excess; year gap not decisive.",2026-09-21
+104789,T1,high,850989,correct,"850989 at 2322 N Commonwealth, 4 m from coordinate; 5 stories vs 6.0 implied floors.",2026-09-21
+105983,T1,high,858579,correct,"858579 at 1330 N Dearborn, 5 m; 16 stories vs 19.3 implied, within normal excess.",2026-09-21
+110743,T1,medium,836039,correct,"836039 at 30 W Oak, coordinate inside; 24 implied floors vs layer's 12 stories, but only townhouses and small fragments nearby.",2026-09-21
+111157,T1,high,848455,correct,"848455 range 3963-3985 W Belmont, coordinate inside; 7.4 implied floors on unknown stories; no better candidate.",2026-09-21
+111695,T1,high,261747,correct,"261747 range 399-401 W Fullerton, 18 stories; floor area within capacity (12.8 implied).",2026-09-21
+112437,T1,high,197897,correct,197897 at 415 W Aldine holds the number; 17 stories vs 17.6 implied; coordinate falls in adjoining 3270 N Sheridan.,2026-09-21
+113086,T1,high,357286,correct,"357286 range 1001-1015 W Madison, 9 m from coordinate; 7.1 implied floors on unknown stories plausible.",2026-09-21
+113452,T1,high,370218,correct,"370218 range 1115-1143 S Plymouth, 0 m; 6 stories vs 7.7 implied, acceptable with basement.",2026-09-21
+113587,T1,high,317953,correct,"317953 at 1240 N Lake Shore, 6 m; 32 stories vs 33.4 implied floors.",2026-09-21
+113632,T1,high,321436,correct,"321436 at 1130 N Lake Shore, 14 m; 10 stories vs 10.5 implied; year gap not decisive.",2026-09-21
+113706,T1,high,342804,correct,"342804 at 233 E Erie, coordinate inside; 26 stories vs 23.4 implied; footprint name matches.",2026-09-21
+113933,T1,high,565317,correct,"565317 range 6929-6939 S Crandon, 3 m; 9 stories vs 7.4 implied floors.",2026-09-21
+116534,T1,high,866234,correct,"866234 at 410 E Bowen, 11 m; 20 stories vs 16.7 implied; only small buildings nearby.",2026-09-21
+116552,T1,high,873026,correct,"873026 range 4003-4013 S Ellis, 11 m; 5.2 implied floors on unknown stories; adjoining 901-915 E 40th may be a wing.",2026-09-21
+117535,T1,high,815733,partial,815733 at 6800 S Stewart is a school piece; adjoining unattached 563504 bears a matching school name; coordinate 189 m off.,2026-09-21
+119238,T1,high,835118,correct,"835118 at 2520 N Narragansett, 8 m; single-story 65,515 sq ft vs 64,285 sq ft reported (1.0 implied).",2026-09-21
+120083,T1,medium,889940,wrong,"889940 (1940-1950 W 33rd) is 1 story, 7,117 sq ft: 59 implied floors; an outbuilding, not the store; listed neighbors are houses.",2026-09-21
+120344,T1,high,146937,correct,"146937 range 4011-4043 N Ravenswood, 1 m; footprint exceeds floor area (1.1 of 3 stories), likely a shared industrial block.",2026-09-21
+125859,T1,high,337775,correct,"337775 range 730-756 N Michigan, 13 m; mall floor area fills lower part of the 17-story footprint.",2026-09-21
+129920,T1,high,350893,correct,"350893 range 340-350 N Clark, coordinate inside; 8 stories vs 7.2 implied floors.",2026-09-21
+131375,T1,high,875336,correct,"875336 range 2816-2844 N Clark, coordinate inside; 3.1 implied floors plausible.",2026-09-21
+132117,T1,high,662757,correct,"662757 at 200 W 87th labeled as the store; 1 story x 125,187 sq ft fits; coordinate 138 m off but label decides.",2026-09-21
+134779,T1,high,814766,correct,"814766 range 243-245 S Wabash, 3 m; 11 stories vs 11.4 implied; university-labeled footprint.",2026-09-21
+134965,T1,high,814498,correct,"814498 at 176 W Washington, footprint name matches; 15 stories vs 15.0 implied floors.",2026-09-21
+135103,T1,high,349442,correct,"349442 at 6 W Hubbard, coordinate inside; 8 stories vs 8.2 implied; year gap not decisive.",2026-09-21
+137211,T1,high,821223,correct,"821223 range 1601-1603 S Michigan, 1 m; 6 stories vs 8.1 implied, modest excess; no better candidate.",2026-09-21
+139602,T1,medium,115105,unsure,"115105 (4539-4541 N Sheridan) holds the number, coordinate inside, but 3 stories gives 10 implied floors; adjoining 3-story Windsor/Wilson blocks could be it.",2026-09-21
+140991,T1,high,859046,correct,"859046 range 1519-1529 S State, 3 m, odd side; 11.3 implied floors on unknown stories plausible.",2026-09-21
+141524,T1,high,357267,correct,"357267 range 947-949 W Madison, 1 m; 15.5 implied floors on unknown stories; no better candidate.",2026-09-21
+156406,T1,high,814543,correct,"814543 range 19-21 N Wabash, 15 m; 5 stories vs 6.5 implied, acceptable with basement.",2026-09-21
+157971,T1,high,368657,correct,"368657 range 900-910 S Michigan, 9 m; 19 stories vs 20.2 implied floors.",2026-09-21
+158134,T1,high,814348,partial,"814348 at 170 N Dearborn is the theatre footprint; adjoining 814435 (150 N Dearborn, same label) unattached; 5.2 implied floors on 3 stories.",2026-09-21
+158307,T1,high,825025,correct,"825025 range 718-720 N Larrabee, footprint name matches, coordinate inside; 17 stories vs 12.3 implied.",2026-09-21
+158392,T1,high,352493,correct,"352493 at 55 W Wacker, 1 m; 16 stories vs 16.6 implied floors.",2026-09-21
+160137,T1,high,364929,correct,"364929 range 600-610 S Canal, 11 m; 12 stories vs 14.0 implied, modest excess.",2026-09-21
+160293,T1,high,815144,correct,"815144 at 33 W Ontario, coordinate inside, 58 stories; 35.5 implied floors within capacity.",2026-09-21
+161103,T1,high,815091,correct,"815091 range 618-622 S Michigan, 15 m; 10 stories vs 7.3 implied; college-labeled; year gap not decisive.",2026-09-21
+161628,T1,high,170815,correct,170815 at 851 W Waveland holds all floor area (2.6 floors on 3 stories); second building not evident.,2026-09-21
+165659,T1,high,281900,correct,"281900 range 2028-2058 N Clybourn, coordinate inside; 3.6 implied floors plausible.",2026-09-21
+172051,T1,medium,534503,wrong,"534503 at 2601 W 63rd is 1 story, 4,635 sq ft (27.5 implied floors); cannot hold three residential facilities; 4-story 2608-2636 W 63rd opposite.",2026-09-21
+172126,T1,high,261860,correct,"261860 range 1340-1350 W Fullerton equals property range, 1 m; 5 stories vs 7.3 implied, modest excess.",2026-09-21
+173476,T1,high,81609,correct,"81609 at 2727 W Winona, 21 m; 2 stories vs 1.9 implied floors.",2026-09-21
+173812,T1,high,153970,correct,"153970 at 3900 N Pine Grove, 6 m; 9 stories vs 11.2 implied floors.",2026-09-21
+173915,T1,high,480877,correct,480877 at 5500 S Shore holds the number; 17 stories vs 21.6 implied; coordinate 53 m off but address decides.,2026-09-21
+174200,T1,high,354892,partial,Reports 2 buildings; 354892 (1311-1313 W Randolph) is one; touching 1325 W Randolph unattached would bring floors to 3.1.,2026-09-21
+175329,T1,high,882249,correct,"882249 2040-2044 W Belmont exact range, coordinate inside, 3.3 implied floors plausible; neighbors much smaller.",2026-09-21
+175347,T1,medium,618990,correct,"618990 at 8001 S Cottage Grove, 4 m; 4.5 implied floors on 2 stories is high, but no larger neighbor.",2026-09-21
+175745,T1,high,881838,correct,"881838 at 1340 S Michigan, coordinate inside; 4.5 implied floors on unknown stories plausible.",2026-09-21
+175898,T1,high,892994,partial,Reports 4 buildings; only 892994 at 3622 S State attached; development footprints at 4-10 and 16-22 W 37th and 17 W 36th unattached.,2026-09-21
+206858,T1,high,837171,correct,"837171 at 3240 N Lake Shore, 1 m; 23 implied floors on unknown stories plausible.",2026-09-21
+231536,T1,high,815153,correct,"815153 at 1212 N Wells, coordinate inside, 18 stories; 12.8 implied floors within capacity.",2026-09-21
+238747,T1,high,815376,correct,"815376 at 1250 N Dearborn, 2 m, 23 stories; 13.7 implied floors within capacity.",2026-09-21
+240122,T1,high,814561,correct,"814561 at 6 N Michigan, footprint name matches; 19 stories vs 17.1 implied floors.",2026-09-21
+243345,T1,high,26753,correct,"26753 6301 N Sheridan exact address, bracketed name matches, 25 stories vs 28.0 implied, 16 m from coordinate.",2026-09-21
+244340,T1,high,8076,correct,"8076 at 7141 N Kedzie, 14 stories; floor area within capacity; coordinate 47 m off but address decides.",2026-09-21
+245071,T1,high,308684,correct,"308684 at 1440 N Lake Shore, labeled with that address, 36 stories; 16.8 implied within capacity.",2026-09-21
+250037,T1,high,130428,partial,Reports 2 buildings; 130428 at 4251 N Clarendon attached; adjoining 131400 (877 sq ft) carrying the school label unattached.,2026-09-21
+250108,T1,high,536511,correct,"536511 range 6401-6407 S Yale, 12 m; 14 stories vs 15.4 implied floors.",2026-09-21
+251319,T1,high,148382,correct,"148382 range 4640-4660 W Irving Park; 1 story x 82,525 sq ft fits 70,790 sq ft; coordinate 183 m off.",2026-09-21
+251324,T1,medium,265831,wrong,"265831 at 2315 N Kenmore is a 1,146 sq ft house: 97 implied floors; listed neighbors are all houses.",2026-09-21
+251325,T1,high,835525,correct,"835525 2311 N Racine exact address, 0 m from coordinate, 4.6 implied floors; year gap not decisive.",2026-09-21
+251391,T1,high,397266,correct,"397266 at 533 W 27th, 4 m; 3.6 implied floors on unknown stories plausible.",2026-09-21
+251426,T1,high,778741,partial,"Reports 2 buildings; 778741 at 11411 S Eggleston attached; 11428 S Stewart (11,474 sq ft) 10 m away likely the second.",2026-09-21
+251492,T1,high,457522,correct,"457522 at 5055 S State, 7 m; 2 stories vs 1.9 implied floors.",2026-09-21
+251524,T1,high,420221,correct,"420221 at 3630 S Wells, 3 m; 2 stories vs 2.0 implied floors.",2026-09-21
+251531,T1,medium,626639,correct,"626639 at 2601 W 80th, 19 m; 2.5 implied floors on 1 story is high, but no larger neighbor.",2026-09-21
+251561,T1,high,826160,correct,"826160 range 1703-1707 W Morse, 4 m; 2.2 implied floors plausible.",2026-09-21
+251617,T1,high,861967,partial,"Reports 4 buildings; only 861967 (2701-2711 W Foster) attached; adjoining 2700 and 2716 W Winona, nearer the coordinate, unattached.",2026-09-21
+251643,T1,high,314324,correct,"314324 range 1403-1439 N Tripp, 3 m; 3 stories vs 2.7 implied floors.",2026-09-21
+251689,T1,medium,859103,partial,"859103 (1431-1457 N Leamington), 1 story, gives 4.6 implied floors; touching 1400-1432 N Leclaire likely the rest, unattached.",2026-09-21
+251690,T1,high,417715,partial,"Reports 2 buildings; 417715 (3517-3533 S Giles) attached, coordinate inside; touching 301 E 35th unattached; unscaled 4.0 floors on 3 stories.",2026-09-21
+251719,T1,high,227453,partial,"Reports 2 buildings; 227453 at 3020 N Lamon attached; 3000 N Lamon (26,992 sq ft) 4 m away unattached.",2026-09-21
+251768,T1,high,336037,correct,"336037 range 213-231 W Institute, coordinate inside; 7.3 implied floors on unknown stories plausible.",2026-09-21
+251780,T1,medium,338844,partial,"338844 (731-735 N State) holds the number; 2 stories gives 6.4 implied floors, so the property's other buildings are unattached.",2026-09-21
+251863,T1,high,401532,partial,"Reports 2 buildings; 401532 (2728-2738 S Kostner) attached; touching unaddressed 401911 (8,872 sq ft) unattached.",2026-09-21
+251887,T1,high,370572,correct,"370572 at 1522 W Fillmore, coordinate inside; 3 stories x 21,828 sq ft holds all floor area; second building not evident.",2026-09-21
+251914,T1,high,555447,correct,"555447 at 838 W Marquette, 13 m; 2 stories vs 1.8 implied floors.",2026-09-21
+251964,T1,high,358459,correct,"358459 range 112-122 S Racine, coordinate inside; 3 stories vs 3.6 implied floors.",2026-09-21
+252013,T1,high,329967,correct,"329967 at 900 N Franklin, 6 m; 8 stories vs 8.1 implied floors.",2026-09-21
+252018,T1,high,83629,correct,"83629 at 5000 N Marine, 21 m; 15 stories vs 15.8 implied floors.",2026-09-21
+252027,T1,high,636377,correct,"636377 at 8130 S California, 7 m; 2 stories vs 2.3 implied floors.",2026-09-21
+252051,T1,high,382415,correct,"382415 at 320 E 21st, coordinate inside; 9 stories vs 6.8 implied floors.",2026-09-21
+252075,T1,high,444832,correct,"444832 4248 W 47th exact address, 3 stories vs 3.2 implied, 22 m from coordinate; year gap not decisive.",2026-09-21
+252286,T1,medium,857010,partial,"857010 at 5042 N Winthrop, 3 stories, gives 9.9 implied; with touching 5036 and 5046 N Winthrop floors fit 3.5; those unattached.",2026-09-21
+252288,T1,high,355935,partial,Reports 2 buildings; 355935 range 137-143 N Parkside attached; scaled 5.1 floors on 4 stories; second building not attached.,2026-09-21
+254025,T1,high,892876,correct,"892876 at 901 W 63rd, footprint name matches; 6 stories vs 6.1 implied floors.",2026-09-21
+254296,T1,high,175302,correct,"175302 range 534-552 W Brompton equals property range, 1 m; 5.4 implied floors on unknown stories.",2026-09-21
+256406,T1,high,815078,correct,"815078 range 375-385 E Chicago, 6 m; 7 stories vs 8.4 implied, modest excess; university-labeled.",2026-09-21
+256455,T1,high,237849,correct,"237849 range 2801-2813 N Leavitt equals property range, 5 m; 4.3 implied floors on unknown stories.",2026-09-21
+256765,T1,high,849839,correct,"849839 at 2750 N Elston holds the number; coordinate in adjoining 2752 N Elston; 50,000 sq ft is a placeholder.",2026-09-21
+100395,T1_multi,medium,598129,partial,"Only 598129 (Building 400, 7500 S Pulaski) attached; five other 7500 S Pulaski campus footprints and the 95,510 sq ft main building 600539 unattached.",2026-09-21
+101674,T1_multi,high,59247;61719,wrong,"59247 (12 stories, 1982) is a separate tower beside 61719 (14 stories); single building; 61719 alone ~768k fits, both give 1.28M.",2026-09-21
+101681,T1_multi,high,46929;51236;52049,correct,"46929 main building plus 51236 parking and 52049, all name-matched complex pieces at 7435 W Talcott; 4.0 floors plausible.",2026-09-21
+101807,T1_multi,high,814829;814849,wrong,"814849 (410-412 S Michigan) is the named building; 814829 (400-408, 7 stories, 1949) is a separate neighbor. One building reported; 814849 alone gives 7.2 floors.",2026-09-21
+102544,T1_multi,medium,720390,partial,720390 is one of seven name-matched 10001 S Woodlawn campus footprints; others unattached; 19.6 implied floors.,2026-09-21
+102585,T1_multi,high,701332;702653;703197;704889;704912;705126;705468;706205;706754;707517;708650;709177;709830,correct,Thirteen name-matched 9501 S King Dr footprints for 12 reported buildings; 2.7 floors plausible.,2026-09-21
+103310,T1_multi,high,313446;314497,partial,"313446 and 314497 are 2 of 10 buildings; ~114k at 5 stories vs 583k; adjoining 312006, 310696 (5 stories) unattached.",2026-09-21
+104095,T1_multi,medium,234958,correct,"234958 (4600-4630 W Diversey, 55,914 sq ft) matches 53,267 sq ft at one story; other in-range footprints 835008 and 238832 lie 135-216 m from coordinate.",2026-09-21
+105044,T1_multi,high,13457;13707,unsure,"13457 (2020, 5 stories) alone fits 59k; 13707 (2000-2018, 2-story 1963) resembles Ridge Blvd row but combined also fits.",2026-09-21
+105067,T1_multi,high,19503;19541;19890,wrong,"19503 (1033-1035, 14 stories, 1932) alone fits 91,600; 19541 [Crown Center] and 19890 [steam chiller plant] are university buildings.",2026-09-21
+105533,T1_multi,high,852946;852947,correct,"852947 (6228-6230) and 852946 (6238-6240 N Winthrop), both 3-story 1966, span the stated range; 3.8 implied floors fits 3 stories plus basement.",2026-09-21
+109510,T1_multi,medium,815791,partial,"815791 (4930-4932) is one of several in-range footprints (452816, 452348, 453047, 815759) spanning 4922-4942; 16.9 implied floors.",2026-09-21
+111545,T1_multi,high,837268;837269,wrong,"837268 (2300-2314, 16 stories, 1926) is a separate older tower; single 1973 building; 837269 (2314, 1978) is the candidate.",2026-09-21
+112188,T1_multi,high,400549;403959,correct,"400549 (207,534 sq ft, coordinate 9 m) plus name-matched boiler house 403959, an accessory; 1.5 floors plausible.",2026-09-21
+112530,T1_multi,high,132396;133011,correct,"133011 (4240, coordinate inside) and 132396 (4242) both within 4240-4248; combined 3.7 floors plausible for one building.",2026-09-21
+113335,T1_multi,medium,821185;821187,wrong,"821187 (2016-2024, 1 story, 1950) is a separate low building mostly outside 2024-2030; 821185 (2026) is the multi-story candidate.",2026-09-21
+114196,T1_multi,high,302721;815195,unsure,"302721 (1550 N State Pkwy, 12 stories) alone fits floor area (10.9 floors); 815195 (1544, 3 stories) could be a wing or separate house.",2026-09-21
+114455,T1_multi,high,314443;815356,correct,"Coordinate inside 314443 (1325 N Astor, 14 stories); 815356 is a 1-story structure at the same 1325 address, an accessory of the same lot.",2026-09-21
+115231,T1_multi,high,4242;822228,wrong,"822228 (1211 W Sherwin, 8 stories) alone fits 59,296 sq ft (8.0 floors); 4242 (1205-1209, 9 stories, 14,743 sq ft) is a separate neighboring building.",2026-09-21
+115605,T1_multi,high,523856;524998,unsure,"523856 (6250 S Park Shore East Ct, 18 stories) alone fits 150,000 sq ft; 524998 (6252-6256) resembles adjacent townhouse rows; ownership unclear from card.",2026-09-21
+117348,T1_multi,high,42099;42616,wrong,"42099 (5969 N Ravenswood, 11 stories) alone fits 82,971 sq ft (10.9 floors); 42616 (5943-5969, 4 stories, 14,744 sq ft) is a separate building.",2026-09-21
+117367,T1_multi,high,154671;155672,correct,"154671 and 155672 (both 6 stories, 6526 W Irving Park) give ~166k, matching 165,842 exactly.",2026-09-21
+127877,T1_multi,high,842500;842502,unsure,"842500 (7530-7572, 74,407) alone fits 69k one-building mall; 842502 (7500-7510) holds 7510 but adds 33%; may be separate.",2026-09-21
+134421,T1_multi,low,152842,unsure,"152842 (4612-4620, 1 story) holds a third of 117k; in-range 148382 (4640-4660, 82,525) 91 m away; partial versus wrong undecided.",2026-09-21
+136695,T1_multi,high,420871;421318,correct,420871 (3 stories) plus 421318 (5 stories) give ~192k vs 186k; both within 3636-3646 S Iron.,2026-09-21
+137334,T1_multi,high,859838;880499;880500;880501;880502;880503;880504;880505;880506;880507;880508,correct,"859838 (214-222, coordinate inside) is main building; ten small 222 S Racine pieces carry the same address; 3.7 floors.",2026-09-21
+138514,T1_multi,high,262566;881152,unsure,"262566 [athletic center/Centennial Hall] and 881152 (2007, coordinate inside) both 2323; combined 76k exceeds 64k; hall may be separate.",2026-09-21
+151835,T1_multi,high,365816;865974,unsure,"365816 (500-512 S Laramie) holds the range near the coordinate; 865974 (508-528, 57 m off) may be a wing or neighbor; stories unknown.",2026-09-21
+156829,T1_multi,medium,723360;723905;724273;730418;730638;730974;735356;815681;815682;815683;852326,correct,Eleven name-matched 3700 W 103rd campus footprints for 10 reported buildings; 2.1 floors plausible.,2026-09-21
+157887,T1_multi,high,326162;876119,correct,Both 326162 (4950-4952 W Thomas) and 876119 (4950 W Thomas) carry the property's number and adjoin; no sign either is a separate neighbor.,2026-09-21
+158414,T1_multi,high,352220;868605,wrong,"352220 (307 N Michigan, 24 stories) is the named building and fits alone (23.1 floors); 868605 (315-323, 4 stories) is a separate neighbor.",2026-09-21
+158526,T1_multi,high,880206;880565,correct,"880206 and 880565 are identical 48,941 sq ft duplicates at 540 N Michigan; one building.",2026-09-21
+159534,T1_multi,high,813903;815729,correct,"813903 (420 E Ohio, 41 stories) ~280k plus 815729 base at 420 give ~370k; tower and podium.",2026-09-21
+159573,T1_multi,high,261747;261765,wrong,"261747 (399-401, 18 stories) and 261765 (411 W Fullerton Pkwy, 17 stories) are separate towers; one building reported; 261747 alone fits (18.1 floors).",2026-09-21
+159661,T1_multi,high,861889;861894,unsure,"861889 (3101, 15 stories) alone ~187k fits 206k; 861894 [The Kenwood] at 3121 may be a separate building; stories unknown.",2026-09-21
+159896,T1_multi,low,885702,partial,885702 [Regents Park North] attached; 885703 [Regents Park South] at 5050 in range but unattached; both ~1.28M vs 1.46M.,2026-09-21
+163223,T1_multi,high,757958;760072,correct,"757958 (72,450 sq ft) plus small 760072, both 10909 S Cottage Grove; 1.2 floors.",2026-09-21
+172064,T1_multi,high,606498;607270,partial,"606498 (15 stories) and 607270 hold 4300 but 523k needs 27 floors; similar ~9k footprints 607298, 607375 nearby unattached.",2026-09-21
+172318,T1_multi,high,318143;319298,wrong,"318143 (1319-1325 N California, 6 stories) alone fits (6.3 floors); 319298 (1307, 2-story 1901, 1,483 sq ft) is a neighboring house.",2026-09-21
+172485,T1_multi,high,357477;357832,correct,"357832 (36-48, 3 stories) main plus small 357477 (50-58) holding 50; floor area high but no other candidate.",2026-09-21
+172608,T1_multi,medium,263963,wrong,"263963 (1735-1741, 5,294 sq ft) needs 13 floors; in-range 264259 (1747-1829) plus 265350 (1801) total ~70k.",2026-09-21
+173658,T1_multi,high,813668;813669,correct,"813668 (210-212) and 813669 (222 W Superior) span the stated range; together 6.2 floors matches 6-7 stories, while 813668 alone needs 10.3.",2026-09-21
+173846,T1_multi,high,201961;826624,correct,Both 201961 and 826624 are at 3300 N Campbell and carry the matching building name; 2.1 implied floors fits.,2026-09-21
+175085,T1_multi,high,875783;875785,unsure,875783 and 875785 split 1310-1316; 5.8 floors needed while adjoining pieces are 3 stories; set may be incomplete.,2026-09-21
+175190,T1_multi,high,740285;740332,correct,740285 (3931-3943) and 740332 (3947-3959 W 104th) exactly cover the stated range; 2.9 implied floors plausible.,2026-09-21
+175272,T1_multi,high,426363;426409,wrong,"426409 (417-419, 983 sq ft, 3-story 1886) is a separate rowhouse in an 1880s row; 426363 (405-415) alone gives 2.8 floors.",2026-09-21
+175330,T1_multi,high,878804;878805;878806,correct,"878804, 878806, 878805 cover 7109-7129 S Bennett; ~18k at 3 stories ~54k vs 60k.",2026-09-21
+175477,T1_multi,high,210492;210505;853943,correct,"210492, 210505, 853943 cover 1617-1629 W Belmont; 2.4 floors; 1995 six-story 882784 rightly excluded.",2026-09-21
+175521,T1_multi,high,474662;475723,correct,"474662 (5454-5464) and 475723 (5466-5476 S Harper) straddle the range; together 3.6 floors fits 3 stories, 475723 alone would need 5.0.",2026-09-21
+175973,T1_multi,high,34488;34533;34988;35018;35338,correct,"Five ~4,000 sq ft footprints cover 1940-1960 W Hood; 3.6 floors plausible.",2026-09-21
+232458,T1_multi,high,447323;448568,correct,447323 [Harper Square North] and 448568 [Harper Square South] both name-matched in 4800-4850 range; floor area below stories.,2026-09-21
+235845,T1_multi,high,322966;874109,correct,"322966 (1100-1122) name-matched, 37 stories; 874109 is a small 3,519 sq ft piece at 1122.",2026-09-21
+239096,T1_multi,high,351489;351634,correct,"351489 and 351634, both 300 N State 61-story towers, for 2 reported buildings.",2026-09-21
+239704,T1_multi,high,820291;820294,correct,"820291 (6 stories) and 820294 both 1000 E 53rd, adjoining; combined fits if 820294 is a low base.",2026-09-21
+240019,T1_multi,high,302621;303612,correct,"302621 (1555 N Astor, 47 stories) is the tower; 303612 is the same lot's named pool and tennis structure at 1555, an accessory.",2026-09-21
+242586,T1_multi,high,825064;825100,correct,"825100 (250, 35 stories) and 825064 (270, 16 stories) match 250-270 range; ~627k vs 734k.",2026-09-21
+244017,T1_multi,high,350042;834535,wrong,"350042 (405 N Wabash) is the named building, but 834535 (401-413 N Wabash, 92 stories, 2005) is a separate neighboring tower.",2026-09-21
+244449,T1_multi,high,880191;880200,correct,880191 (30) and 880200 (40) cover 30-40 E Huron; tower plus base plausible.,2026-09-21
+244840,T1_multi,high,362564;891266,correct,"362564 (235) name-matched and 891266 (217-241), both 46 stories; likely offset records of one tower.",2026-09-21
+250015,T1_multi,medium,580824,correct,"580824 (513 W 72nd, 34,163 sq ft) fits 66,458 sq ft (1.9 floors); unattached named 581136 is a small 4,379 sq ft structure.",2026-09-21
+250019,T1_multi,medium,706135,correct,"706135 (9801 S Avenue G, 2 stories) ~54k vs 63k; other in-range pieces small and ~500 m away.",2026-09-21
+250033,T1_multi,medium,570210,partial,"570210 (7059 S South Shore Dr) is one named piece; larger named 565826 (70,057 sq ft) at the same address is unattached; 7.0 floors implied.",2026-09-21
+250038,T1_multi,high,763847;764607,partial,"Two of five reported buildings attached (763847, 764607 at 250 E 111th); adjacent unaddressed 841053 (13,653 sq ft) not attached.",2026-09-21
+250054,T1_multi,high,447349;447707,correct,"447349 (91,595 sq ft) plus small 447707, both 4747 S Union; 3.4 floors.",2026-09-21
+250104,T1_multi,high,153739;154766,partial,"3 buildings reported, 2 attached: 153739 (19 stories), 154766 (9 stories) ~184k vs 241k; third building not attached.",2026-09-21
+251224,T1_multi,high,343478;813854,unsure,"343478 (142-148, 18 stories) ~147k fits 137k; 813854 [AOA Building] (142-162, 18 stories) triples it; duplicate or neighbor unclear.",2026-09-21
+251295,T1_multi,high,45022;45710,correct,"45022 and 45710, both at 7370 W Talcott and carrying the matching name, form the property; 1.5 implied floors.",2026-09-21
+251363,T1_multi,high,314871;315758,correct,"314871 (225 W Evergreen, 2 stories) fits alone (2.3 floors); 315758 at the same address is a small 1-story named school structure.",2026-09-21
+251394,T1_multi,high,530233;530544;533097;538134;538320;821959,unsure,"School pieces mixed with 538134, 538320 labeled Hale Park Field House (separate park); unclear whether 821959 or 533097 is field house.",2026-09-21
+251439,T1_multi,medium,722959;725125,correct,"722959 (26,465 sq ft) plus name-matched 725125; layer's 1 story understates; no other candidate.",2026-09-21
+251444,T1_multi,high,798328;798601,correct,"798328 plus small 798601, both 12302 S State; 2.2 floors.",2026-09-21
+251462,T1_multi,high,436282;436409,correct,"436409 plus small 436282, both 4436 S Union; 3.1 floors.",2026-09-21
+251479,T1_multi,high,168348;170349,partial,"4 buildings reported; 168348 and small 170349 need 3.8 floors; unaddressed 846339 (4,052, 2006) adjacent unattached.",2026-09-21
+251518,T1_multi,high,281798;281930,correct,"Both reported buildings attached: 281798 (named) and 281930, both at 2230 W McLean; 2.5 implied floors.",2026-09-21
+251544,T1_multi,high,504163;504230;505055,correct,"504163, 504230, 505055 at 3826 W 58th give 2.5 floors, plausible despite 5 reported buildings.",2026-09-21
+251546,T1_multi,high,197331;197410,partial,"Two of four reported buildings attached (197331, 197410 at 3425 N Major); nearby 2006 unaddressed footprints 847318 and 847319 may be the rest.",2026-09-21
+251550,T1_multi,medium,648804,wrong,"Attached 648804 (8441 S Yates) is only 2,625 sq ft (36 floors implied); main 8441 footprint 647181 (26,959 sq ft) 16 m away unattached.",2026-09-21
+251581,T1_multi,high,620242;621771,correct,"620242 plus name-matched 621771, both 8045 S Kenwood; 1.7 floors.",2026-09-21
+251588,T1_multi,high,711137;711915,correct,711137 and 711915 both at 9912 S Avenue H; 1.9 implied floors fits a school; no neighbor attached.,2026-09-21
+251598,T1_multi,high,617596;618774,correct,617596 and 618774 both name-matched school footprints covering 7901-7939 S Honore; 2.1 floors.,2026-09-21
+251601,T1_multi,high,452320;453157,partial,"4 buildings; 452320 plus 453157 need 4.7 floors; 454197 (4837 S Karlov, 17,771 sq ft) adjacent unattached.",2026-09-21
+251603,T1_multi,high,516565;517979,correct,516565 plus small 517979 at 6011 S Rockwell give 2.4 floors; no other school footprints nearby.,2026-09-21
+251605,T1_multi,high,865286;866798,correct,"865286 (5300-5314, 3 stories) and 866798 (5300 S Hermitage) together give 3.3 floors, matching 3 stories.",2026-09-21
+251666,T1_multi,high,721055;722165;722752,correct,"721055 plus name-matched 722165 and 722752, all 10015 S Leavitt; 1.9 floors.",2026-09-21
+251682,T1_multi,high,233506;236317,partial,"Two of three reported buildings attached (233506, 236317 at 2941 N McVicker); named 235319 (2,738 sq ft) 10 m away unattached.",2026-09-21
+251684,T1_multi,high,289729;290306,correct,"289729 plus 290306, both 1920 N Hamlin; 2.3 floors.",2026-09-21
+251692,T1_multi,high,467152;470907,correct,"467152 (62,679 sq ft) plus small 470907 at 5250 S Rockwell; 2.15 floors plausible.",2026-09-21
+251695,T1_multi,high,297724;830627,correct,297724 plus 830627 [school annex] covering 1711 N California; 3.2 floors.,2026-09-21
+251899,T1_multi,high,432204;432641,correct,"432204 plus 432641, both 4250 S Rockwell; 4.3 floors, stories unknown.",2026-09-21
+251900,T1_multi,high,202938;203043,correct,"202938 plus name-matched 203043, both 4201 W Henderson; 1.9 floors plausible.",2026-09-21
+251904,T1_multi,medium,312910;314663,correct,314663 (1409) and 312910 (1443) span 1409-1443 N Ogden; 2.2 floors for one building.,2026-09-21
+251942,T1_multi,high,449715;450583;451080,correct,"449715, 450583, 451080 at 4900 S Lake Shore total ~51.6k vs 54k.",2026-09-21
+252279,T1_multi,high,9764;9774;9807,correct,"All three reported buildings attached: 9807 (1122), 9774 (1132), 9764 (1138-1140 W Lunt), covering the stated range.",2026-09-21
+253995,T1_multi,high,868067;868068,correct,"868067 and 868068 both 1017 W Washington, coordinate inside 868068; combined fits.",2026-09-21
+254008,T1_multi,high,867563;867564,correct,867564 (4816-4822) and 867563 (4824-4828) are two halves of the range; 4.2 floors.,2026-09-21
+254039,T1_multi,high,842407;842408,correct,842408 (7021-7027) and 842407 (7029-7035) are two halves; 4.3 floors.,2026-09-21
+255149,T1_multi,medium,842678,wrong,"842678 (6163, 5,822 sq ft) needs 10 floors; in-range 842749 (6163-6193, 60,448 sq ft) matches 57,547.",2026-09-21
+255783,T1_multi,high,439090;439382,correct,"439090 (4631, coordinate inside) and 439382 (4637 S Lake Park) cover the stated range; together 3.3 floors plausible.",2026-09-21
+256736,T1_multi,high,751136;751863,correct,751136 and 751863 at 10810 S Avenue H give 2.0 floors; only small 2006 modulars unattached.,2026-09-21
+260127,T1_multi,high,814597;880224,correct,"814597 (18, 12 stories) and 880224 (28) ~215k vs 209k.",2026-09-21
+103798,T2,medium,333430,correct,"Only footprint holding 844 is 333430 (832-852 N RUSH ST), coordinate inside; 12 stories vs 14.4 implied; built 1923 matches.",2026-09-21
+160434,T2,medium,814341,correct,"814341 labeled 51-63 W LAKE ST but abuts 65-75 E LAKE ST amid E Lake/Wabash footprints, coordinate inside; the W label looks erroneous.",2026-09-21
+175595,T2,medium,165458,correct,"165458 (714-728 W WAVELAND AVE) is the only footprint holding 714, even parity, 3 m from coordinate; 3 stories vs 3.4 implied; built 1916.",2026-09-21
+175943,T2,low,352192,partial,"352192 (1901 W CARROLL) holds 1901 but 3 stories x 12,058 is ~22% of floor area; in-range 352195 (1923) and 352206 (1935-1937) unattached.",2026-09-21
+251245,T2,medium,855524,partial,"855524 (3800-3880 N LAKE SHORE DR) holds 3800, coordinate inside; property reports 2 buildings, one attached; adjacent 855523 (608-618 W GRACE ST) unattached.",2026-09-21
+256842,T2,low,280872,correct,"280872 (2001-2027 N MENDELL ST), only footprint holding 2017; 3.1 implied floors plausible; 279304 on Elston far too large. No coordinate.",2026-09-21
+100256,coord_nearest,low,457426,wrong,"Attached 457426 (4970 S Archer, even, 1 story, 9,306 sq ft) is across from odd 4975; 457600 (4945-4959 S Archer, 3 stories, 177,906) fits.",2026-09-21
+100674,coord_nearest,medium,868774,partial,"Attached 868774 (930 S Spaulding) is the SW corner matching odd 3301 W Arthington; 2 buildings reported, adjacent 868773 (3315-3357 W Arthington) unattached.",2026-09-21
+101030,coord_nearest,medium,894158,correct,"Attached 894158 (3753-3755 S Cottage Grove, 6 stories, built 2013) is odd-side, but stated Oakland lies east; 4 m, size fits, no even-side candidate.",2026-09-21
+102083,coord_nearest,medium,842368,correct,"Attached 842368 carries the same range 1645-1663 W Pratt (AVE vs BLVD suffix), 3 m from coordinate; 4.4 implied floors plausible.",2026-09-21
+102284,coord_nearest,medium,234600,partial,"Attached 234600 (2801 N Sheridan, 27 stories, name matches) is one tower; 2 buildings reported, sister tower 235182 (2807-2815 N Sheridan) unattached.",2026-09-21
+102362,coord_nearest,medium,115304,unsure,"Attached 115304 (4545 N Damen, hospital, 10 stories, 112,031 sq ft) sits at the right corner but gives 0.6 implied floors; property may be separate.",2026-09-21
+103712,coord_nearest,medium,333187,correct,"Attached 333187 (830-850 N Mies van der Rohe Way, 74 stories) carries a layer name matching the property; 5 m from coordinate.",2026-09-21
+103733,coord_nearest,medium,837923,unsure,"Attached 837923 (8500 W Bryn Mawr) is 15 stories on 149,171 sq ft, far oversized; 59257 (8600 W Bryn Mawr) fits size, 156 m away.",2026-09-21
+103789,coord_nearest,medium,416218,correct,"Attached 416218 (3455 S Wabash, 104,331 sq ft) carries a layer name matching the property; 6 m from coordinate.",2026-09-21
+104549,coord_nearest,medium,100312,correct,"100312 (4801 N Sheridan) at Sheridan/Lawrence corner, north side like even 920, 20 m; 13 stories vs 8.8 implied; 98877 far larger.",2026-09-21
+106159,coord_nearest,medium,321074,correct,"Attached 321074 (1160-1168 N Clark) is the SW corner of Clark and Division, matching odd 101-113 W Division; 6 m, 4.5 implied floors.",2026-09-21
+111038,coord_nearest,medium,847030,correct,"847030 (460 E Ohio) at Ohio/Lake Shore corner, 2 m, built 2006 vs 2007; 37,949 sq ft x ~28 floors fits.",2026-09-21
+112078,coord_nearest,medium,833410,correct,"Attached 833410 (8337 W Bryn Mawr, 7 stories, built 1999) is the SE corner matching odd 5555 N Cumberland; 8.4 implied floors acceptable.",2026-09-21
+120218,coord_nearest,medium,883824,wrong,"Attached 883824 (4700-4704 W North, 8,388 sq ft) gives 16.9 implied floors for 141,676 sq ft; far too small.",2026-09-21
+127079,coord_nearest,low,868625,correct,"Attached 868625 lies between 17-29 N State and Washington, where 35 N State falls; 7 m; 15,579 sq ft suits 60,000 despite 1-story attribute.",2026-09-21
+129735,coord_nearest,medium,592288,correct,"592288 (7505-7517 S Exchange) at Exchange/75th corner, south side like odd 2649, 8 m; 3 stories vs 3.8 implied.",2026-09-21
+130634,coord_nearest,medium,352882,correct,"Attached 352882 (215 N Jefferson, 7 stories) is the NE corner matching even 560-566 W Lake; 6.8 implied floors, 2 m.",2026-09-21
+133159,coord_nearest,medium,850313,unsure,"Attached 850313 (471-481 W Deming, stories unknown) is odd-side beside 467 but needs 9.1 floors; adjoining 850311 (2515 N Clark, 25,413 sq ft) may belong.",2026-09-21
+134533,coord_nearest,medium,342918,correct,"Attached 342918 (153 E Erie, 10 stories, built 1961) is the SE corner matching odd 645 N Michigan; 12.3 implied floors acceptable.",2026-09-21
+144572,coord_nearest,medium,464558,correct,"Attached 464558 (1301-1309 E 53rd) is the SE corner of 53rd and Kimbark, matching odd 5301-5331; in-range 466378 is a small 1989 building.",2026-09-21
+150324,coord_nearest,medium,815884,correct,"Attached 815884 (516 N Wells, 15 stories) carries a layer name matching the property; 6 m, 14.3 implied floors.",2026-09-21
+157100,coord_nearest,low,322692,wrong,"Attached 322692 (1601 W Division) is a 1-story 3,414 sq ft building; 33 implied floors cannot hold 112,734 sq ft.",2026-09-21
+157159,coord_nearest,medium,876924,partial,"Attached 876924 (501-513 W Taylor, 116,580 sq ft) is on the right block, but needs 3.7 floors on 2 stories; 834517, 876926 unattached.",2026-09-21
+158215,coord_nearest,medium,814863,wrong,"Attached 814863 (430 S Michigan) is the named Auditorium Building, 1890, 17 stories; a different building from a 2011 property at 425 S Wabash.",2026-09-21
+158646,coord_nearest,low,246938,wrong,"Attached 246938 (400 W Deming, 9 stories, 16,682 sq ft) gives 71.6 implied floors against 9 stories; a different, older building.",2026-09-21
+158748,coord_nearest,medium,147649,correct,"Attached 147649 (4030 N Marine, 4 stories, 50,006 sq ft) is the NW corner matching even 640 W Irving Park; 4.0 implied floors.",2026-09-21
+160186,coord_nearest,medium,814537,wrong,"Attached 814537 (1-39 N Halsted, separately named 39-story tower) lies north of Madison; odd 733 W Madison is south side; size far off.",2026-09-21
+160211,coord_nearest,medium,342854,correct,"342854 (215 E Erie) on the St Clair/Erie block, east side like odd 633 N St Clair, 2 m; 27 stories, built 1991 matches.",2026-09-21
+160214,coord_nearest,medium,259702,correct,"Attached 259702 (unaddressed, 20,465 sq ft) is the only substantial footprint, 10 m away on the even north side of Fullerton; neighbors are houses.",2026-09-21
+160347,coord_nearest,medium,814911,correct,"Attached 814911 (626-636 S Clark, 11 stories, 1911) holds the coordinate and adjoins even 642; next footprint 650 S Clark is small.",2026-09-21
+160392,coord_nearest,medium,837360,unsure,"837360 (155-161 W Elm) is 20 stories x 40,807 sq ft, triple 249,845 (6.1 implied); Elm address sits oddly with 1120 N LaSalle.",2026-09-21
+162325,coord_nearest,medium,332318,wrong,"Attached 332318 is an unaddressed 2,444 sq ft piece; 332159 (860 N La Salle, 25,138 sq ft, name matches) holds the number, 9 m away.",2026-09-21
+173811,coord_nearest,medium,861376,wrong,"Attached 861376 (3616 N Pine Grove) needs 11.3 floors on 6 stories; adjoining corner 861377 (611 W Patterson, 5 x 19,197) fits and follows 3616.",2026-09-21
+174182,coord_nearest,low,877668,wrong,"Attached 877668 (830 N Michigan, 5 stories) needs 11.5 floors; 335531 (817-819 N Rush, 15 stories) carries a layer name matching the property.",2026-09-21
+175053,coord_nearest,medium,67682,correct,"67682 at 5332 N Damen, same even side beside 5330, 6 m; 4 stories vs 4.3 implied floors.",2026-09-21
+175198,coord_nearest,medium,864520,unsure,"Attached 864520 (1215 W Gunnison, 12,001 sq ft) is 5 m away, plausible size, but no footprint holds 4840; 4850 N Broadway sits opposite.",2026-09-21
+175415,coord_nearest,medium,43996,correct,"Attached 43996 (5911-5923 N Clark, 25,472 sq ft) adjoins even-side 5888-5896 N Ridge and spans 5920's position; 15 m, 2.5 floors.",2026-09-21
+175472,coord_nearest,medium,203409,unsure,Attached 203409 (3239-3247 N Lincoln) is in the Ashland-Lincoln wedge but needs 11.5 floors; a nearer 2009 footprint and adjacent 202085 cloud it.,2026-09-21
+175475,coord_nearest,medium,362489,correct,"362489 at 329 S Ashland, same odd side beside 333, 4 m; 10,417 sq ft needs 6.5 floors, stories unknown.",2026-09-21
+175539,coord_nearest,medium,528152,correct,"Attached 528152 (362-370 E 63rd) is the NW corner of 63rd and King, matching even 6244; 3 m, 5.0 implied floors.",2026-09-21
+175603,coord_nearest,medium,881058,unsure,"Attached 881058 (7507-7531 N Clark, 93,015 sq ft) is south of Howard, 13 m away, but exceeds 66,676 sq ft; adjoining 881057 blurs which box.",2026-09-21
+175693,coord_nearest,medium,869902,wrong,"Attached 869902 (3552-3554 W Sunnyside) is a 1,584 sq ft piece needing 31.6 floors; cannot hold the reported 50,000 sq ft.",2026-09-21
+175785,coord_nearest,medium,835118,unsure,"Attached 835118 (2520 N Narragansett) is 17 m away; 835112 (2530 N Narragansett) is numerically closer to 2532-2554, equal size; cannot separate.",2026-09-21
+175808,coord_nearest,medium,76965,correct,"Attached 76965 (5149-5153 N Ashland, 21,358 sq ft) is odd-side next to 5161, 6 m away; 3.3 implied floors fits.",2026-09-21
+175891,coord_nearest,low,582087,wrong,"Attached 582087 (7301 S Merrill, 2 stories, 2,165 sq ft) is a small building far from 6730 S Shore; 79.7 implied floors.",2026-09-21
+175959,coord_nearest,medium,457635,correct,"Attached 457635 (1615-1641 E Hyde Park) is the corner where Hyde Park Blvd turns, holding 5100 S; 9 m, 4.1 implied floors.",2026-09-21
+238712,coord_nearest,medium,368218,correct,"Attached 368218 (labeled 899 S State, 27 stories, built 1980) matches number and year; 15 m; same-named 368756 (900 S State) fits size worse.",2026-09-21
+243626,coord_nearest,low,346470,wrong,"Attached 346470 (225-235 W Ohio, 6 stories, 1931, 8,883 sq ft) needs 50 floors; a different, older building east of 303.",2026-09-21
+244387,coord_nearest,medium,825006,wrong,"Attached 825006 (400 E South Water) is a separately named 47-story tower; Waterside is absent from the layer, so the building is missing.",2026-09-21
+250027,coord_nearest,medium,352872,wrong,"Attached 352872 (301-307 N Central Park, 7,416 sq ft) needs 56.6 floors; in-range 352249 (300 N Central Park Dr, name matches) is 97 m away.",2026-09-21
+250041,coord_nearest,medium,373625,correct,"Attached 373625 (1313 S Sacramento Dr, 125,258 sq ft) holds the same number on the same street (Dr vs Blvd); 1.6 implied floors.",2026-09-21
+250058,coord_nearest,medium,431372,correct,"Attached 431372 (741-745 E 43rd, 35,404 sq ft) is the SW corner of 43rd and Cottage Grove, matching even 4314; 1.6 floors.",2026-09-21
+250118,coord_nearest,medium,327459,partial,"327459 (1044-1056 N Mozart) is named NORWEGIAN-AMERICAN HOSPITAL, 5 m; property reports 2 buildings, one footprint attached.",2026-09-21
+250120,coord_nearest,medium,374823,partial,"Attached 374823 (1401-1409 S California, name matches) is one building; the property reports 6 buildings, only one attached.",2026-09-21
+250133,coord_nearest,medium,855708,wrong,"Attached 855708 (4614 S Damen, 3,830 sq ft) is 30 m away and needs 19.9 floors; too small for 76,290 sq ft.",2026-09-21
+250138,coord_nearest,medium,456870,partial,"Attached 456870 (501 E 50th Pl, 8 stories, name matches) is the main building; the property reports 2 buildings, second unattached.",2026-09-21
+251244,coord_nearest,medium,851862,correct,"Attached 851862 (3530 N Sheridan, 13 stories, built 1924) matches year and 13.5 implied floors; 1 m from coordinate.",2026-09-21
+251272,coord_nearest,medium,645372,wrong,"Odd 8331 S Stewart attached to even-side 645372 (8330-8400 S Stewart), 29 m; its 104,094 sq ft is short of 148,364.",2026-09-21
+251427,coord_nearest,medium,554799,correct,"Attached 554799 (6650-6656 S Normal, 3 stories, 27,983 sq ft) is even-side next to 6646, 2 m; 2.3 implied floors.",2026-09-21
+251443,coord_nearest,medium,589380,correct,"Attached 589380 (7421 S Dorchester, 2 stories, 21,690 sq ft) is odd-side near 7401, 8 m; 3.1 implied floors plausible with basement.",2026-09-21
+251450,coord_nearest,medium,656111,correct,"Attached 656111 (8546 S Cregier, 21,599 sq ft) is even-side next to 8540, 12 m; 3.0 implied floors plausible.",2026-09-21
+251451,coord_nearest,medium,401033,correct,"401033 (2730-2750 S Kedzie) at NW Kedzie/28th corner, north side like even 3202, 20 m; 3 stories, built 1995 vs 1996.",2026-09-21
+251460,coord_nearest,medium,356297,correct,"356297 (42 N Talman) at Talman/Washington, south side like odd 2651, 8 m; 30,112 sq ft fits 2.4 implied floors.",2026-09-21
+251476,coord_nearest,low,365204,correct,"Attached 365204 (519-531 S Albany) is the NE corner of Harrison and Albany, matching even 3024; 3023-3053 W Harrison is across.",2026-09-21
+251498,coord_nearest,medium,362885,correct,"362885 (400 S Central Park Ave) at Central Park/Fifth, 17 m; 2 stories vs 1.7 implied; built 1962 matches.",2026-09-21
+251515,coord_nearest,medium,360775,correct,"360775 (206 S California) at SW California/Adams corner, south side like odd 2801 W Adams, 14 m; 48,222 sq ft fits 1.6 floors.",2026-09-21
+251529,coord_nearest,medium,300433,partial,"Attached 300433 (1757 N Narragansett, 27,655 sq ft) is the SE corner lot; 2 buildings reported, 301456 (same address) unattached.",2026-09-21
+251558,coord_nearest,medium,418297,correct,"Attached 418297 (3511-3539 S Honore) holds 3525; card street is a Honore misspelling; 2 stories, 2.4 implied floors.",2026-09-21
+251570,coord_nearest,medium,293557,correct,"Attached 293557 (1841 N Springfield, 3 stories, built 1990) is odd-side next to 1845; year matches, 2.1 implied floors.",2026-09-21
+251590,coord_nearest,medium,826622,correct,"Attached 826622 (3300 W 71st, 3 stories, built 2005) carries a layer name matching the property; 7 m.",2026-09-21
+251616,coord_nearest,medium,268539,partial,"268539 (2245 N Central), same odd side, 0 m from coordinate; property reports 4 buildings, one 24,714 sq ft footprint attached.",2026-09-21
+251667,coord_nearest,medium,682113,wrong,"Attached 682113 (8959 S Throop, 3,227 sq ft) is north of 90th while 9001 is south; needs 12.9 floors.",2026-09-21
+251772,coord_nearest,low,883558,wrong,"Attached 883558 (6427-6429 W Irving Park, 1 story, 3,716 sq ft) is odd-side, across from even 6430; far too small.",2026-09-21
+251786,coord_nearest,medium,252862,wrong,"Attached 252862 (638 W Deming, 2,493 sq ft) needs 30.3 floors; a house-sized building cannot hold 75,507 sq ft.",2026-09-21
+251871,coord_nearest,low,592719,wrong,"Attached 592719 (1950 E 75th, 2 stories, 4,163 sq ft) is even-side, across from odd 1955, needing 51.3 floors.",2026-09-21
+251926,coord_nearest,medium,341554,wrong,"Attached 341554 (925 W Huron, odd, built 1913) is across Huron from even 910; 23 m from coordinate.",2026-09-21
+252039,coord_nearest,medium,486215,wrong,"Attached 486215 (940 E 57th, other institutes, 86,690 sq ft) exceeds floor area; 486536 (935 E 56th) carries the matching name, 4 m away.",2026-09-21
+252046,coord_nearest,medium,484072,correct,"Attached 484072 (5547 S Greenwood, 59,478 sq ft) carries a layer name matching the property; 1 m from coordinate.",2026-09-21
+252217,coord_nearest,medium,257181,correct,"Attached 257181 (1335 W Altgeld, 88,165 sq ft) spans the block from Altgeld to even-side Fullerton; 1 m, 1.5 floors.",2026-09-21
+253982,coord_nearest,medium,886002,wrong,Attached 886002 (710-730 S Clark) is a separately named 2008 tower north of Polk; odd 111 W Polk is south side.,2026-09-21
+253989,coord_nearest,medium,874084,correct,"Attached 874084 (353 W Institute) is on the Orleans-Institute block matching even 820 N Orleans; 5 m, 7.4 implied floors.",2026-09-21
+254076,coord_nearest,medium,350525,wrong,"Attached 350525 (301 E North Water) is a separately named 1991 hotel tower, 23 m away; not a 2015 building.",2026-09-21
+254157,coord_nearest,medium,815686,correct,"Attached 815686 (5107-5113 N Christiana, university library) holds the coordinate; parity differs but campus spans both sides, no even-side building fits.",2026-09-21
+254351,coord_nearest,medium,888276,wrong,"Attached 888276 (1226-1230 W Jackson, 8,238 sq ft) is even-side, across from odd 1241-1245; 14 implied floors.",2026-09-21
+254365,coord_nearest,medium,350999,wrong,"350999 (350 N Orleans) is named MERCHANDISE MART APPAREL CENTER / HOLIDAY INN, a different building, 21 m; nothing holds 326.",2026-09-21
+254378,coord_nearest,low,871189,wrong,"Attached 871189 (4800-4810 N Kedzie, 3 stories, 8,101 sq ft) is the Lawrence corner, 24 m off; needs 7.4 floors.",2026-09-21
+254379,coord_nearest,low,457847,wrong,"457847 (1501-1517 E Hyde Park Blvd) is 1 story, 7,929 sq ft; 613,970 sq ft would need 77 floors.",2026-09-21
+255091,coord_nearest,medium,329538,unsure,"Attached 329538 (879-1011 N Halsted, 169,975 sq ft) is 28 m away with an odd Halsted range; 330723 (8 stories, 40,554 sq ft) also near.",2026-09-21
+255092,coord_nearest,medium,858870,wrong,"Even 1244 N Clybourn attached to odd-side 858870 (1249 N Clybourn), 2,729 sq ft; 64,000 sq ft would need 23.5 floors.",2026-09-21
+256434,coord_nearest,medium,404930,correct,"404930 (3020 S Wabash) is named IIT (KEATING HALL), 26 m; 32,017 sq ft fits 1.7 implied floors.",2026-09-21
+256437,coord_nearest,medium,416920,unsure,"Attached 416920 (10 W 35th, 21 stories) is the corner where 3450 falls, but 4.8 floors vs 21; 416610 (3440 S State) could fit.",2026-09-21
+256439,coord_nearest,medium,415663,unsure,Attached 415663 (3420-3424 S State) is on the right block but carries a different layer name; 415615 (3440 S Dearborn) is equally near.,2026-09-21
+256660,coord_nearest,medium,431372,wrong,"Attached 431372 (741-745 E 43rd) is at 43rd Street, about 440 numbers south of 3859 S Vincennes; 24 m from a doubtful coordinate.",2026-09-21
+256779,coord_nearest,medium,876929,wrong,"Attached 876929 (1348 W Taylor, 2,179 sq ft) needs 37.3 floors; too small for 81,194 sq ft.",2026-09-21
+256814,coord_nearest,medium,871617,correct,"Attached 871617 (734 N Milwaukee) is even-side next to 730 and 2 m from coordinate; size unknown, 50,000 is a placeholder.",2026-09-21
+256837,coord_nearest,low,376856,wrong,"Attached 376856 (1631 S Blue Island, 2,218 sq ft) is house-sized; in-range 384368 (2148-2180 S Canalport, 4 stories, 39,348 sq ft) is 1 km away.",2026-09-21
+256875,coord_nearest,low,876494,wrong,Attached 876494 (1248 W Washington) is on another street about 200 numbers east of 1448 W Madison; the coordinate is misplaced.,2026-09-21
+256889,coord_nearest,low,39767,wrong,"Attached 39767 (1439 W Norwood, 1,333 sq ft) is on another street, well west of Winthrop and south of 6314 N.",2026-09-21
+256898,coord_nearest,low,876494,wrong,"Attached 876494 (1248 W Washington) is north of Madison, while 1520 W Harrison is 600 S and 270 numbers west.",2026-09-21
+260135,coord_nearest,medium,882174,wrong,"Attached 882174 (305 W 23rd, 1,818 sq ft) needs 40.3 floors; every nearby footprint is house-sized.",2026-09-21
+100148,coord_pip,medium,574786,correct,Attached 574786 (7145 S Cyril) is a through-lot beside 7130 S Jeffery on Jeffery's even side; 12 stories matches 11.5 implied floors.,2026-09-21
+101471,coord_pip,medium,180628,correct,"Attached 180628 (3534-3540 N Broadway) is SW corner Broadway/Brompton, odd side, beside 721 W Brompton; no rival footprint.",2026-09-21
+102239,coord_pip,medium,821927,correct,"Attached 821927 (4105-4121 S Lake Park), 8 stories built 2004, matches 7.1 implied floors and 2004 build year; no competing footprint.",2026-09-21
+103594,coord_pip,medium,349416,correct,Attached 349416 (454 N Columbus) label matches property name; coordinate inside; podium footprint explains 18.9 implied floors on 37 stories.,2026-09-21
+103611,coord_pip,medium,358766,correct,"Attached 358766 (200-220 S Clark) label matches property name; 41 stories, coordinate inside; no competitor.",2026-09-21
+103620,coord_pip,medium,878209,correct,"Coordinate inside unaddressed 878209 (100,550 sq ft) west of Dayton (even side), adjoining 1523 N Fremont; no competing 1530 footprint; 4.1 floors plausible.",2026-09-21
+103630,coord_pip,medium,365295,partial,"Attached 365295 (621 S Winchester) is a hospital-campus footprint on Harrison's south side at 19xx W; property reports 4 buildings, one attached.",2026-09-21
+103634,coord_pip,medium,874143,unsure,"874143 (23 E Jackson, 6,818 sq ft) implies 55.8 floors; adjoining 874144 (300 S Wabash) also needed; attached may be part or a neighbor.",2026-09-21
+103696,coord_pip,medium,824755,correct,Attached 824755 (101 S Wacker) label matches; 51 stories vs 46.2 implied; E Wacker range-holder 1.3 km away is a mirror.,2026-09-21
+103759,coord_pip,medium,360730,correct,"360730 (318 S Clinton, 15 stories) is the SW Jackson/Clinton corner where 547 W Jackson falls; 15.1 floors matches 15 stories.",2026-09-21
+103761,coord_pip,medium,814154,correct,"Attached 814154 (401 N Dearborn) is NE corner Dearborn/Kinzie, north side of W Kinzie; 17 stories, built 2000, matches.",2026-09-21
+103770,coord_pip,medium,868401,correct,"868401 (132 W Van Buren) lies in the block of 333 S LaSalle, correct side; no competing range; 4.7 floors plausible with unknown stories.",2026-09-21
+105673,coord_pip,medium,363801,correct,"Attached 363801 (536 S Canal) is NW corner Canal/Harrison, even north side of W Harrison; 6.3 implied floors plausible; no rival.",2026-09-21
+106221,coord_pip,low,181029,wrong,"Attached 523-531 W Cornelia is 3 stories (11 implied floors); adjacent 861453 (533-535 W Cornelia, 15 stories) fits 158k, 4 m away.",2026-09-21
+110848,coord_pip,medium,815133,correct,Attached 815133 (927 E 57th) label matches property name; 5 stories vs 6.0 implied floors.,2026-09-21
+113745,coord_pip,medium,348447,correct,"Attached 348447 (501 N Kingsbury) is on W Illinois' even north side west of Orleans; 50,879 sq ft gives plausible 8.8 floors.",2026-09-21
+117814,coord_pip,medium,218117,correct,"Attached 218117 (3986 W Barry) label matches property name; 2 stories x 29,547 fits 58,000; S Pulaski range-holder is a mirror.",2026-09-21
+119422,coord_pip,medium,304524,correct,"Attached 304524 (1565 N Sheffield) is SE corner Sheffield/North, odd south side east of 1000 W; 853-865 W North continues east.",2026-09-21
+119689,coord_pip,medium,343386,correct,"Attached 343386 (646 N Franklin) is SW corner Franklin/Erie, odd south side of W Erie; 6 stories vs 6.4 implied.",2026-09-21
+120614,coord_pip,low,357197,wrong,"357197 (2 S Halsted, named Two Mid City Plaza/bank) is outside 16-40 at the corner; 6 stories holds only half the floor area.",2026-09-21
+120631,coord_pip,medium,446356,correct,Attached 446356 (4700 S Ashland) is a through-lot reaching Marshfield's odd east side; 5 stories vs 3.5 implied; no rival footprint.,2026-09-21
+129344,coord_pip,low,239890,correct,"Attached 239890 (2806 N Oakley) is NW corner Oakley/Diversey, even side, beside 2310-2312 W Diversey; 2 stories vs 4.9 implied, no rival.",2026-09-21
+131236,coord_pip,medium,868403,correct,"Attached 868403 (401 S La Salle) on the odd east side; 20,607 sq ft gives 7.8 floors, fits; no footprint holds 427.",2026-09-21
+132533,coord_pip,medium,293205,correct,"Attached 293205 (1731 N Elston) sits on odd side between 1701-1721 and 1761-1765, covering 1737-1747; large low footprint fits 1.3 floors.",2026-09-21
+134776,coord_pip,medium,814619,correct,Attached 814619 (34-38 S Michigan) label matches property name; 15 stories vs 13.1 implied floors.,2026-09-21
+134914,coord_pip,medium,871136,correct,"Attached 871136 (377 W Ontario), odd side, 4 stories vs 5.0 implied; 411-451 W Ontario (264k capacity) too big; E Ontario mirror.",2026-09-21
+135716,coord_pip,low,814142,wrong,"Attached 223 W Hubbard is 2 stories, 3,816 sq ft (14.4 implied); adjacent 350190 (415 N Franklin, 6 stories) fits 55k, 1 m from coordinate.",2026-09-21
+140794,coord_pip,medium,838242,correct,"Attached 838242 abuts 1540 N Orleans and 1547 N Sedgwick, so sits on Orleans' even west side at North Ave; 10 stories vs 7.1.",2026-09-21
+140928,coord_pip,medium,157247,unsure,"157247 (3957 N Meade) sits where 6049-6059 W Irving Park should be, but 9.9 floors is implausible; adjoining 157692 may complete it.",2026-09-21
+147871,coord_pip,low,124537,wrong,"Attached 4416 N Clark is 2 stories, 1921, 4,294 sq ft (15.1 implied floors) against a 2005 64,957 sq ft building.",2026-09-21
+149143,coord_pip,medium,827069,correct,"827069 (32 S Sangamon, built 2004) is in the block north of Monroe between Sangamon and Morgan, same side as 950; 8.3 floors plausible.",2026-09-21
+155614,coord_pip,medium,79254,correct,"Attached 79254 (5147-5157 N St Louis) is SE corner St Louis/Foster, odd south side, beside 3437-3441 W Foster; 4.0 floors plausible.",2026-09-21
+157614,coord_pip,medium,885961,correct,"885961 (1555 S Wabash, 14 stories) is the NE 16th/Wabash corner, even north side as 50 E 16th; 11.7 floors fits.",2026-09-21
+160082,coord_pip,medium,843744,wrong,"843744 is a named O'Hare concourse structure (Concourse E/F link), not a hotel; the property is a separate building.",2026-09-21
+160099,coord_pip,medium,337775,correct,"Attached 337775 (730-756 N Michigan), 17 stories built 2001, north of Superior; year matches, podium footprint; no Superior range-holder.",2026-09-21
+160163,coord_pip,medium,258417,correct,"Attached 258417 (2437-2447 N Southport) is NE corner Southport/Fullerton, even north side, beside 1340-1350 W Fullerton; 6.2 floors plausible.",2026-09-21
+160208,coord_pip,medium,813884,correct,"Attached 813884 (612-620 N Rush) is SW corner Rush/Ontario, odd south side beside 49 E Ontario; hotel-labeled; 16 stories exceed area.",2026-09-21
+160244,coord_pip,medium,358446,correct,"Attached 358446 (127-135 S Aberdeen) is NE corner Aberdeen/Adams, even north side; 6 stories vs 5.2 implied floors.",2026-09-21
+160266,coord_pip,medium,892475,correct,"Attached 892475 (679 N Kingsbury), built 2010 like the property, lies on Huron's odd south side between 451 and 501 W Huron.",2026-09-21
+160300,coord_pip,medium,337830,correct,"Attached 337830 (57-59 E Chicago) is SW corner Rush/Chicago, matching 750 N Rush's west side; 36-story tower, built 1989 vs 1992.",2026-09-21
+160363,coord_pip,medium,891792,correct,"Attached 891792 (659-667 N Franklin), 26 stories built 2010 like the property, on Erie's even north side beside 214 W Erie.",2026-09-21
+160373,coord_pip,low,349571,wrong,"Attached 440 N Orleans is 6 stories, 1939, 26,722 sq ft (25.7 implied floors) for a 2013 686,958 sq ft building; fits 350 W Hubbard.",2026-09-21
+160394,coord_pip,medium,100657,correct,"Attached 100657 (4801-4809 N Kenmore) is NE corner Kenmore/Lawrence, even north side; 14 stories, built 1935, matches.",2026-09-21
+160395,coord_pip,medium,261475,correct,"Attached 261475 (2350-2358 N Lincoln Park) is SW corner at Fullerton, odd south side, beside 325 W Fullerton; 5.1 floors plausible.",2026-09-21
+160438,coord_pip,low,880172,correct,"880172 (151 N Wacker) carries the footprint name 155 North Wacker; stories/year stale (11, 1954), so 61 implied floors not decisive.",2026-09-21
+160454,coord_pip,medium,814026,correct,"Attached 814026 (500-512 N Franklin) is NW corner Franklin/Illinois, even north side; built 1986 vs 1985; E Illinois range-holder is a mirror.",2026-09-21
+160455,coord_pip,medium,358653,partial,Attached 358653 (236 S Wabash) is NW corner Wabash/Jackson; property reports 2 buildings; adjacent 814774 (20 E Jackson) likely the second.,2026-09-21
+164777,coord_pip,medium,868897,correct,"868897 (4000-4016 N Broadway) is the corner just east of 842-848 W Irving Park, even north side, so 840 falls here; 4.6 floors.",2026-09-21
+164922,coord_pip,medium,868900,partial,"Attached 868900 (842-848 W Irving Park), even side next to 850; property reports 2 buildings, only one footprint attached.",2026-09-21
+166122,coord_pip,medium,354806,partial,"Attached 354806 (111 N Paulina) is NE corner Paulina/Washington, even north side; property reports 2 buildings, only one attached.",2026-09-21
+173671,coord_pip,medium,354551,correct,354551 (133-135 N Jefferson) carries the matching name and sits at the SE Randolph/Jefferson corner; 8.4 floors on 6 stories is high.,2026-09-21
+174155,coord_pip,medium,30119,correct,"Attached 30119 (6200 N Kenmore) is NW corner Kenmore/Granville, even north side at 1040 W; 11 stories exceeds 4.1 implied; no rival.",2026-09-21
+174189,coord_pip,low,868067,unsure,"868067 (1017 W Washington) is in the right block, west of Morgan, but is 2 stories (1909); 7.1 floors implied, 3.6 times capacity.",2026-09-21
+174323,coord_pip,medium,876556,correct,"876556 (1001 W Van Buren) is the SW corner of Van Buren and Morgan, matching 410 S Morgan's side; 6.0 floors plausible.",2026-09-21
+175059,coord_pip,low,236150,wrong,"Attached 434 W Diversey is 3 stories, 3,253 sq ft (21 implied floors); corner 2801-2815 N Pine Grove, 0 m away, better fits 436-446.",2026-09-21
+175296,coord_pip,medium,357332,correct,"Attached 357332 (51-61 N Parkside) is SE corner Parkside/Washington, odd south side; 5600-5608 W Washington is across; 3.8 floors plausible.",2026-09-21
+175357,coord_pip,medium,344377,correct,Attached 344377 (247-291 E Ontario) label matches property name; 3 stories vs 4.0 implied floors.,2026-09-21
+175450,coord_pip,medium,814435,correct,"Attached 814435 (150 N Dearborn) label matches, NW corner Dearborn/Randolph; 4 stories x 12,501 fits 50,913 exactly.",2026-09-21
+175484,coord_pip,medium,876138,correct,"876138 (931 W Chestnut, 13,763 sq ft) frontage likely spans 935, before 945; same odd side, coordinate inside; 5.2 floors plausible.",2026-09-21
+175529,coord_pip,medium,360988,correct,"Attached 360988 (315 S Sangamon), same odd side just south of 307; 4.7 implied floors plausible; no rival.",2026-09-21
+175751,coord_pip,medium,878135,correct,"Attached 878135 (341 W Chicago) is SW corner Orleans/Chicago, matching 750 N Orleans' west side; 6 stories vs 5.7 implied.",2026-09-21
+175867,coord_pip,medium,156219,correct,"Attached 156219 (3925-3951 N Cicero) lies on Milwaukee's even side with 3985 N Milwaukee across; 45,054 sq ft fits 1.8 floors.",2026-09-21
+175907,coord_pip,medium,356684,partial,"Attached 356684 (107-113 N Lotus) is NE corner Lotus/Washington, even north side; property reports 3 buildings, one attached.",2026-09-21
+176009,coord_pip,low,361716,unsure,"361716 (322-340 S Halsted) is at the NW Halsted/Van Buren corner as 804-812 would be, but recorded 1 story; 6.5 floors implied.",2026-09-21
+227696,coord_pip,medium,393723,correct,"393723 (2559 S Dearborn, 4 stories) is on the same odd side, 14 numbers from 2545; 5.1 floors on 4 stories acceptable.",2026-09-21
+236031,coord_pip,medium,354924,correct,"Attached 354924 (100-118 N Wells) label matches, NW corner Wells/Washington covering 208; built 1927 matches; 31.3 implied on 23 stories.",2026-09-21
+241533,coord_pip,low,359775,unsure,"359775 (231 S Jefferson) is at the right corner, but 7 stories vs 18 floors implied; adjoining 814778 (550-570 W Jackson, 18 stories) fits size.",2026-09-21
+250144,coord_pip,medium,358667,correct,Attached 358667 (201 S State) label matches property name; 15 stories vs 11.7 implied floors.,2026-09-21
+250171,coord_pip,medium,354372,correct,"Attached 354372 (190 N Garland) label matches property name; 57 stories, built 2005.",2026-09-21
+251214,coord_pip,medium,892610,partial,"Attached 892610 (8 stories, 2010) is one of three adjoining 2010 footprints with 892609 and 892611; property reports 2 buildings.",2026-09-21
+251241,coord_pip,medium,821244,correct,"Attached 821244 (1931 S Indiana) label matches property name; 13 stories, built 2003.",2026-09-21
+251263,coord_pip,medium,324936,correct,Attached 324936 (1004-1030 N Clark) label matches property name; 32 stories.,2026-09-21
+251290,coord_pip,medium,837492,unsure,"Adjacent 813514 (163 E Walton St) holds 163, label matches, but 10 stories x 6,947 is too small; attached 171 E Walton Pl fits size.",2026-09-21
+251341,coord_pip,low,814621,wrong,Attached 814621 (37 S Wabash) is a 13-story 1902 building labeled otherwise; 79.7 implied floors.,2026-09-21
+251464,coord_pip,medium,510994,correct,510994 (6002-6066 S Langley) holds 6020 on the correctly spelled street; 3 stories and 2.5 floors implied agree.,2026-09-21
+251517,coord_pip,medium,317305,correct,"Attached 317305 (618-640 W Scott), even north side next to 650; 40,210 sq ft fits 1.7 floors; same-range annex 316038 adjoins.",2026-09-21
+251549,coord_pip,low,58127,wrong,"58127 (5601 N Spaulding) is a 1-story 2,832 sq ft building among small commercial neighbors; 29.1 floors implied.",2026-09-21
+251647,coord_pip,medium,368962,correct,"Attached 368962 (800-824 S Lawndale) is SW corner Lawndale/Polk, odd south side, beside 3727 W Polk; 3 stories vs 2.6.",2026-09-21
+251656,coord_pip,medium,859889,correct,"Attached 859889 (224 N Central) backs onto Parkside's odd east side; even Parkside footprints across; 55,355 sq ft fits 2.0 floors.",2026-09-21
+251723,coord_pip,medium,450524,correct,"450524 (2601 W 48th, 48,534 sq ft) same odd side next to 2611, coordinate inside; 2.0 floors, stale-looking 1954/1-story attributes.",2026-09-21
+251903,coord_pip,medium,372703,correct,Attached 372703 (1062-1064 W Maxwell) backs onto 13th's odd south side; 3 stories vs 3.1 implied floors.,2026-09-21
+251925,coord_pip,medium,881531,correct,"881531 (2201-2215 N Kenmore) is same odd side, just below 2219, coordinate inside; 5.0 floors plausible.",2026-09-21
+252068,coord_pip,medium,868395,correct,"868395 (30 W Monroe, 21 stories) same even side, next to 22, coordinate inside; low 4.8 floors suggests the property occupies part of it.",2026-09-21
+253963,coord_pip,medium,892824,correct,"Attached 892824 (7756 S Woodlawn), 7 stories, backs onto Avalon Ave lots at 78th; 9.5 implied floors; no rival footprint.",2026-09-21
+253973,coord_pip,medium,153777,unsure,"Attached 4016-4018 N Cicero lacks stories (10.7 implied); adjacent 892860, built 2007 like property, 5 stories; possibly one split building.",2026-09-21
+253980,coord_pip,medium,821240,partial,"Attached 821240 (1936 S Indiana) label matches; two more same-label footprints (821239, 821238) adjoin; property reports 2 buildings.",2026-09-21
+254063,coord_pip,medium,160428,correct,"160428 (1810-1822 W Grace) is the even north side, adjoining 1800; 1801 W Grace is across the street; 5.5 floors plausible.",2026-09-21
+254067,coord_pip,medium,468675,unsure,Attached 5401 S Cornell is labeled for another institution; 13.7 implied on 9 stories; position fits SE corner; no range-holder.,2026-09-21
+254156,coord_pip,medium,85891,correct,Attached 85891 (4950 N Ashland) spans to Paulina's odd east side between Ainslie and Winnemac; 7 stories vs 4.5; S Paulina mirror.,2026-09-21
+254349,coord_pip,medium,358551,correct,"Attached 358551 (128-132 S Aberdeen) is NW corner Aberdeen/Adams, even north side; 2 stories vs 1.6 implied; no rival.",2026-09-21
+255022,coord_pip,low,876305,wrong,"Attached 516 N Milwaukee is 3 stories, 1891, 2,286 sq ft (24.2 implied floors); cannot hold 55,216 sq ft.",2026-09-21
+255756,coord_pip,medium,226651,correct,"Attached 226651 (3020 N Central Park) on Milwaukee's odd side; even Milwaukee footprints across; 6.9 implied, stories unknown; no rival.",2026-09-21
+255931,coord_pip,low,50072,correct,"Attached 50072 (1743-1759 W Rosehill) is SW corner Hermitage/Rosehill beside 5726-5732 N Hermitage; 1 story vs 2.2 implied, no rival.",2026-09-21
+256527,coord_pip,low,814995,wrong,"814995 (1101-1109 S Wabash) is named Best Western Parking, a 2-story 1961 garage; 6.9 floors implied.",2026-09-21
+256567,coord_pip,low,866950,wrong,"866950 (2635 W North Ave) is a 2-story 1899 building of 2,391 sq ft; 23.3 floors implied, too small for the property.",2026-09-21
+256770,coord_pip,medium,841853,unsure,"Attached 1533-1535 W Howard (odd, adjacent number) is 2,378 sq ft, 21 implied floors for nominal 50,000; no larger south-side footprint.",2026-09-21
+256772,coord_pip,low,358759,unsure,Attached 1500-1516 W Adams (NW corner Laflin/Adams) is 1 story (2.6 implied); adjacent 1528-1530 W Adams and 1513-1515 W Monroe are larger.,2026-09-21
+256774,coord_pip,medium,287250,correct,Attached 287250 (2701 W Armitage) spans south side to Fairfield's odd east side; 1935-1945 N Fairfield adjoins; 1.6 floors plausible.,2026-09-21
+256806,coord_pip,medium,129791,unsure,"Attached 3431-3433 W Montrose, odd side, adjacent number, 3,406 sq ft (14.7 implied) for nominal 50,000; no larger footprint nearby.",2026-09-21
+256808,coord_pip,low,359180,unsure,"Attached 847-855 W Adams near SE corner Peoria/Adams is 2 stories x 5,584 (9.0 implied) for nominal 50,000; no clear alternative.",2026-09-21
