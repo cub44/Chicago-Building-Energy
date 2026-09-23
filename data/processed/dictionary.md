@@ -1,6 +1,6 @@
 # Data dictionary - chicago-building-energy
 
-Script output (`scripts/build.py`); never hand-edited. Data release 2026-09-22. Vintage of every figure: City release of 2025-02-05, snapshot 2026-09-18. Covered-buildings list (g5i5-yz37) rows updated 2025-03-14; community areas (igwz-8jzy) 2025-04-22; building footprints (syp8-uezg) 2015-08-15.
+Script output (`scripts/build.py`); never hand-edited. Data release 2026-09-23. Vintage of every figure: City release of 2025-02-05, snapshot 2026-09-18. Covered-buildings list (g5i5-yz37) rows updated 2025-03-14; community areas (igwz-8jzy) 2025-04-22; building footprints (syp8-uezg) 2015-08-15.
 
 **Years.** Published: [2022]. Excluded: 2023 - not yet reviewed for release. Its own row coordinates fail the community-area test for 91% of rows and are never used, but the year can be located by id and address (see the location test). No row from an excluded year is in any file here. An empty cell means the City published nothing; no value is interpolated, estimated or geocoded.
 
@@ -142,6 +142,10 @@ The precision check above, one row per sampled match, as reviewed. A row the bui
 | verdict | correct / partial / wrong / unsure | derived | correct: the attached footprints are the property's building or buildings. partial: one building of a campus, location right. wrong: a different building. unsure: the evidence did not decide it. |
 | reason | text | derived | Why, naming the evidence on the card. |
 | reviewed_on | date, YYYY-MM-DD | derived | When the verdict was recorded. |
+
+## facts.json
+
+Every figure the project page states, one entry per figure: `value` (the exact figure), `display` (the string the page prints, thousands separators and unit included), `label`, a one-sentence `definition`, `source_file`, `sources`, `rounding` (set wherever `display` is not the plain rendering of `value`) and `unit`. Computed in the same build as the tables above, from them; the map manifest's `counts` are checked against it at export. A percent is on a 0-100 scale; the hexagon width is in feet; no entry carries a metric unit. The top level carries the release date and the source pulls.
 
 ## classes.json
 

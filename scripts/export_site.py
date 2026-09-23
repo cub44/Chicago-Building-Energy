@@ -225,6 +225,34 @@ def check_caveats(figures: dict) -> None:
             raise SystemExit("caveats.json uses ranking language MAP_SPEC §6 rules out")
 
 
+def check_facts(figures: dict) -> None:
+    """The map manifest's counts must equal facts.json, computed in stage 3 from the release, so the
+    figures the map's caveats quote and the figures the website annotates cannot disagree."""
+    F = json.loads((PROCESSED / "facts.json").read_text())["facts"]
+    y = schema.DISPLAY_YEARS[-1]
+    pairs = {f"properties_{y}": ("covered", None), f"submitted_{y}": ("reported", None),
+             f"not_submitted_{y}": ("not_reported", None), f"exempt_{y}": ("exempt", None),
+             f"not_covered_{y}": ("not_covered", None), f"submitted_no_eui_{y}": ("reported_no_eui", None),
+             f"total_records_{y}": ("reported_with_eui", None), f"gfa_inflated_{y}": ("gfa_inflated", None),
+             f"match_high_or_medium_pct_{y}": ("matched_high_medium_pct", 1),
+             f"drawn_as_footprint_{y}": ("drawn_as_footprints", None), f"drawn_as_marker_{y}": ("drawn_as_markers", None),
+             f"not_drawn_{y}": ("not_mapped", None), f"hex_with_value_{y}": ("hex_with_value", None),
+             f"hex_one_property_{y}": ("hex_one_property", None), f"ca_under_five_{y}": ("ca_under_five", None),
+             "precision_reviewed": ("precision_reviewed", None), "precision_drawn_pct": ("precision_drawn_pct", 0),
+             "precision_high_pct": ("precision_high_pct", 0), "precision_medium_pct": ("precision_medium_pct", 0)}
+    wrong = {}
+    for mk, (fk, nd) in pairs.items():
+        if mk not in figures and fk not in F:
+            continue
+        want = F[fk]["value"]
+        want = round(want, nd) if nd else (int(round(want)) if nd == 0 else want)
+        if figures.get(mk) != want:
+            wrong[mk] = (figures.get(mk), want)
+    if wrong:
+        raise SystemExit("manifest counts disagree with facts.json (manifest, facts): " + json.dumps(wrong)
+                         + ". Rebuild; the two are computed from the same release.")
+
+
 def main() -> None:
     summary = json.loads((INTERIM / "normalize_summary.json").read_text())
     match = json.loads((INTERIM / "match_summary.json").read_text())
@@ -304,6 +332,7 @@ def main() -> None:
                         "precision_high_pct": round(100 * prec["by_confidence"]["high"]["estimated_precision"]),
                         "precision_medium_pct": round(100 * prec["by_confidence"]["medium"]["estimated_precision"])})
     check_caveats(figures)
+    check_facts(figures)
 
     files = {p.name: {"bytes": p.stat().st_size, "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
              for p in sorted(SITE.glob("*")) if p.is_file() and p.name != "manifest.json"}

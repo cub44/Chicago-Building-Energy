@@ -20,7 +20,7 @@ DISPLAY_YEARS = [2022]
 # The date of this data release, set by hand when a release is cut: the pipeline reads no clock.
 # Pages state this one date (website DESIGN-SYSTEM, "One release date per data project"); the
 # per-source dates live in dictionary.md.
-RELEASE_DATE = "2026-09-22"
+RELEASE_DATE = "2026-09-23"
 EXCLUDED_YEARS = {2023: "not yet reviewed for release. Its own row coordinates fail the "
                         "community-area test for 91% of rows and are never used, but the year "
                         "can be located by id and address (see the location test)"}

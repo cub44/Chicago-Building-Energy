@@ -1,0 +1,530 @@
+{
+ "schema": 1,
+ "project": "chicago-building-energy",
+ "release": "2026-09-23",
+ "generated_by": "scripts/build.py",
+ "sources": [
+  {
+   "id": "benchmarking",
+   "name": "Chicago Energy Benchmarking (City of Chicago data portal, xq83-jr8c)",
+   "url": "https://data.cityofchicago.org/d/xq83-jr8c",
+   "pulled": "2026-09-18",
+   "rows_updated": "2025-02-05"
+  },
+  {
+   "id": "covered",
+   "name": "Chicago Energy Benchmarking - Covered Buildings (City of Chicago data portal, g5i5-yz37)",
+   "url": "https://data.cityofchicago.org/d/g5i5-yz37",
+   "pulled": "2026-09-18",
+   "rows_updated": "2025-03-14"
+  },
+  {
+   "id": "community_areas",
+   "name": "Boundaries - Community Areas (City of Chicago data portal, igwz-8jzy)",
+   "url": "https://data.cityofchicago.org/d/igwz-8jzy",
+   "pulled": "2026-09-18",
+   "rows_updated": "2025-04-22"
+  },
+  {
+   "id": "footprints",
+   "name": "Building Footprints (City of Chicago data portal, syp8-uezg)",
+   "url": "https://data.cityofchicago.org/d/syp8-uezg",
+   "pulled": "2026-09-18",
+   "rows_updated": "2015-08-15"
+  }
+ ],
+ "facts": {
+  "data_year": {
+   "value": 2022,
+   "display": "2022",
+   "label": "Data year",
+   "definition": "The benchmarking data year every figure describes.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null
+  },
+  "covered": {
+   "value": 3613,
+   "display": "3,613",
+   "label": "Covered properties",
+   "definition": "Properties the ordinance covered for 2022: rows of energy.csv.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "reported": {
+   "value": 2645,
+   "display": "2,645",
+   "label": "Reported",
+   "definition": "Properties whose status is submitted.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "not_reported": {
+   "value": 732,
+   "display": "732",
+   "label": "Did not report",
+   "definition": "Properties whose status is not_submitted.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "exempt": {
+   "value": 236,
+   "display": "236",
+   "label": "Exempt",
+   "definition": "Properties whose status is exempt.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "not_covered": {
+   "value": 0,
+   "display": "0",
+   "label": "Not covered",
+   "definition": "Properties whose status is not_covered.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "drawn_as_footprints": {
+   "value": 3182,
+   "display": "3,182",
+   "label": "Drawn as footprints",
+   "definition": "Covered properties whose located_by is footprint: placed by its largest attached City footprint.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "drawn_as_markers": {
+   "value": 418,
+   "display": "418",
+   "label": "Drawn as markers",
+   "definition": "Covered properties whose located_by is trusted_coordinate: placed by a City coordinate that passed the community-area test or was accepted on review, having no confirmed footprint.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "not_mapped": {
+   "value": 13,
+   "display": "13",
+   "label": "Not mapped",
+   "definition": "Covered properties whose located_by is none: placed by neither a footprint nor a coordinate that passed the test.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "reported_no_eui": {
+   "value": 83,
+   "display": "83",
+   "label": "Reported with no EUI published",
+   "definition": "Submitted rows with an empty site_eui_kbtu_sq_ft; no total is formed for them.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "reported_with_eui": {
+   "value": 2562,
+   "display": "2,562",
+   "label": "Reported with a site EUI",
+   "definition": "Submitted rows with a site EUI, the population every total and class break is computed over.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "gfa_inflated": {
+   "value": 989,
+   "display": "989",
+   "label": "Reported properties with inflated floor area",
+   "definition": "Reported rows with an EUI whose gfa_consistent is false: EUI times floor area runs 3% or more above the fuel total.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "campuses_reporting": {
+   "value": 356,
+   "display": "356",
+   "label": "Reporting properties with more than one building",
+   "definition": "Submitted rows whose of_buildings exceeds 1.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "eui_over_1000": {
+   "value": 2,
+   "display": "2",
+   "label": "Reported properties above 1,000 kBtu per square foot",
+   "definition": "Submitted rows with site_eui_kbtu_sq_ft above 1,000, kept as published.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "total_site_energy": {
+   "value": 57337586534,
+   "display": "57.3 billion kBtu",
+   "label": "Total reported site energy",
+   "definition": "site_energy_kbtu summed over reported properties: each property's reported fuel use, added up.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest 0.1 billion",
+   "unit": "kBtu"
+  },
+  "eui_x_gfa_overstatement_pct": {
+   "value": 11.8562,
+   "display": "12%",
+   "label": "Overstatement by EUI times floor area",
+   "definition": "Summed eui_x_gfa_kbtu over summed site_energy_kbtu, minus one, over reported properties with a total.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest percent",
+   "unit": "percent"
+  },
+  "median_site_eui": {
+   "value": 78.5,
+   "display": "78.5 kBtu per sq ft",
+   "label": "Median site EUI",
+   "definition": "Median site_eui_kbtu_sq_ft over the 2,562 reported properties with one.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest tenth",
+   "unit": "kBtu per sq ft"
+  },
+  "matched_high_medium": {
+   "value": 2304,
+   "display": "2,304",
+   "label": "Reported properties matched at high or medium confidence",
+   "definition": "Submitted properties whose match_confidence is high or medium.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "matched_high_medium_pct": {
+   "value": 87.1078,
+   "display": "87.1%",
+   "label": "Share matched at high or medium confidence",
+   "definition": "2,304 of 2,645 reported properties.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": "nearest tenth of a percent",
+   "unit": "percent"
+  },
+  "match_target_pct": {
+   "value": 90.0,
+   "display": "90%",
+   "label": "Match target set before matching",
+   "definition": "The release bar the reconciliation states, met or not: the share of reported properties at high or medium confidence.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": "nearest percent",
+   "unit": "percent"
+  },
+  "precision_reviewed": {
+   "value": 406,
+   "display": "406",
+   "label": "Matches checked for precision",
+   "definition": "Rows of match_review.csv: the seeded sample of footprint matches checked one by one.",
+   "source_file": "match_review.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "matches"
+  },
+  "precision_drawn_pct": {
+   "value": 94.31,
+   "display": "94%",
+   "label": "Drawn outlines on the right building",
+   "definition": "Population-weighted precision of the outlines the map draws, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong).",
+   "source_file": "match_review.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": "nearest percent",
+   "unit": "percent"
+  },
+  "precision_high_pct": {
+   "value": 99.29,
+   "display": "99%",
+   "label": "High-confidence matches on the right building",
+   "definition": "Population-weighted precision of the high-confidence matches, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong).",
+   "source_file": "match_review.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": "nearest percent",
+   "unit": "percent"
+  },
+  "precision_medium_pct": {
+   "value": 74.0,
+   "display": "74%",
+   "label": "Medium-confidence matches on the right building",
+   "definition": "Population-weighted precision of the medium-confidence matches, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong).",
+   "source_file": "match_review.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": "nearest percent",
+   "unit": "percent"
+  },
+  "built_after_footprints_no_outline": {
+   "value": 181,
+   "display": "181",
+   "label": "Reported properties built after 2015 with no outline",
+   "definition": "Submitted properties with no footprint_ids and a year_built after 2015.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "footprint_vintage_year": {
+   "value": 2015,
+   "display": "2015",
+   "label": "Footprint layer vintage",
+   "definition": "The newest year_built in the City's building footprint layer, a 2015 snapshot.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "footprints"
+   ],
+   "rounding": null
+  },
+  "overrides": {
+   "value": 16,
+   "display": "16",
+   "label": "Properties resolved on review",
+   "definition": "Rows of footprint_overrides.csv: matches the tiers could not settle, resolved one at a time against named evidence.",
+   "source_file": "footprint_overrides.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "overrides_placed": {
+   "value": 14,
+   "display": "14",
+   "label": "Resolved properties placed",
+   "definition": "Override rows with footprint_ids or a coordinate.",
+   "source_file": "footprint_overrides.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "overrides_unplaced": {
+   "value": 2,
+   "display": "2",
+   "label": "Resolved properties left unplaced",
+   "definition": "Override rows with neither footprints nor a coordinate: a veto.",
+   "source_file": "footprint_overrides.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "properties"
+  },
+  "floor_area_tolerance_pct": {
+   "value": 3.0,
+   "display": "3%",
+   "label": "Floor-area consistency tolerance",
+   "definition": "A record is floor-area consistent where EUI times floor area is within this of the fuel total.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest percent",
+   "unit": "percent"
+  },
+  "n_classes": {
+   "value": 7,
+   "display": "7",
+   "label": "Color classes",
+   "definition": "Quantile classes per metric, computed once at build time and published in classes.json.",
+   "source_file": "classes.json",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": null,
+   "unit": "classes"
+  },
+  "hex_width": {
+   "value": 1312.3333,
+   "display": "1312-ft",
+   "label": "Density hexagon width",
+   "definition": "400 meters flat to flat, in feet.",
+   "source_file": "density_hex.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest foot",
+   "unit": "feet"
+  },
+  "hex_with_value": {
+   "value": 964,
+   "display": "964",
+   "label": "Hexagons with a value",
+   "definition": "density_hex.csv rows with a site_energy_kbtu: hexagons holding a reporting property with a total.",
+   "source_file": "density_hex.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "hexagons"
+  },
+  "hex_one_property": {
+   "value": 591,
+   "display": "591",
+   "label": "Hexagons with a value that hold one reporting property",
+   "definition": "Of the hexagons with a value, those whose n_submitted is 1.",
+   "source_file": "density_hex.csv",
+   "sources": [
+    "benchmarking",
+    "footprints"
+   ],
+   "rounding": null,
+   "unit": "hexagons"
+  },
+  "ca_under_five": {
+   "value": 14,
+   "display": "14",
+   "label": "Community areas with fewer than five reporting properties",
+   "definition": "density_ca.csv rows whose n_submitted is below 5.",
+   "source_file": "density_ca.csv",
+   "sources": [
+    "benchmarking",
+    "community_areas"
+   ],
+   "rounding": null,
+   "unit": "areas"
+  },
+  "energy_csv_mb": {
+   "value": 0.760774,
+   "display": "0.8 MB",
+   "label": "Size of energy.csv",
+   "definition": "Its size in bytes divided by 1,000,000.",
+   "source_file": "energy.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest tenth",
+   "unit": "MB"
+  },
+  "buildings_csv_mb": {
+   "value": 0.792361,
+   "display": "0.8 MB",
+   "label": "Size of buildings.csv",
+   "definition": "Its size in bytes divided by 1,000,000.",
+   "source_file": "buildings.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest tenth",
+   "unit": "MB"
+  }
+ },
+ "invariants": [
+  {
+   "sum": [
+    "reported",
+    "not_reported",
+    "exempt",
+    "not_covered"
+   ],
+   "equals": "covered"
+  },
+  {
+   "sum": [
+    "drawn_as_footprints",
+    "drawn_as_markers",
+    "not_mapped"
+   ],
+   "equals": "covered"
+  },
+  {
+   "sum": [
+    "reported_no_eui",
+    "reported_with_eui"
+   ],
+   "equals": "reported"
+  },
+  {
+   "sum": [
+    "overrides_placed",
+    "overrides_unplaced"
+   ],
+   "equals": "overrides"
+  }
+ ]
+}

@@ -769,7 +769,14 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
          "location right. wrong: a different building. unsure: the evidence did not decide it."],
         ["reason", "text", "derived", "Why, naming the evidence on the card."],
         ["reviewed_on", "date, YYYY-MM-DD", "derived", "When the verdict was recorded."]])
-    L += ["## classes.json", "",
+    L += ["## facts.json", "",
+          "Every figure the project page states, one entry per figure: `value` (the exact figure), `display` (the "
+          "string the page prints, thousands separators and unit included), `label`, a one-sentence `definition`, "
+          "`source_file`, `sources`, `rounding` (set wherever `display` is not the plain rendering of `value`) and "
+          "`unit`. Computed in the same build as the tables above, from them; the map manifest's `counts` are checked "
+          "against it at export. A percent is on a 0-100 scale; the hexagon width is in feet; no entry carries a "
+          "metric unit. The top level carries the release date and the source pulls.", "",
+          "## classes.json", "",
           f"{schema.N_CLASSES} quantile classes per metric and display year, computed once here; the map reads them and "
           "never computes its own. `site_eui` and `site_energy_kbtu` are classed over submitted properties with a "
           "published EUI; `kbtu_per_sqmi` separately for hexagons and community areas. `breaks` holds the six "
@@ -828,10 +835,16 @@ def build_processed() -> dict:
     hexes, areas = pd.concat(hex_frames), pd.concat(ca_frames)
     write_csv(PROCESSED / "density_hex.csv", HEX_COLUMNS, hexes)
     write_csv(PROCESSED / "density_ca.csv", CA_COLUMNS, areas)
-    write_json(PROCESSED / "classes.json", classes(display, hexes, areas))
+    cls = classes(display, hexes, areas)
+    write_json(PROCESSED / "classes.json", cls)
     spellings = len(set(display["community_area"].dropna()) | set(buildings["community_area"].dropna()))
     prec = match_precision(buildings, display)
     write_json(INTERIM / "precision.json", prec)
+    # Every figure the project page states, from the tables just written (facts.py). Written
+    # here so the determinism test, `make check` and checksums.sha256 all cover it.
+    import facts
+    sizes = {n: (PROCESSED / n).stat().st_size for n in ("energy.csv", "buildings.csv")}
+    write_json(PROCESSED / "facts.json", facts.build(display, buildings, hexes, areas, cls, prec, overrides, manifest, sizes))
     (PROCESSED / "dictionary.md").write_text(
         dictionary(summary, manifest, spellings, year_density[schema.DISPLAY_YEARS[-1]][1], prec), encoding="utf-8")
     RECONCILIATION.write_text(
