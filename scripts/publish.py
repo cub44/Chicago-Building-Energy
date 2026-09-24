@@ -9,13 +9,17 @@ read data/reconciliation.md first. Then this script
 
   1. verifies every file listed in data/processed/checksums.sha256 (the build's own manifest,
      bare filenames) and stops if one is missing, altered, or unlisted;
-  2. verifies site/data/ against the hashes in site/data/manifest.json the same way;
+  2. verifies the map's release the same way: every file site/checksums.sha256 lists (paths
+     relative to site/: data/*, and vendor/* for d3 and topojson-client with their licenses),
+     nothing unlisted in site/data/ or site/vendor/, and site/data/ against the hashes in
+     site/data/manifest.json;
   3. copies the release set to <public>/data/processed/ and writes <public>/checksums.sha256
      with paths rooted at data/processed/, as POTHOLES_REPO does;
   4. copies that same set and that same checksums.sha256 to
      <website>/projects/chicago-building-energy/, which is what the website's
      scripts/package_site.py verifies against;
-  5. copies site/data/ and the vendored d3 and topojson-client into that project's site/;
+  5. copies that map set and site/checksums.sha256 to <public>/site/ and to that project's
+     site/ (the website verifies it as it does the data manifest; the map pages are its own);
   6. copies the code the release is made of -- scripts/, tests/ and requirements.txt -- to the
      public repo, so the matcher and the total-energy derivation can be read and rerun. It
      refuses to copy a source file that names this machine's home, this repo or its parent,
@@ -39,9 +43,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SLUG = "chicago-building-energy"
 PROCESSED = ROOT / "data" / "processed"
-SITE_DATA = ROOT / "site" / "data"
-VENDOR = ROOT / "prototypes" / "vendor"
-VENDOR_FILES = ["d3.min.js", "topojson-client.min.js"]
+SITE = ROOT / "site"
+SITE_DATA = SITE / "data"
 CODE_DIRS = ["scripts", "tests"]          # published: the method, readable and rerunnable
 CODE_FILES = ["requirements.txt"]         # published: the pins the figures were produced under
 
@@ -87,24 +90,30 @@ def release_set() -> dict[str, str]:
 
 
 def site_set() -> list[str]:
-    man = SITE_DATA / "manifest.json"
-    if not man.is_file():
-        fail("site/data/manifest.json is missing; run `make export`")
-    files = json.loads(man.read_text())["files"]
+    """The map's release: the paths site/checksums.sha256 lists, relative to site/."""
+    manifest = SITE / "checksums.sha256"
+    if not manifest.is_file():
+        fail("site/checksums.sha256 is missing; run `make export`")
+    listed = {}
+    for line in manifest.read_text().splitlines():
+        if line.strip():
+            digest, name = line.split(maxsplit=1)
+            listed[name.strip()] = digest
+    for name, digest in listed.items():
+        p = SITE / name
+        if name.split("/")[0] not in ("data", "vendor") or not p.is_file():
+            fail(f"site/{name} is listed in site/checksums.sha256 but missing")
+        if sha256(p) != digest:
+            fail(f"site/{name} does not match site/checksums.sha256; run `make export`")
+    for d in ("data", "vendor"):
+        extra = unlisted(SITE / d, {n.split("/", 1)[1] for n in listed if n.startswith(f"{d}/")})
+        if extra:
+            fail(f"site/{d}/ holds files site/checksums.sha256 does not list: {', '.join(extra)}")
+    files = json.loads((SITE_DATA / "manifest.json").read_text())["files"]
     for name, meta in files.items():
-        p = SITE_DATA / name
-        if not p.is_file():
-            fail(f"site/data/{name} is listed in manifest.json but missing")
-        if sha256(p) != meta["sha256"]:
+        if f"data/{name}" not in listed or listed[f"data/{name}"] != meta["sha256"]:
             fail(f"site/data/{name} does not match site/data/manifest.json; run `make export`")
-    names = sorted(files) + ["manifest.json"]
-    extra = unlisted(SITE_DATA, set(names))
-    if extra:
-        fail(f"site/data/ holds files manifest.json does not list: {', '.join(extra)}")
-    for v in VENDOR_FILES:
-        if not (VENDOR / v).is_file():
-            fail(f"prototypes/vendor/{v} is missing")
-    return names
+    return sorted(listed)
 
 
 def code_set() -> list[tuple[Path, str]]:
@@ -147,7 +156,7 @@ def main() -> None:
 
     release, site, code = release_set(), site_set(), code_set()
     print(f"release: {len(release)} files verified against data/processed/checksums.sha256")
-    print(f"map contract: {len(site)} files verified against site/data/manifest.json")
+    print(f"map: {len(site)} files verified against site/checksums.sha256 and site/data/manifest.json")
     print(f"code: {len(code)} files, none naming an absolute path")
     if a.check:
         return
@@ -165,9 +174,11 @@ def main() -> None:
         copy_into(names, PROCESSED, dest / "data" / "processed")
         (dest / "checksums.sha256").write_text(checksums)
         print(f"  {dest}/: data/processed/ ({len(names)} files) + checksums.sha256")
-    copy_into(site, SITE_DATA, project / "site" / "data")
-    copy_into(VENDOR_FILES, VENDOR, project / "site" / "vendor")
-    print(f"  {project}/site/: data/ ({len(site)} files) + vendor/ ({len(VENDOR_FILES)} files)")
+    for dest in (a.public, project):
+        for d in ("data", "vendor"):
+            copy_into([n.split("/", 1)[1] for n in site if n.startswith(f"{d}/")], SITE / d, dest / "site" / d)
+        shutil.copyfile(SITE / "checksums.sha256", dest / "site" / "checksums.sha256")
+        print(f"  {dest}/site/: data/ and vendor/ ({len(site)} files) + checksums.sha256")
 
     for d in CODE_DIRS:
         copy_into([rel.split("/", 1)[1] for _, rel in code if rel.startswith(f"{d}/")],
@@ -176,9 +187,9 @@ def main() -> None:
         shutil.copyfile(src, a.public / rel)
     print(f"  {a.public}/: {len(code)} code files ({', '.join(CODE_DIRS)}, "
           f"{', '.join(CODE_FILES)})")
-    print("Done. Re-check the figures written into the public README and on the project page "
-          "against this release, then commit in both repos. The map's ?v= hash changes only when "
-          "site/index.html does.")
+    print("Done. Re-check the hand-written figures in the public README against this release and commit "
+          "in both repos. Then, in the website repo, run scripts/sync_facts.py --write and "
+          "scripts/sync_map_hash.py --write, and build.")
 
 
 if __name__ == "__main__":

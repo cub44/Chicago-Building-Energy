@@ -19,6 +19,8 @@ REQUIRED_TOP = ["schema", "project", "release", "generated_by", "sources", "fact
 REQUIRED_FACT = ["value", "display", "label", "definition", "source_file", "sources", "rounding"]
 METRIC = re.compile(r"\b(km|kilomet\w*|met(er|re)s?)\b|\d\s?m\b", re.I)
 NUMERAL = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
+# Displays written as words, and the value each states under its rounding.
+WORDS = {"quarter-mile": Decimal("0.25")}
 
 
 @pytest.fixture(scope="module")
@@ -30,6 +32,8 @@ def rounded(value, rounding):
     v = Decimal(str(value))
     if rounding is None:
         return v
+    if rounding == "nearest quarter mile":
+        return (v * 4).quantize(Decimal(1), rounding=ROUND_HALF_UP) / 4
     if rounding == "nearest 0.1 billion":
         return (v / 1_000_000_000).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
     m = re.fullmatch(r"nearest ([\d,]+)", rounding)
@@ -68,11 +72,14 @@ def test_every_fact_is_complete(doc):
         assert f["sources"] and set(f["sources"]) <= ids, key
         assert not METRIC.search(f.get("unit", "")), (key, f.get("unit"))
         assert not METRIC.search(f["display"]), (key, f["display"])
+        # Definitions feed the website's JSON-LD and dataset pages: no meters, no internal names.
+        assert not METRIC.search(f["definition"]), (key, f["definition"])
+        assert not re.search(r"\b[A-Z][A-Z0-9]*_[A-Z0-9_]+\b", f["definition"]), (key, f["definition"])
 
 
 def test_display_equals_the_rounded_value(doc):
     for key, f in doc["facts"].items():
-        printed = Decimal(NUMERAL.search(f["display"]).group(0).replace(",", ""))
+        printed = WORDS.get(f["display"]) or Decimal(NUMERAL.search(f["display"]).group(0).replace(",", ""))
         assert printed == rounded(f["value"], f["rounding"]), (key, f["value"], f["display"], f["rounding"])
 
 
@@ -91,6 +98,9 @@ def test_invariants(doc):
     assert F["hex_one_property"]["value"] <= F["hex_with_value"]["value"]
     assert F["matched_high_medium"]["value"] <= F["reported"]["value"]
     assert F["hex_width"]["display"] == "1312-ft"
+    assert F["hex_width_mi"]["display"] == "quarter-mile"
+    assert F["hex_width_mi"]["value"] == round(F["hex_width"]["value"] / 5280, 4)
+    assert abs(F["hex_width_mi"]["value"] - 0.25) / 0.25 < 0.01
 
 
 def test_facts_recompute_from_the_tables(doc):
@@ -118,3 +128,5 @@ def test_manifest_counts_equal_the_facts(doc):
     assert c[f"match_high_or_medium_pct_{y}"] == round(F["matched_high_medium_pct"]["value"], 1)
     assert c["precision_drawn_pct"] == round(F["precision_drawn_pct"]["value"])
     assert c[f"ca_under_five_{y}"] == F["ca_under_five"]["value"]
+    geo = json.loads(need(SITE / "manifest.json").read_text())["geometry"]
+    assert (geo["hex_width_mi"], geo["hex_width_display"]) == (F["hex_width_mi"]["value"], F["hex_width_mi"]["display"])

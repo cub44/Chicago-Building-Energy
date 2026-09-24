@@ -28,6 +28,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import schema  # noqa: E402
+from normalize import display_name  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 INTERIM = ROOT / "data" / "interim"
@@ -55,7 +56,7 @@ ENERGY_COLUMNS = [
 DENSITY_MEASURES = ["n_properties", "n_submitted", "n_not_submitted", "site_energy_kbtu",
                     "ghg_tco2e", "area_sqmi", "kbtu_per_sqmi"]
 HEX_COLUMNS = ["hex_id", "data_year", *DENSITY_MEASURES]
-CA_COLUMNS = ["community_area_num", "name", "data_year", *DENSITY_MEASURES, "share_not_submitted"]
+CA_COLUMNS = ["community_area_num", "name", "display_name", "data_year", *DENSITY_MEASURES, "share_not_submitted"]
 
 HEX_W_FT = schema.HEX_SIZE_M * schema.FT_PER_M            # flat-to-flat width = center spacing
 HEX_DY_FT = HEX_W_FT * math.sqrt(3) / 2                   # row spacing, pointy-top hexagons
@@ -196,7 +197,8 @@ def density(year_rows: pd.DataFrame, located: pd.DataFrame, cas: gpd.GeoDataFram
         m = measures(g, poly.area / schema.SQFT_PER_SQMI)
         required = m["n_submitted"] + m["n_not_submitted"]
         m["share_not_submitted"] = round(m["n_not_submitted"] / required, 4) if required else None
-        areas.append({"community_area_num": int(n), "name": name, "data_year": year, **m})
+        areas.append({"community_area_num": int(n), "name": name, "display_name": display_name(name),
+                      "data_year": year, **m})
     return pd.DataFrame(hexes, columns=HEX_COLUMNS), pd.DataFrame(areas, columns=CA_COLUMNS), d
 
 
@@ -742,7 +744,8 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
                [["hex_id", "r<row>c<col>", "derived", "Grid cell; stable across builds."]] + dens)
     L += table("density_ca.csv", "The 77 community areas (igwz-8jzy), assigned by geometry, never by the row's stated name.",
                [["community_area_num, name", "1-77, text", "igwz-8jzy `area_numbe`, `community`",
-          "The community area and its name, as the City's boundary layer publishes them. Key with `data_year`."]] + dens
+          "The community area and its name, as the City's boundary layer publishes them. Key with `data_year`."],
+          ["display_name", "text", "derived", "`name` as the pothole release spells it: title case, with O'Hare and McKinley Park."]] + dens
                + [["share_not_submitted", "fraction", "derived", "`n_not_submitted` / (`n_submitted` + `n_not_submitted`). Exempt properties are outside the ratio."]])
     L += table("footprint_overrides.csv",
                "The answers the matcher applies last, after every tier. Each was resolved one id at a time against the "
@@ -774,8 +777,8 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
           "string the page prints, thousands separators and unit included), `label`, a one-sentence `definition`, "
           "`source_file`, `sources`, `rounding` (set wherever `display` is not the plain rendering of `value`) and "
           "`unit`. Computed in the same build as the tables above, from them; the map manifest's `counts` are checked "
-          "against it at export. A percent is on a 0-100 scale; the hexagon width is in feet; no entry carries a "
-          "metric unit. The top level carries the release date and the source pulls.", "",
+          "against it at export. A percent is on a 0-100 scale; the hexagon width is in feet and in miles; no entry "
+          "carries a metric unit. The top level carries the release date and the source pulls.", "",
           "## classes.json", "",
           f"{schema.N_CLASSES} quantile classes per metric and display year, computed once here; the map reads them and "
           "never computes its own. `site_eui` and `site_energy_kbtu` are classed over submitted properties with a "

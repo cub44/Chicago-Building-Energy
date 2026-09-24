@@ -49,6 +49,15 @@ INTERIM = ROOT / "data" / "interim"
 # Park' is a real value).
 CA_ALIASES = {"O'HARE": "OHARE", "LAKEVIEW": "LAKE VIEW"}
 
+# The boundary file's `community` in capitals, as it is released beside the display name the
+# pothole release spells (Chicago-Potholes `geo_name`): title case, except these two.
+CA_DISPLAY = {"OHARE": "O'Hare", "MCKINLEY PARK": "McKinley Park"}
+
+
+def display_name(community: str) -> str:
+    """A community area's display name, from the boundary file's capitals."""
+    return CA_DISPLAY.get(community, community.title())
+
 
 class SchemaError(SystemExit):
     pass

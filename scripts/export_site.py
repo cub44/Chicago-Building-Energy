@@ -17,6 +17,11 @@ Reads data/processed/ (the release) and data/interim/ (geometry). Writes:
     manifest.json         years, default year, metrics, class breaks, snapshot date, the City's
                           rowsUpdatedAt. The map reads years and breaks from here and nowhere else.
 
+and then site/vendor/ (d3 and topojson-client, unmodified, with their ISC licenses, copied from
+prototypes/vendor/) and site/checksums.sha256 over every file in site/data/ and site/vendor/,
+paths relative to site/. That manifest is the map's release: publish.py copies exactly the set
+it lists, and the website refuses any map file it does not list.
+
 `caveats.json` is authored copy, not pipeline output (same as potholes). This script never
 writes it; it checks that the figures the copy quotes are the figures the build produced, so
 a rebuild cannot quietly falsify the prose.
@@ -30,6 +35,7 @@ import hashlib
 import json
 import math
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -48,6 +54,7 @@ ROOT = Path(__file__).resolve().parents[1]
 INTERIM = ROOT / "data" / "interim"
 PROCESSED = ROOT / "data" / "processed"
 SITE = ROOT / "site" / "data"
+VENDOR_SRC = ROOT / "prototypes" / "vendor"
 WORK = INTERIM / "site_geom"
 MAPSHAPER = ROOT / "node_modules" / ".bin" / "mapshaper"
 AUTHORED = {"caveats.json"}
@@ -251,6 +258,19 @@ def check_facts(figures: dict) -> None:
     if wrong:
         raise SystemExit("manifest counts disagree with facts.json (manifest, facts): " + json.dumps(wrong)
                          + ". Rebuild; the two are computed from the same release.")
+    if F["hex_width_mi"]["value"] != round(HEX_W_FT / 5280, 4):
+        raise SystemExit(f"facts.json hex_width_mi {F['hex_width_mi']['value']} is not this grid's width "
+                         f"({HEX_W_FT / 5280:.6f} mi); rebuild")
+
+
+def write_site_checksums() -> int:
+    """site/checksums.sha256 over site/data/ and site/vendor/, paths relative to site/."""
+    site = SITE.parent
+    names = sorted(p.relative_to(site).as_posix() for d in ("data", "vendor") for p in (site / d).glob("*")
+                   if p.is_file() and not p.name.startswith("."))
+    (site / "checksums.sha256").write_text(
+        "".join(f"{hashlib.sha256((site / n).read_bytes()).hexdigest()}  {n}\n" for n in names))
+    return len(names)
 
 
 def main() -> None:
@@ -337,6 +357,7 @@ def main() -> None:
     files = {p.name: {"bytes": p.stat().st_size, "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
              for p in sorted(SITE.glob("*")) if p.is_file() and p.name != "manifest.json"}
     bench = raw_manifest["meta"]["sources"]["benchmarking"]
+    hex_mi = json.loads((PROCESSED / "facts.json").read_text())["facts"]["hex_width_mi"]
     manifest = {
         "project": "chicago-building-energy",
         "years": list(schema.DISPLAY_YEARS), "default_year": schema.DISPLAY_YEARS[-1],
@@ -351,12 +372,20 @@ def main() -> None:
         "classes": {k: v["years"] for k, v in classes["metrics"].items()},
         "geometry": {"crs": schema.CRS_PLANE, "units": "US survey feet",
                      "projection": "d3.geoIdentity().reflectY(true)",
-                     "hex_flat_to_flat_m": schema.HEX_SIZE_M, "hex_sqmi": round(HEX_SQMI, 6)},
+                     "hex_flat_to_flat_m": schema.HEX_SIZE_M, "hex_sqmi": round(HEX_SQMI, 6),
+                     # the map's tab label prints this, the same string the project page annotates
+                     "hex_width_mi": hex_mi["value"], "hex_width_display": hex_mi["display"]},
         "counts": figures, "files": files,
     }
     (SITE / "manifest.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False) + "\n")
-    for p in sorted(SITE.glob("*")):
-        print(f"  {p.stat().st_size:>10,}  {p.name}")
+    vendor = SITE.parent / "vendor"
+    vendor.mkdir(exist_ok=True)
+    for n in schema.VENDOR_FILES:
+        shutil.copyfile(VENDOR_SRC / n, vendor / n)
+    n_site = write_site_checksums()
+    for p in sorted(SITE.glob("*")) + sorted(vendor.glob("*")):
+        print(f"  {p.stat().st_size:>10,}  {p.relative_to(SITE.parent)}")
+    print(f"  site/checksums.sha256 lists {n_site} files")
 
 
 if __name__ == "__main__":

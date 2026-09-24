@@ -10,7 +10,8 @@ Each fact carries the exact `value`, the `display` string the page prints (thous
 separators and unit included), a `label` for a stat tile, a one-sentence `definition`, the
 released `source_file` it is computed from, its `sources`, the `rounding` applied wherever
 `display` is not the plain rendering of `value`, and a `unit`. Percents are on a 0-100 scale;
-the hexagon width is in feet. No fact carries a metric unit.
+the hexagon width is in feet and in miles. No fact carries a metric unit, and no definition names
+a metric parameter or an internal name: definitions feed the website's JSON-LD and dataset pages.
 """
 from __future__ import annotations
 
@@ -162,7 +163,14 @@ def build(energy: pd.DataFrame, buildings: pd.DataFrame, hexes: pd.DataFrame, ar
          unit="classes")
     w = float(fixed(schema.HEX_SIZE_M * schema.FT_PER_M, 4))
     fact(F, "hex_width", w, f"{fixed(w, 0)}-ft", "Density hexagon width",
-         f"{schema.HEX_SIZE_M:.0f} meters flat to flat, in feet.", "density_hex.csv", [B], rounding="nearest foot", unit="feet")
+         "Width of each density hexagon, flat side to flat side, in feet.", "density_hex.csv", [B],
+         rounding="nearest foot", unit="feet")
+    mi = float(fixed(schema.HEX_SIZE_M * schema.FT_PER_M / 5280, 4))
+    if abs(mi - 0.25) / 0.25 >= 0.01:
+        raise SystemExit(f"facts.json: a {mi}-mile hexagon is not a quarter mile to within 1%; restate hex_width_mi")
+    fact(F, "hex_width_mi", mi, "quarter-mile", "Density hexagon width",
+         f"Width of each density hexagon, flat side to flat side: {fixed(mi, 4)} miles ({int(fixed(w, 0)):,} feet), "
+         "a quarter mile to within 1%.", "density_hex.csv", [B], rounding="nearest quarter mile", unit="miles")
     valued = hexes[(hexes["data_year"] == y) & hexes["site_energy_kbtu"].notna()]
     fact(F, "hex_with_value", len(valued), count(len(valued)), "Hexagons with a value",
          "density_hex.csv rows with a site_energy_kbtu: hexagons holding a reporting property with a total.", "density_hex.csv",

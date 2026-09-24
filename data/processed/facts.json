@@ -1,7 +1,7 @@
 {
  "schema": 1,
  "project": "chicago-building-energy",
- "release": "2026-09-23",
+ "release": "2026-09-24",
  "generated_by": "scripts/build.py",
  "sources": [
   {
@@ -422,13 +422,25 @@
    "value": 1312.3333,
    "display": "1312-ft",
    "label": "Density hexagon width",
-   "definition": "400 meters flat to flat, in feet.",
+   "definition": "Width of each density hexagon, flat side to flat side, in feet.",
    "source_file": "density_hex.csv",
    "sources": [
     "benchmarking"
    ],
    "rounding": "nearest foot",
    "unit": "feet"
+  },
+  "hex_width_mi": {
+   "value": 0.2485,
+   "display": "quarter-mile",
+   "label": "Density hexagon width",
+   "definition": "Width of each density hexagon, flat side to flat side: 0.2485 miles (1,312 feet), a quarter mile to within 1%.",
+   "source_file": "density_hex.csv",
+   "sources": [
+    "benchmarking"
+   ],
+   "rounding": "nearest quarter mile",
+   "unit": "miles"
   },
   "hex_with_value": {
    "value": 964,

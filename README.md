@@ -1,6 +1,6 @@
 # Chicago building energy
 
-[Explore the project](https://connorblandford.com/projects/chicago-building-energy/). This is the dataset behind an exploratory map; the accompanying article is forthcoming. It covers the properties Chicago's Energy Benchmarking Ordinance requires to report: what each reported for **data year 2022**, which City building footprints it occupies, and how that reported energy is distributed across hexagons and community areas. Data release: **2026-09-23**; what changed in it, and in the releases of 2026-09-22 and 2026-09-21 before it, is at the end.
+[Explore the project](https://connorblandford.com/projects/chicago-building-energy/). This is the dataset behind an exploratory map; the accompanying article is forthcoming. It covers the properties Chicago's Energy Benchmarking Ordinance requires to report: what each reported for **data year 2022**, which City building footprints it occupies, and how that reported energy is distributed across hexagons and community areas. Data release: **2026-09-24**; what changed in it, and in the releases of 2026-09-23, 2026-09-22 and 2026-09-21 before it, is at the end.
 
 No software is required to read it: open the CSVs in a spreadsheet or your preferred analysis tool. The pipeline that produced them is published here too, under `scripts/` and `tests/`; see [The code](#the-code).
 
@@ -17,6 +17,7 @@ No software is required to read it: open the CSVs in a spreadsheet or your prefe
 | [classes.json](data/processed/classes.json) | — | The color-class boundaries the map uses |
 | [dictionary.md](data/processed/dictionary.md) | — | Every column, with its unit, source column and vintage |
 | [facts.json](data/processed/facts.json) | — | Every figure the project page states, with the display string it prints, a definition, its source file and rounding; the map's own counts are checked against it |
+| [site/](site/) | — | The map's own files: the geometry and values it reads, and d3 7.9.0 and topojson-client 3.1.0 with their ISC licenses, listed in [site/checksums.sha256](site/checksums.sha256) |
 
 See the [data dictionary](data/processed/dictionary.md) for all fields. Join `energy.csv` to `buildings.csv` on `id`. `buildings.csv` is longer because it carries every property seen in any admitted year from 2014 to 2022, not only those covered in 2022, so a left join from `energy.csv` loses nothing. `footprint_ids` holds the City's own `bldg_id`s from `syp8-uezg`, separated by `;`, so any outline can be checked against its source. To group by community area, use `community_area_num`, not `community_area`: the latter is the City's free text, with 132 distinct values in `energy.csv` (blank included) for 77 areas, and grouping on it splits areas without warning. `community_area_num` is where the property is placed, by geometry, and grouping `energy.csv` on it reproduces `density_ca.csv` exactly. The two density files aggregate the same properties on two geographies and each sums to the same citywide total: never add them together, and never add either to `energy.csv`. [SHA-256 checksums](checksums.sha256) identify the download versions; verify with `shasum -a 256 -c checksums.sha256`.
 
@@ -90,6 +91,21 @@ the City revises rows retroactively. Everything published here came from the 202
 - **Many density cells rest on one building.** 591 of the 964 hexagons with a value hold a single reporting property, and 14 community areas hold fewer than five. Read `n_submitted` beside `kbtu_per_sqmi`.
 - **Names are as the City publishes them.** `property_name` is carried unedited. On the map, residential properties are labeled by address and type rather than by an owner or LLC name, and so is any property with no type whose name carries an owner, LLC or association token.
 - **Portal datasets get revised retroactively.** These figures come from a dated snapshot and will differ from a query run against the live portal today.
+
+## What changed on 2026-09-24
+
+One column, one fact and the map's own files; **no figure changed**, and `energy.csv`, `buildings.csv`,
+`density_hex.csv`, `classes.json`, `footprint_overrides.csv` and `match_review.csv` are byte for byte
+the files published on 2026-09-23.
+
+- **`density_ca.csv` gains `display_name`,** each community area's name as the Chicago Potholes
+  release spells it (title case, with O'Hare and McKinley Park), beside the City's capitals in `name`.
+- **`facts.json` states the hexagon width in miles** (`hex_width_mi`: 0.2485 miles, displayed
+  "quarter-mile") beside the width in feet, and no definition names a metric parameter.
+- **The map's files are published under `site/`:** the geometry and value files it reads, and
+  unmodified copies of d3 7.9.0 and topojson-client 3.1.0 with their ISC licenses, listed in
+  `site/checksums.sha256`. The map's manifest carries the hexagon width in miles for its tab label.
+- **`dictionary.md` describes the new column,** and the code is republished with these changes.
 
 ## What changed on 2026-09-23
 
@@ -166,4 +182,4 @@ Chicago publishes on its Data Portal (`xq83-jr8c`, `g5i5-yz37`, `igwz-8jzy`, `sy
 licenses above cover this project's selection, derivation and documentation, and do not relicense
 the City's underlying records, whose own terms of use govern their reuse.
 
-Suggested attribution: "Chicago building energy, Connor Ulrich Blandford, data release 2026-09-23," with a link to this repository. Cite the release date, the data year and the file you used. Report corrections through [Issues](https://github.com/cub44/Chicago-Building-Energy/issues), including the filename, the property `id` and the disputed value. A footprint matched to the wrong building is a correction worth sending.
+Suggested attribution: "Chicago building energy, Connor Ulrich Blandford, data release 2026-09-24," with a link to this repository. Cite the release date, the data year and the file you used. Report corrections through [Issues](https://github.com/cub44/Chicago-Building-Energy/issues), including the filename, the property `id` and the disputed value. A footprint matched to the wrong building is a correction worth sending.

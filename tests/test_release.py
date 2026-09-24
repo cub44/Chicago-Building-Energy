@@ -136,6 +136,22 @@ def test_checksums_cover_exactly_the_processed_files():
         assert hashlib.sha256((PROCESSED / name).read_bytes()).hexdigest() == digest, name
 
 
+def test_the_map_release_manifest_covers_exactly_site_data_and_vendor():
+    # site/checksums.sha256 is the map's release: the public repo publishes that set under site/
+    # and the website refuses any map file it does not list.
+    site = SITE.parent
+    lines = [l.split(maxsplit=1) for l in need(site / "checksums.sha256").read_text().splitlines() if l.strip()]
+    listed = {name.strip(): digest for digest, name in lines}
+    present = {p.relative_to(site).as_posix() for d in ("data", "vendor") for p in (site / d).glob("*")
+               if p.is_file() and not p.name.startswith(".")}
+    assert set(listed) == present
+    assert sorted(n for n in listed if n.startswith("vendor/")) == sorted(f"vendor/{n}" for n in schema.VENDOR_FILES)
+    for name, digest in listed.items():
+        assert hashlib.sha256((site / name).read_bytes()).hexdigest() == digest, name
+    for lic in ("d3.LICENSE", "topojson-client.LICENSE"):
+        assert (site / "vendor" / lic).read_text().startswith("Copyright "), lic
+
+
 def test_the_map_manifest_names_the_snapshot_it_was_built_from():
     man = json.loads(need(SITE / "manifest.json").read_text())
     assert man["snapshot_date"] == latest_snapshot().name

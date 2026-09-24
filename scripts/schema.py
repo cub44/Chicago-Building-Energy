@@ -20,7 +20,7 @@ DISPLAY_YEARS = [2022]
 # The date of this data release, set by hand when a release is cut: the pipeline reads no clock.
 # Pages state this one date (website DESIGN-SYSTEM, "One release date per data project"); the
 # per-source dates live in dictionary.md.
-RELEASE_DATE = "2026-09-23"
+RELEASE_DATE = "2026-09-24"
 EXCLUDED_YEARS = {2023: "not yet reviewed for release. Its own row coordinates fail the "
                         "community-area test for 91% of rows and are never used, but the year "
                         "can be located by id and address (see the location test)"}
@@ -166,6 +166,11 @@ CRS_GEO = "EPSG:4326"
 FT_PER_M = 1 / 0.3048006096012192   # US survey foot
 HEX_SIZE_M = 400.0        # flat-to-flat width of a density hexagon
 SQFT_PER_SQMI = 5280.0 ** 2
+
+# --- The map's release ---------------------------------------------------------------------------
+# The two libraries the map loads, unmodified, each with its ISC license: export_site.py copies
+# them from prototypes/vendor/ into site/vendor/ and lists them in site/checksums.sha256.
+VENDOR_FILES = ["d3.min.js", "d3.LICENSE", "topojson-client.min.js", "topojson-client.LICENSE"]
 
 # --- Language the release may not contain (MAP_SPEC §6, PIPELINE "Naming") --------------------
 # Kept as fragments so that this file does not itself contain the words it forbids.

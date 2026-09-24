@@ -1,0 +1,63 @@
+{
+ "authored": "Display copy for the map (MAP_SPEC §5). Authored prose, not script output, versioned with the map; scripts/export_site.py never writes this file, but it refuses to export if a figure under checked_figures is not the figure the build produced.",
+ "checked_figures": {
+  "gfa_inflated_2022": 989,
+  "total_records_2022": 2562,
+  "submitted_no_eui_2022": 83,
+  "match_high_or_medium_pct_2022": 87.1,
+  "hex_one_property_2022": 591,
+  "hex_with_value_2022": 964,
+  "ca_under_five_2022": 14,
+  "excluded_year_pass_rate_pct": 9,
+  "excluded_year_located_pct": 87,
+  "precision_reviewed": 406,
+  "precision_drawn_pct": 94,
+  "precision_high_pct": 99,
+  "precision_medium_pct": 74
+ },
+ "density_banner": "This is a map of where Chicago's large buildings are. The benchmarking ordinance covers buildings of 50,000 square feet and more: on the City's own figure, under 1% of the city's buildings and about a fifth of its building energy. It says nothing about household energy burden, which is where the equity question lives.",
+ "caveats": [
+  {
+   "id": "coverage",
+   "title": "Who is on this map",
+   "modes": ["buildings", "density"],
+   "text": "Chicago's Energy Benchmarking Ordinance covers buildings of 50,000 square feet and more. The City puts that at under 1% of Chicago's buildings, accounting for roughly 20% of the energy all its buildings use — its own figure, from the description of the benchmarking dataset, not one measured here. The density view shows where large buildings are; an empty cell means no covered building, not low energy use."
+  },
+  {
+   "id": "reported",
+   "title": "Reported, not measured",
+   "modes": ["buildings", "density"],
+   "text": "Every figure is reported by the building's owner through ENERGY STAR Portfolio Manager and verified by a third party once every three years. A hatched building was required to report for 2022 and did not. 83 buildings reported but have no EUI in the City's release, so no total is formed for them; they are drawn in a neutral fill."
+  },
+  {
+   "id": "totals",
+   "title": "How the total is defined",
+   "modes": ["buildings", "density"],
+   "text": "Total site energy is the fuel use each property reported, added up: electricity, natural gas, district steam and chilled water, and other fuels. It is not energy per square foot times floor area. For 989 of the 2,562 properties with a total in 2022, the floor area the City published is inflated, by about a fifth at the median, so that product would overstate them. The City's own greenhouse-gas figures agree with the fuel totals. Energy per square foot is the City's own figure and is not affected."
+  },
+  {
+   "id": "footprints",
+   "title": "Outlines, markers and match confidence",
+   "modes": ["buildings"],
+   "text": "The City's building footprint layer is a 2015 snapshot, so a matched outline is the building that stood at that address in 2015. 87.1% of reporting properties are matched to an outline at high or medium confidence, short of the project's 90% target. A check of 406 sampled matches puts about 94% of the drawn outlines on the right building: 99% of high-confidence matches and 74% of medium ones. That check was made by AI reviewers against a written rubric, not yet re-checked by a person and not against imagery; every verdict and its reason is in the download. Buildings completed since 2015 are drawn as square markers at a City coordinate that passed a location check. So are properties whose outline match is unconfirmed: a low-confidence outline can be the wrong building, so the property is placed at its coordinate instead. The confidence of every match is in the download."
+  },
+  {
+   "id": "year",
+   "title": "Why 2022",
+   "modes": ["buildings", "density"],
+   "text": "The map was built on data year 2022, and 2023 has not yet been reviewed for it. The City's 2023 release puts only about 9% of rows inside the community area the same row names, but this map never uses a release's own coordinates to place a building: locations come from matching each reported address to a City footprint, with a checked City coordinate as a fallback. Located that way, by property id and address, 87% of 2023's reporting properties match at high or medium confidence, about the same as 2022. 2023 is also the release whose floor areas are consistent."
+  },
+  {
+   "id": "campuses",
+   "title": "Campuses report one figure",
+   "modes": ["buildings"],
+   "text": "A property with several buildings reports a single figure. It is drawn on every outline its address or coordinate ties to it, which is often only one of its buildings, and it is never divided among them by area."
+  },
+  {
+   "id": "small-counts",
+   "title": "Many cells rest on one building",
+   "modes": ["density"],
+   "text": "591 of the 964 hexagons with a value hold a single reporting property, and 14 community areas hold fewer than five. There the value is one building's energy, not a neighborhood's. The area used is the whole cell, including parks, rail yards and, on the lakefront, water."
+  }
+ ]
+}
