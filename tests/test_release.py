@@ -72,7 +72,7 @@ def test_density_columns_say_area_not_land():
         assert "area_sqmi" in cols and "land_sqmi" not in cols
 
 
-# --- Naming (MAP_SPEC §6) ---------------------------------------------------------------------------------
+# --- Naming: no ranking or shaming language about a property -----------------------------------------------
 def copy_to_check():
     files = [p for p in PROCESSED.glob("*") if p.is_file()]
     files += [p for p in (SITE / "caveats.json", SITE / "manifest.json", WEBSITE_MAP) if p.exists()]
@@ -161,8 +161,9 @@ def test_the_map_manifest_names_the_snapshot_it_was_built_from():
 
 # --- Determinism ------------------------------------------------------------------------------------------
 def test_stage_3_is_byte_identical_on_rebuild(tmp_path, monkeypatch):
-    """Rebuild data/processed/ and the reconciliation from data/interim/ into a scratch folder and
-    compare bytes. `make check` does the same from the raw snapshot with git diff."""
+    """Rebuild data/processed/ and the working report (data/reconciliation.md, not published) from
+    data/interim/ into a scratch folder and compare bytes. A rebuild from the raw snapshot followed
+    by git diff does the same."""
     interim = tmp_path / "interim"
     interim.mkdir()
     for p in INTERIM.glob("*.*"):

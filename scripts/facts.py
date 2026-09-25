@@ -2,7 +2,7 @@
 """facts.json: every figure the project page states, computed in stage 3 from the release.
 
 Written by build.build_processed() beside the tables it describes, so a rebuild covers it
-(`make check`, and the determinism test), checksums.sha256 lists it, and it is published with
+(a rebuild checked with git diff, and the determinism test), checksums.sha256 lists it, and it is published with
 the rest. The map manifest's `counts` (export_site.py) are checked against it at export, so the
 figures the map's own caveats quote and the figures the website annotates cannot disagree.
 

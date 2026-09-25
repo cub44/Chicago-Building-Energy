@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 4 - export. The map contract in site/data/ (PIPELINE §4, MAP_SPEC).
+"""Stage 4 - export. The map contract in site/data/.
 
     python scripts/export_site.py
 
@@ -18,7 +18,8 @@ Reads data/processed/ (the release) and data/interim/ (geometry). Writes:
                           rowsUpdatedAt. The map reads years and breaks from here and nowhere else.
 
 and then site/vendor/ (d3 and topojson-client, unmodified, with their ISC licenses, copied from
-prototypes/vendor/) and site/checksums.sha256 over every file in site/data/ and site/vendor/,
+the working repository's vendored copy, which is not published) and site/checksums.sha256 over
+every file in site/data/ and site/vendor/,
 paths relative to site/. That manifest is the map's release: publish.py copies exactly the set
 it lists, and the website refuses any map file it does not list.
 
@@ -54,12 +55,12 @@ ROOT = Path(__file__).resolve().parents[1]
 INTERIM = ROOT / "data" / "interim"
 PROCESSED = ROOT / "data" / "processed"
 SITE = ROOT / "site" / "data"
-VENDOR_SRC = ROOT / "prototypes" / "vendor"
+VENDOR_SRC = ROOT / "prototypes" / "vendor"   # the vendored libraries; not published (site/vendor/ is)
 WORK = INTERIM / "site_geom"
 MAPSHAPER = ROOT / "node_modules" / ".bin" / "mapshaper"
 AUTHORED = {"caveats.json"}
 
-# MAP_SPEC §6. For these types a name is shown only when it reads as a building's name.
+# The name policy. For these types a name is shown only when it reads as a building's name.
 RESIDENTIAL_TYPES = {"Multifamily Housing", "Senior Living Community", "Residence Hall/Dormitory"}
 OWNER_TOKENS = re.compile(r"\b(LLC|L\.L\.C|L L C|LP|L\.P|LLP|LTD|TRUST|ASSOC|ASSN|ASS'N|ASSOCIATES|ASSOCIATION|HOA|"
                           r"MANAGEMENT|MGMT|INC|CORP|CORPORATION|CO|COMPANY|PARTNERS|PARTNERSHIP|HOLDINGS|"
@@ -88,7 +89,7 @@ METRICS = {
 
 
 def shown_name(name, property_type):
-    """MAP_SPEC §6. Non-residential: the City's property_name as published. Residential: only
+    """The name policy. Non-residential: the City's property_name as published. Residential: only
     when it carries no owner, LLC or management token AND reads as a building (a building
     word, or a street number). Anything else - which is where personal names fall - is withheld,
     and the map shows the address and the type. No type (every non-reporter, and some
@@ -202,7 +203,7 @@ def values_for(year: int, energy: pd.DataFrame, buildings: pd.DataFrame, hexes: 
     density["ca"]["share_not_submitted"] = {str(k): num(v) for k, v in
                                             zip(a["community_area_num"], a["share_not_submitted"]) if not pd.isna(v)}
     density["ca"]["name"] = {str(k): v for k, v in zip(a["community_area_num"], a["name"])}
-    # MAP_SPEC §1: the community-area tooltip names its three largest reported site energies.
+    # The community-area tooltip names its three largest reported site energies.
     top = {}
     pts = pd.read_parquet(INTERIM / "property_points.parquet")[["id", "community_area_num"]]
     ranked = sub[sub["site_energy_kbtu"].notna()].merge(pts, on="id").sort_values(
@@ -220,7 +221,7 @@ def values_for(year: int, energy: pd.DataFrame, buildings: pd.DataFrame, hexes: 
 def check_caveats(figures: dict) -> None:
     p = SITE / "caveats.json"
     if not p.exists():
-        raise SystemExit("site/data/caveats.json is missing. It is authored copy (MAP_SPEC §5), not output.")
+        raise SystemExit("site/data/caveats.json is missing. It is authored copy, not output.")
     c = json.loads(p.read_text())
     wrong = {k: (v, figures.get(k)) for k, v in c.get("checked_figures", {}).items() if figures.get(k) != v}
     if wrong:
@@ -229,7 +230,7 @@ def check_caveats(figures: dict) -> None:
     text = json.dumps(c).lower()
     for w in schema.BANNED_FRAGMENTS:
         if re.search(rf"\b{w}s?\b", text):
-            raise SystemExit("caveats.json uses ranking language MAP_SPEC §6 rules out")
+            raise SystemExit("caveats.json uses ranking language the name policy rules out")
 
 
 def check_facts(figures: dict) -> None:

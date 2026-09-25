@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Chicago building energy"
+abstract: "The properties Chicago's Energy Benchmarking Ordinance requires to report: what they
+  reported for data year 2022 and which of them did not report, placed by City building footprint
+  where one matched, with how confidently each match was made, and how that reported energy is
+  distributed across hexagons and community areas. Total site energy is the fuel use each
+  property reported, added up; every figure is owner-reported, and the ordinance covers
+  buildings of 50,000 square feet and more."
+authors:
+  - family-names: Blandford
+    given-names: Connor Ulrich
+    orcid: "https://orcid.org/0009-0009-5938-7151"
+license: CC-BY-4.0
+repository-code: "https://github.com/cub44/Chicago-Building-Energy"
+url: "https://connorblandford.com/data/chicago-building-energy/"
+version: "2026-09-24"
+date-released: 2026-09-24
+keywords:
+  - Chicago
+  - energy benchmarking
+  - building energy
+  - building footprints
+  - open data

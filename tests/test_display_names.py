@@ -100,7 +100,7 @@ def test_the_rule_gives_the_pothole_spelling_for_all_77():
 
 def test_density_ca_carries_the_display_name():
     if not (PROCESSED / "density_ca.csv").exists():
-        pytest.skip("density_ca.csv not built - run `make build`")
+        pytest.skip("density_ca.csv not built: needs the raw snapshot, which is not published")
     rows = read_csv("density_ca.csv")
     assert list(rows.columns[:3]) == ["community_area_num", "name", "display_name"]
     assert {int(n): d for n, d in zip(rows["community_area_num"], rows["display_name"])} == POTHOLE_NAMES

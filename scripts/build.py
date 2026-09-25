@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """Stage 3 - build. data/interim/ in; data/processed/ and data/reconciliation.md out.
 
+data/reconciliation.md is the build's working report of what did not resolve. It is kept
+with the raw snapshot and is not published; data/processed/ is the release.
+
     python scripts/build.py                  # normalize -> match -> processed tables
     python scripts/build.py --processed-only # reuse data/interim/ as it stands
 
 Reads only what the earlier stages wrote from data/raw/. Never fetches. Every file written
 here is a function of the raw snapshot and data/overrides/ alone - no clock, no locale, no
-unordered iteration - so a rebuild from the same snapshot is byte-identical, which is what
-`make check` verifies with `git diff --exit-code`.
+unordered iteration - so a rebuild from the same snapshot is byte-identical, which a rebuild
+followed by `git diff --exit-code data/processed` verifies.
 
 Nothing from a year in schema.EXCLUDED_YEARS is written to data/processed/. The
-reconciliation report names an excluded year only to show the test it failed.
+working report names an excluded year only to show the test it failed.
 """
 from __future__ import annotations
 
@@ -33,9 +36,9 @@ from normalize import display_name  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 INTERIM = ROOT / "data" / "interim"
 PROCESSED = ROOT / "data" / "processed"
-RECONCILIATION = ROOT / "data" / "reconciliation.md"
+RECONCILIATION = ROOT / "data" / "reconciliation.md"   # the working report; not published
 OVERRIDES = ROOT / "data" / "overrides" / "footprint_overrides.csv"
-REVIEW = ROOT / "data" / "review" / "match_review.csv"
+REVIEW = ROOT / "data" / "review" / "match_review.csv"  # published unchanged as data/processed/match_review.csv
 REVIEW_COLUMNS = ["id", "match_method", "match_confidence", "footprint_ids", "verdict", "reason", "reviewed_on"]
 VERDICTS = ["correct", "partial", "wrong", "unsure"]
 
@@ -101,7 +104,7 @@ def write_checksums(folder: Path) -> int:
 
 # --- where each property is, for density and for markers --------------------------------------------
 def located_by(r) -> str:
-    """Where a property is placed, for density, markers and community_area_num (README §5.5).
+    """Where a property is placed, for density, markers and community_area_num.
     A footprint, unless the match is low confidence and a trusted coordinate exists: an
     unconfirmed footprint can be a North/South mirror miles away, and the coordinate has
     passed the community-area test (or been accepted on review). Then the trusted coordinate;
@@ -203,21 +206,25 @@ def density(year_rows: pd.DataFrame, located: pd.DataFrame, cas: gpd.GeoDataFram
 
 
 # --- match precision ------------------------------------------------------------------------------------
-def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float] | tuple[None, None]:
+def wilson(k: int, n: int, z: float = 1.96, digits: int | None = 4) -> tuple[float, float] | tuple[None, None]:
+    """Wilson 95% interval for k of n, rounded to `digits` places (None: unrounded)."""
     if n == 0:
         return None, None
     p = k / n
     d = 1 + z * z / n
     c = p + z * z / (2 * n)
     h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
-    return round((c - h) / d, 4), round((c + h) / d, 4)
+    lo, hi = (c - h) / d, (c + h) / d
+    return (lo, hi) if digits is None else (round(lo, digits), round(hi, digits))
 
 
 def match_precision(buildings: pd.DataFrame, energy_display: pd.DataFrame) -> dict | None:
-    """Precision per match_method from data/review/match_review.csv, a desk check of a seeded
-    sample (scripts/review_sample.py). precision = (correct + partial) / (correct + partial +
-    wrong); `unsure` is left out of it and reported, and `floor` counts it as wrong. A reviewed
-    row whose method or footprints no longer match the build is stale and not counted."""
+    """Precision per match_method from the review sheet (REVIEW, published as match_review.csv),
+    a desk check of a seeded sample (scripts/review_sample.py). precision = (correct + partial) /
+    (correct + partial + wrong); `unsure` is left out of it and reported, and `floor` counts it as
+    wrong. A reviewed row whose method or footprints no longer match the build is stale and not
+    counted. The published figures are rounded to 4 places; `unrounded` keeps the weighted ones
+    exact, so a report that formats them rounds once."""
     if not REVIEW.exists():
         return None
     rv = pd.read_csv(REVIEW, dtype=str, keep_default_na=False)
@@ -236,7 +243,7 @@ def match_precision(buildings: pd.DataFrame, energy_display: pd.DataFrame) -> di
     pop = tier["match_method"].value_counts()
     out = {"reviewed": int(len(rv)), "stale": int(rv["stale"].sum()), "by_method": {}}
     live = rv[~rv["stale"]]
-    num = den = 0.0
+    num = num_exact = den = 0.0
     for m in [x for x in schema.MATCH_METHODS if x in set(live["match_method"])]:
         g = live[live["match_method"] == m]
         c = {v: int((g["verdict"] == v).sum()) for v in VERDICTS}
@@ -248,6 +255,7 @@ def match_precision(buildings: pd.DataFrame, energy_display: pd.DataFrame) -> di
                                "floor": round(ok / len(g), 4) if len(g) else None}
         if prec is not None:
             num += pop.get(m, 0) * prec
+            num_exact += pop.get(m, 0) * ok / decided
             den += pop.get(m, 0)
     out["weighted_precision"] = round(num / den, 4) if den else None
     out["population"] = int(den)
@@ -257,7 +265,7 @@ def match_precision(buildings: pd.DataFrame, energy_display: pd.DataFrame) -> di
     cur = buildings.assign(id=buildings["id"].astype(str)).set_index("id")
     live = live.assign(conf_now=live["id"].map(cur["match_confidence"]), located_by=live["id"].map(cur["located_by"]))
 
-    def weighted(pop_mask, sample_mask) -> dict:
+    def weighted(pop_mask, sample_mask) -> tuple[dict, float | None]:
         n_pop = w_sum = covered = 0.0
         for (m, c), cell in tier[pop_mask].groupby(["match_method", "match_confidence"]):
             g = live[sample_mask & (live["match_method"] == m) & (live["conf_now"] == c)]
@@ -266,11 +274,15 @@ def match_precision(buildings: pd.DataFrame, energy_display: pd.DataFrame) -> di
             if ok + bad:
                 w_sum += len(cell) * ok / (ok + bad)
                 covered += len(cell)
-        return {"matches": int(n_pop), "estimated_precision": round(w_sum / covered, 4) if covered else None,
-                "share_with_a_checked_cell": round(covered / n_pop, 4) if n_pop else None}
-    out["by_confidence"] = {c: weighted(tier["match_confidence"] == c, live["conf_now"] == c)
-                            for c in ("high", "medium", "low")}
-    out["drawn_outlines"] = weighted(tier["located_by"] == "footprint", live["located_by"] == "footprint")
+        exact = w_sum / covered if covered else None
+        return ({"matches": int(n_pop), "estimated_precision": None if exact is None else round(exact, 4),
+                 "share_with_a_checked_cell": round(covered / n_pop, 4) if n_pop else None}, exact)
+    by_conf = {c: weighted(tier["match_confidence"] == c, live["conf_now"] == c) for c in ("high", "medium", "low")}
+    drawn, drawn_exact = weighted(tier["located_by"] == "footprint", live["located_by"] == "footprint")
+    out["by_confidence"] = {c: d for c, (d, _) in by_conf.items()}
+    out["drawn_outlines"] = drawn
+    out["unrounded"] = {"weighted_precision": num_exact / den if den else None, "drawn_outlines": drawn_exact,
+                        "by_confidence": {c: e for c, (_, e) in by_conf.items()}}
     return out
 
 
@@ -319,7 +331,7 @@ def classes(energy: pd.DataFrame, hexes: pd.DataFrame, areas: pd.DataFrame) -> d
     return out
 
 
-# --- reconciliation -----------------------------------------------------------------------------------------
+# --- reconciliation: the working report of what did not resolve (not published) --------------------------
 def likely_cause(r) -> str:
     if r.match_method == "override":
         return "I. Resolved by override: no footprint exists or none can be verified (see section 15)"
@@ -416,7 +428,7 @@ def reconciliation(energy, buildings, located, summary, match, rejected, year_de
         disp = b[b["guard_rejected_min_dist_m"].notna() & (b["guard_rejected_min_dist_m"] <= schema.NEAREST_MEDIUM_M)
                  & b["match_method"].isin(["coord_pip", "coord_nearest"]) & b["match_confidence"].isin(["high", "medium"])]
         L += [f"## 3. The year guard, data year {y}", "",
-              f"The guard (PIPELINE §2 rule 9) rejects a footprint whose `year_built` is more than "
+              f"The year guard (match_footprints.py, rule 9) rejects a footprint whose `year_built` is more than "
               f"{schema.YEAR_GUARD_YEARS} years after the benchmarking `year_built`, except where the address and the "
               f"trusted coordinate agree on it (it holds the address and lies within {schema.NEAREST_MEDIUM_M:.0f} m of the "
               "coordinate): there it only notes the disagreement. It was advisory "
@@ -528,7 +540,7 @@ def reconciliation(energy, buildings, located, summary, match, rejected, year_de
     L += [""]
 
     L += ["## 10. The excluded-year location test", "",
-          "PIPELINE \"Adding a new data year\" step 4, run the way this pipeline locates: an id already in "
+          "METHODS.md \"Adding a new data year\" step 4, run the way this pipeline locates: an id already in "
           "`buildings.csv` keeps its location, any other id is matched on its own address with no coordinate. "
           "Address alone is the literal reading of step 4(a).", ""]
     ys = schema.DISPLAY_YEARS[0]
@@ -545,16 +557,22 @@ def reconciliation(energy, buildings, located, summary, match, rejected, year_de
           "A row passes when its own coordinate lies inside its own stated community area. It decides which "
           "years' coordinates may be trusted. It cannot catch a coordinate and a stated area that are wrong "
           "together: McCormick Place's 2014-2021 rows do exactly that (section 15).", ""]
+    # Rates are formatted from the counts, not from the stored pass_rate, which is rounded to 4 places
+    # (2016's 2,463 of 2,717 is 90.65%: stored 0.9065, it printed 90.6%).
+    def share(c, k):
+        return pct(c[k] / c["testable"] if c["testable"] else None)
     L += md_table(["data year", "rows", "with a coordinate", "no community area to test against", "testable",
                    "inside", "pass rate", "inside with 100 m buffer", ""],
                   [[y, f"{s['rows']:,}", f"{s['coordinates']['with_coordinate']:,}",
                     f"{s['coordinates']['no_community_area_to_test']:,}", f"{s['coordinates']['testable']:,}",
-                    f"{s['coordinates']['inside_own_community_area']:,}", f"{s['coordinates']['pass_rate']:.1%}",
-                    f"{s['coordinates']['inside_with_100m_buffer']:,}", "EXCLUDED" if s["excluded"] else ""]
+                    f"{s['coordinates']['inside_own_community_area']:,}", share(s["coordinates"], "inside_own_community_area"),
+                    f"{s['coordinates']['inside_with_100m_buffer']:,} ({share(s['coordinates'], 'inside_with_100m_buffer')})",
+                    "EXCLUDED" if s["excluded"] else ""]
                    for y, s in summary["years"].items()])
     c = summary["covered_list"]
     L += ["", f"Covered-buildings list: {c['inside_own_community_area']:,} of {c['testable']:,} inside "
-          f"({c['pass_rate']:.1%}).", ""]
+          f"({share(c, 'inside_own_community_area')}); {c['inside_with_100m_buffer']:,} with the 100 m buffer "
+          f"({share(c, 'inside_with_100m_buffer')}).", ""]
     L += ["## 12. Coordinate candidates that failed the test", "",
           "Candidates the trusted-coordinate rule looked at and refused, for ids in the admitted years.", ""]
     rj = rejected.groupby(["source", "reason"]).size().reset_index(name="n")
@@ -593,23 +611,31 @@ def reconciliation(energy, buildings, located, summary, match, rejected, year_de
 
     L += ["## 16. Match precision", ""]
     if prec is None:
-        L += ["No `data/review/match_review.csv`: no precision can be stated.", ""]
+        L += ["No review sheet (`match_review.csv`): no precision can be stated.", ""]
     else:
+        # Every percent here is formatted from the unrounded value: the stored figures are rounded to 4
+        # places, and formatting those rounds twice (74 of 89 is 83.146%: stored 0.8315, it printed 83.2%).
+        u = prec["unrounded"]
+
+        def tier_row(m, t):
+            ok, decided = t["correct"] + t["partial"], t["correct"] + t["partial"] + t["wrong"]
+            lo, hi = wilson(ok, decided, digits=None)
+            return [m, f"{t['population']:,}", t["reviewed"], t["correct"], t["partial"], t["wrong"], t["unsure"],
+                    pct(ok / decided if decided else None), "" if lo is None else f"{lo:.1%}-{hi:.1%}",
+                    pct(ok / t["reviewed"] if t["reviewed"] else None)]
         L += [f"{prec['reviewed']:,} matches reviewed; {prec['stale']:,} stale (the build has since changed them; not "
               f"counted - redraw and recheck them). Weighted precision over the {prec['population']:,} tier matches: "
-              f"{prec['weighted_precision']:.1%}; over the {prec['drawn_outlines']['matches']:,} drawn as outlines: "
-              f"{prec['drawn_outlines']['estimated_precision']:.1%}. By confidence: "
-              + "; ".join(f"{c} {t['estimated_precision']:.1%} of {t['matches']:,}" for c, t in prec["by_confidence"].items()
-                          if t["estimated_precision"] is not None) + ".", ""]
+              f"{u['weighted_precision']:.1%}; over the {prec['drawn_outlines']['matches']:,} drawn as outlines: "
+              f"{u['drawn_outlines']:.1%}. By confidence: "
+              + "; ".join(f"{c} {u['by_confidence'][c]:.1%} of {t['matches']:,}" for c, t in prec["by_confidence"].items()
+                          if u["by_confidence"][c] is not None) + ".", ""]
         L += md_table(["tier", "matches", "checked", "correct", "partial", "wrong", "unsure", "precision", "95% CI", "floor"],
-                      [[m, f"{t['population']:,}", t["reviewed"], t["correct"], t["partial"], t["wrong"], t["unsure"],
-                        pct(t["precision"]), "" if t["ci95"][0] is None else f"{t['ci95'][0]:.1%}-{t['ci95'][1]:.1%}",
-                        pct(t["floor"])] for m, t in prec["by_method"].items()])
+                      [tier_row(m, t) for m, t in prec["by_method"].items()])
         L += [""]
 
-    L += ["## 17. Where this build differs from the project brief (README.md)", "",
-          "- The shipped synonym table mapped `LA SALLE` to `LASALLE`. The footprint table spells it `LA SALLE`, "
-          "so no LaSalle Street address could match in the README §4 baseline, which predates the fix.", ""]
+    L += ["## 17. Where this build differs from the first baseline", "",
+          "- The first synonym table mapped `LA SALLE` to `LASALLE`. The footprint table spells it `LA SALLE`, "
+          "so no LaSalle Street address could match in the first baseline run, which predates the fix.", ""]
     return "\n".join(L)
 
 
@@ -844,7 +870,7 @@ def build_processed() -> dict:
     prec = match_precision(buildings, display)
     write_json(INTERIM / "precision.json", prec)
     # Every figure the project page states, from the tables just written (facts.py). Written
-    # here so the determinism test, `make check` and checksums.sha256 all cover it.
+    # here so the determinism test, a rebuild checked with git diff, and checksums.sha256 all cover it.
     import facts
     sizes = {n: (PROCESSED / n).stat().st_size for n in ("energy.csv", "buildings.csv")}
     write_json(PROCESSED / "facts.json", facts.build(display, buildings, hexes, areas, cls, prec, overrides, manifest, sizes))

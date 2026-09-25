@@ -100,7 +100,7 @@ def test_gfa_consistent_is_the_ratio_within_tolerance(energy_long):
 
 
 def test_2022_floor_area_check(normalize_summary):
-    """README §1: in 2022 every submitted record with an EUI has fuel figures, and for 989 of
+    """In 2022 every submitted record with an EUI has fuel figures, and for 989 of
     2,562 EUI x GFA runs 3% or more above them; none runs below."""
     s = normalize_summary
     fa = s["years"]["2022"]["floor_area"]
@@ -113,8 +113,8 @@ def test_2022_floor_area_check(normalize_summary):
 def test_the_ghg_columns_say_the_floor_area_is_inflated(normalize_summary):
     """Where EUI x GFA overstates the fuel total, total GHG / (GHG intensity x GFA) falls by the
     same factor; where it does not, that ratio is 1. An incomplete fuel column would leave the
-    GHG ratio at 1 everywhere. If a new snapshot breaks this, README §1 and every passage that
-    explains the total must be re-read before release."""
+    GHG ratio at 1 everywhere. If a new snapshot breaks this, every passage that explains the
+    total, in the README and on the page, must be re-read before release."""
     s = normalize_summary
     g = s["years"]["2022"]["floor_area"]["ghg"]
     assert g["overstated_r"] >= 0.99

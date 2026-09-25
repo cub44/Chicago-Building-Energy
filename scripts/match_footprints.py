@@ -3,8 +3,8 @@
 
     python scripts/match_footprints.py
 
-Implements PIPELINE §2 in its order; the first tier that hits wins and `match_note` records
-what was tried on the way:
+Implements the rules below in their order (METHODS.md, stage 2, states them in prose); the
+first tier that hits wins and `match_note` records what was tried on the way:
 
   1  trusted coordinate   row_<display year>, covered_list, then other admitted years newest
                           first. A candidate is accepted only if it lies inside ITS OWN row's
@@ -54,8 +54,8 @@ are module constants so that a test can show what each one changes:
                           (E 100TH ST and E 100TH PL are different streets). A footprint whose
                           type differs from the address's is not a candidate when the
                           footprint table has that street under the address's type as well.
-                          Otherwise the type stays what PIPELINE calls it: a tiebreaker.
-  POST_VINTAGE_UNMATCHED  README §3b: the footprint layer is a 2015 snapshot, so a property
+                          Otherwise the type stays what rule 2 makes it: a tiebreaker.
+  POST_VINTAGE_UNMATCHED  The footprint layer is a 2015 snapshot, so a property
                           built after 2015 has no footprint in it and is drawn as a point. No
                           tier runs for it; only an override can attach a footprint.
 
@@ -232,8 +232,8 @@ def match_one(rec: dict, fp: Footprints) -> dict:
     pt (shapely Point in EPSG:3435, or None). -> footprint positions, method, confidence, note."""
     notes: list[str] = []
     pt, by = rec["pt"], rec["year_built"]
-    # What the year guard turned away, kept as data so the reconciliation report can say
-    # which footprint it was and how far it sits from the trusted coordinate.
+    # What the year guard turned away, kept as data so the build can report which footprint
+    # it was and how far it sits from the trusted coordinate.
     guarded: dict[int, dict] = {}
     advised: set[int] = set()
 
@@ -543,7 +543,8 @@ def build(energy, covered, footprints, summary, overrides) -> tuple[pd.DataFrame
                 src, (lat, lon, x, y) = "override", override_coordinate(ov, i, energy, covered)
             elif m["veto"]:
                 src, lat, lon, x, y = "none", None, None, None, None
-            # Reported, not acted on: an override is a hand check and outranks the size rule.
+            # Reported, not acted on: an override is a reviewed answer from the AI desk review,
+            # recorded in footprint_overrides.csv, and it outranks the size rule.
             floors = implied_floors(fp, m["pos"], r["gross_floor_area_buildings_sq_ft"], r["of_buildings"])
             m["implied_floors"] = None if floors is None else round(floors, 1)
             m["size_check"], m["size_rejected_ids"] = size_verdict(fp, m["pos"], floors), []
@@ -622,9 +623,10 @@ def match_summary(buildings: pd.DataFrame, energy: pd.DataFrame, fp_shared: list
 
 def excluded_year_location_test(energy: pd.DataFrame, buildings: pd.DataFrame,
                                 footprints: gpd.GeoDataFrame) -> dict:
-    """PIPELINE "Adding a new data year" step 4, run the way this pipeline actually locates a
-    property: an id already in `buildings` keeps the location it has there (README §5.1: a new
-    year only needs matching for ids not already matched); any other id is matched on that
+    """The test a year must pass before it is shown (METHODS.md, "Adding a new data year",
+    step 4), run the way this pipeline actually locates a property: an id already in
+    `buildings` keeps the location it has there (a new year only needs matching for ids not
+    already matched); any other id is matched on that
     year's own address with no coordinate, since the year's coordinates are what failed. A
     property counts as located at high or medium confidence. Also reports address alone, for
     every id, which is the literal reading of step 4(a)."""

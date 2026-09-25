@@ -1,6 +1,6 @@
 """facts.json (scripts/facts.py), checked on the file as written.
 
-Shape follows the website's AI-citability spec (Appendix A): every fact has a numeric value,
+Shape: every fact has a numeric value,
 the display string the page prints, a label, a one-sentence definition, a released source file
 and its sources; display equals the value under the stated rounding; percents sit in [0, 100];
 nothing carries a metric unit. The sums the page relies on hold, and the map manifest's counts

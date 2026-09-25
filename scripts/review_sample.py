@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 """Draw the match-precision sample and write one evidence card per sampled match.
 
-    python scripts/review_sample.py
+    python scripts/review_sample.py         # cards for the matches that still need a verdict
+    python scripts/review_sample.py --all   # cards for every sampled match
 
-Reads data/interim/ (run `make build` first). Draws up to SAMPLE_SIZE display-year properties
-per match_method among those with a footprint attached by the tiers (overrides are hand checks
-already and are not sampled): the SAMPLE_SIZE ids with the smallest SHA-256 of "<SEED>:<id>".
+Reads data/interim/ (run scripts/build.py first). Draws up to SAMPLE_SIZE display-year
+properties per match_method among those with a footprint attached by the tiers (overrides are
+reviewed answers from the AI desk review, recorded in footprint_overrides.csv, and are not
+sampled): the SAMPLE_SIZE ids with the smallest SHA-256 of "<SEED>:<id>".
 That is a uniform random sample, and a stable one: when a rule change moves a few properties
 between tiers, only those few enter or leave the sample. Writes:
 
     data/interim/review_cards/<method>.md    the evidence for each sampled match that still
-                                             needs a verdict
+                                             needs a verdict (with --all, for every sampled
+                                             match, so a verdict can be re-checked)
     data/interim/review_cards/match_review_draft.csv   the sample, with the verdict carried
-                                             over from data/review/match_review.csv wherever
+                                             over from the review sheet (SHEET) wherever
                                              the same id has the same method and footprints;
                                              fill in the rest and copy it over the sheet
 
@@ -20,7 +23,8 @@ The evidence is everything a desk check can use that the tier did not already de
 attached footprint's own address range, building name, stories, year and plan area; the
 property's floor area against it; the City coordinate and how far it is; every nearby footprint
 with its address; and every footprint on the property's street whose range holds its number,
-under any direction. Verdicts go in data/review/match_review.csv:
+under any direction. Verdicts go in the review sheet, SHEET, which the build publishes unchanged
+as data/processed/match_review.csv:
 
     correct   the attached footprint is the property's building
     partial   it is one of the property's buildings, and others are not attached (a campus)
@@ -31,6 +35,7 @@ build.py turns the sheet into the precision published in dictionary.md and the R
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import sys
@@ -83,6 +88,10 @@ def fp_line(r, pt=None) -> str:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--all", action="store_true",
+                    help="write a card for every sampled match, not only those still needing a verdict")
+    a = ap.parse_args()
     b = pd.read_parquet(INTERIM / "buildings.parquet")
     e = pd.read_parquet(INTERIM / "energy_long.parquet")
     fp = gpd.read_parquet(INTERIM / "footprints.parquet").drop_duplicates("bldg_id", keep=False)
@@ -100,7 +109,7 @@ def main() -> None:
     CARDS.mkdir(parents=True, exist_ok=True)
     for old in CARDS.glob("*.md"):
         old.unlink()
-    for method, g in s[~s["_done"]].groupby("match_method", sort=True):
+    for method, g in (s if a.all else s[~s["_done"]]).groupby("match_method", sort=True):
         L = [f"# {method}: {len(g)} sampled of {int(((b['match_method'] == method) & b['id'].isin(rows.index)).sum())}", ""]
         for r in g.itertuples():
             row = rows.loc[r.id]
@@ -147,7 +156,9 @@ def main() -> None:
                         old.verdict if old else "", old.reason if old else "", old.reviewed_on if old else ""])
     t = s.groupby("match_method").agg(sampled=("id", "size"), carried_over=("_done", "sum"))
     print(t.to_string())
-    print(f"cards for the {int((~s['_done']).sum())} still to review, and the draft sheet, in {CARDS.relative_to(ROOT)}/")
+    carded = len(s) if a.all else int((~s["_done"]).sum())
+    print(f"cards for {carded} matches ({int((~s['_done']).sum())} still to review), and the draft sheet, "
+          f"in {CARDS.relative_to(ROOT)}/")
 
 
 if __name__ == "__main__":

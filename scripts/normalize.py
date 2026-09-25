@@ -16,8 +16,8 @@ Reads only data/raw/. Writes only data/interim/ (gitignored, rebuildable):
     community_areas.parquet the 77 polygons in EPSG:3435
     footprints.parquet      ACTIVE footprints, EPSG:3435 (GeoParquet)
     normalize_summary.json  per-year status labels, the floor-area check and its GHG
-                            corroboration, coordinate pass rates; build.py turns it into
-                            data/reconciliation.md
+                            corroboration, coordinate pass rates; build.py reports from it
+                            in its working report (not published)
 
 Nothing is filled in. A value the City did not publish is null here and empty downstream.
 """
@@ -126,7 +126,7 @@ def _round_kbtu(d: Decimal) -> int:
 
 def eui_x_gfa_kbtu(eui, gfa):
     """Site EUI x gross floor area, exact in decimal, rounded half-up to the kBtu. Null if
-    either is null. The check on the published floor area, not the total (README §1)."""
+    either is null. The check on the published floor area, not the total."""
     e, g = _dec(eui), _dec(gfa)
     if e is None or g is None:
         return None
@@ -153,7 +153,7 @@ def site_energy(eui, gfa, fuels):
     Manager did not complete, and its fuel columns, where present, list one fuel in six of
     eight 2022 cases. Where there is an EUI the total is the sum of the five fuel columns;
     only if those are all empty or sum to zero does it fall back to EUI x GFA. The fuel sum is
-    the side the published GHG figures corroborate (README §1)."""
+    the side the published GHG figures corroborate."""
     if _dec(eui) is None:
         return None, None
     f = _fuel_decimal(fuels)
@@ -266,7 +266,8 @@ def ca_number(names: pd.Series, cas: gpd.GeoDataFrame) -> pd.Series:
 
 def coordinate_test(df: pd.DataFrame, cas: gpd.GeoDataFrame) -> pd.DataFrame:
     """Add x_ft, y_ft, ca_num and whether the row's own coordinate is inside its own stated
-    community area - strictly (the README §3a test) and with the 100 m buffer (the trust rule).
+    community area - strictly (the test 2023's coordinates fail for 91% of rows) and with the
+    100 m buffer (the trust rule).
     A row with no coordinate, or no community area that names a polygon, passes neither.
     """
     df = df.copy()

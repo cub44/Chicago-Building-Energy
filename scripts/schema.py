@@ -5,37 +5,40 @@ portal's metadata reported it on the snapshot date, recorded in data/raw/<date>/
 against REQUIRED + ACKNOWLEDGED and fails on any difference in either direction: a missing
 column breaks a stage downstream, and a new column is a release change someone should read
 before it is ignored. Adding a data year should need edits to this file and nothing else
-(PIPELINE "Adding a new data year").
+(METHODS.md, "Adding a new data year").
 """
 
 # --- Years ---------------------------------------------------------------------------------
 # The map shows DISPLAY_YEARS and nothing else. Nothing from an EXCLUDED year reaches
 # data/processed/ or site/data/, and an excluded year's coordinates are never a candidate for
-# a trusted coordinate. The reason string is published in dictionary.md and reconciliation.md,
-# so it has to be the real reason. 2023 was first excluded because its row coordinates fail
-# the community-area test; but no year's row coordinates place a building here (ids and
-# addresses do), and match_footprints.excluded_year_location_test shows 2023 locates about as
-# well as 2022. What keeps it out is that it has not been reviewed for release.
+# a trusted coordinate. The reason string is published in dictionary.md, so it has to be the
+# real reason. 2023 was first excluded because its row coordinates fail
+# the community-area test; but properties are located by id and address first, a coordinate
+# only checking a match or standing in where there is none, and
+# match_footprints.excluded_year_location_test shows 2023 locates about as well as 2022. What keeps it out is that it has not been reviewed for release.
 DISPLAY_YEARS = [2022]
-# The date of this data release, set by hand when a release is cut: the pipeline reads no clock.
-# Pages state this one date (website DESIGN-SYSTEM, "One release date per data project"); the
-# per-source dates live in dictionary.md.
+# The date of this data release, written here when a release is cut: the pipeline reads no clock.
+# Every page that cites the release states this one date; the per-source dates live in
+# dictionary.md.
 RELEASE_DATE = "2026-09-24"
 EXCLUDED_YEARS = {2023: "not yet reviewed for release. Its own row coordinates fail the "
                         "community-area test for 91% of rows and are never used, but the year "
                         "can be located by id and address (see the location test)"}
 
 # A year's coordinates are a candidate source only if at least this share of its rows with a
-# coordinate fall inside their own stated community area (README §3a, PIPELINE §2 rule 1).
+# coordinate fall inside their own stated community area (match_footprints.py, rule 1). 2023's
+# own coordinates pass for about 9% of rows.
 MIN_CA_PASS_RATE = 0.80
 # A single coordinate is trusted only inside its row's community-area polygon buffered by this.
 CA_BUFFER_M = 100.0
 
-# The City's footprint layer is a 2015 snapshot (README §3b): max(year_built) = 2015.
+# The City's footprint layer is a 2015 snapshot: max(year_built) = 2015, rows last updated
+# 2015-08-15 (newest edit_date 2015-08-06).
 FOOTPRINT_VINTAGE_YEAR = 2015
 # A footprint built more than this many years after the benchmarked building is another building,
 # unless it holds the address and lies within NEAREST_MEDIUM_M of the trusted coordinate: then the
-# two sources disagree about a construction year, and the guard only notes it (PIPELINE §2 rule 9).
+# two sources disagree about a construction year, and the guard only notes it (match_footprints.py,
+# rule 9).
 YEAR_GUARD_YEARS = 3
 
 # --- Sources -------------------------------------------------------------------------------
@@ -94,7 +97,7 @@ ACKNOWLEDGED = {
     ],
 }
 
-# --- reporting_status (README §3c) -----------------------------------------------------------
+# --- reporting_status ------------------------------------------------------------------------
 # The label changes by year. An unmapped label fails the build: a new year may add one, and
 # which bucket it belongs in is a reading of the ordinance, not something to infer.
 STATUS_MAP = {
@@ -121,19 +124,19 @@ NUMERIC_COLUMNS = [
 ]
 # Total site energy is the sum of the five fuel columns wherever the City published an EUI.
 # EUI x gross floor area overstates it for about 989 of 2,562 records in 2022 because the
-# published floor area is inflated (README §1): the GHG columns agree with the fuel sum, and
+# published floor area is inflated: the GHG columns agree with the fuel sum, and
 # the 2023 release carries about 0.836 x the 2022 floor area for the same ids. A record is
 # "floor-area consistent" where EUI x GFA is within this of the fuel total.
 GFA_TOLERANCE = 0.03
 
-# --- Footprints kept in data/interim/footprints.parquet (PIPELINE §1) ------------------------
+# --- Footprints kept in data/interim/footprints.parquet (normalize.py) ------------------------
 FOOTPRINT_KEEP = [
     "bldg_id", "f_add1", "t_add1", "pre_dir1", "st_name1", "st_type1", "bldg_name1",
     "bldg_name2", "bldg_statu", "year_built", "stories", "shape_area", "x_coord", "y_coord",
 ]
 FOOTPRINT_ACTIVE = "ACTIVE"
 
-# --- Matching (PIPELINE §2) --------------------------------------------------------------------
+# --- Matching (match_footprints.py) ------------------------------------------------------------
 MATCH_METHODS = ["T1", "T1b", "T1_multi", "T2", "coord_pip", "coord_nearest", "override", "none"]
 # (T3, the nearest address range on the street, was retired 2026-09-21 after two precision checks.)
 MATCH_CONFIDENCES = ["high", "medium", "low", "none"]
@@ -146,10 +149,10 @@ NEAREST_MEDIUM_M = 30.0   # coord_nearest: medium at or under this, nothing beyo
 # confidence. Set at 0.90 before matching. On 2026-09-18 it was lowered to 0.85 the same day
 # the first result came in at 86.4% - a result that counted 224 properties moved to a
 # neighboring footprint by the year guard (77.9% without them). Restored 2026-09-21. It is a
-# bar the reconciliation report states, met or not; nothing in matching reads it.
+# bar the build reports the rate against, met or not; nothing in matching reads it.
 MATCH_TARGET = 0.90
 
-# Size check (PIPELINE §2 rule 11). implied_floors = gross floor area / attached footprint area,
+# Size check (match_footprints.py, rule 11). implied_floors = gross floor area / attached footprint area,
 # with a campus's floor area first scaled by attached footprints / reported buildings. The
 # tallest building in Chicago has 108 floors, and the published floor area runs up to ~20% high.
 SIZE_FAIL_FLOORS = 120     # above this the footprint is rejected: it cannot be the building
@@ -169,9 +172,10 @@ SQFT_PER_SQMI = 5280.0 ** 2
 
 # --- The map's release ---------------------------------------------------------------------------
 # The two libraries the map loads, unmodified, each with its ISC license: export_site.py copies
-# them from prototypes/vendor/ into site/vendor/ and lists them in site/checksums.sha256.
+# them into site/vendor/ from the working repository's vendored copy (not published) and lists
+# them in site/checksums.sha256. The copies under site/vendor/ are the ones released.
 VENDOR_FILES = ["d3.min.js", "d3.LICENSE", "topojson-client.min.js", "topojson-client.LICENSE"]
 
-# --- Language the release may not contain (MAP_SPEC §6, PIPELINE "Naming") --------------------
+# --- Language the release may not contain: no ranking or shaming of a named property ----------
 # Kept as fragments so that this file does not itself contain the words it forbids.
 BANNED_FRAGMENTS = ["offen" + "der", "ho" + "g", "wor" + "st", "sha" + "me"]

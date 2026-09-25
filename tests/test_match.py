@@ -1,10 +1,9 @@
 """Stage 2: the tier rules on planted footprints, and the rules as they came out on the real build.
 
-The planted tests build a three-footprint street by hand, so each rule is shown doing exactly
+The planted tests build a three-footprint street in code, so each rule is shown doing exactly
 one thing. The data tests read data/interim/ and data/processed/ as the last build left them.
 """
 import geopandas as gpd
-import pandas as pd
 import pytest
 from shapely.geometry import Point, box
 

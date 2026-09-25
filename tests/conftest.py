@@ -19,7 +19,7 @@ def latest_snapshot() -> Path:
     snaps = sorted(d for d in RAW.iterdir() if d.is_dir() and (d / "MANIFEST.json").exists()) \
         if RAW.is_dir() else []
     if not snaps:
-        pytest.skip("data/raw/ holds no snapshot - run `make fetch`")
+        pytest.skip("needs the raw snapshot, which is not published")
     return snaps[-1]
 
 
@@ -34,10 +34,10 @@ def raw_manifest(snapshot) -> dict:
 
 
 def need(path: Path):
-    """Interim files are gitignored and the footprint CSV is not in git: a clean clone has
-    to run `make fetch build` before these tests mean anything."""
+    """Interim files are built from the raw snapshot, which is not published: a checkout
+    without the snapshot skips every test that needs them."""
     if not path.exists():
-        pytest.skip(f"{path.relative_to(ROOT)} not built - run `make build`")
+        pytest.skip(f"{path.relative_to(ROOT)} not built: needs the raw snapshot, which is not published")
     return path
 
 

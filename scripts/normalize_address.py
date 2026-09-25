@@ -53,11 +53,11 @@ TYPES = {
     "WAY": "WAY", "ROW": "ROW", "PATH": "PATH", "TRAIL": "TRL", "TRL": "TRL",
 }
 # Street-name spellings that differ between owner-typed addresses and the footprint table.
-# Extend from the reconciliation report; never guess here. Every target below is a value of
+# Extend only from a spelling seen in both sources; never guess here. Every target below is a value of
 # st_name1 in the footprint snapshot (tests/test_normalize_address.py checks that it is).
 NAME_SYNONYMS = {
     # The footprint table spells it 'LA SALLE'. (The first version of this table mapped it the
-    # other way, which left every LaSalle Street address unmatched in the README §4 baseline.)
+    # other way, which left every LaSalle Street address unmatched in the first baseline run.)
     "LASALLE": "LA SALLE",
     "KING": "DR MARTIN LUTHER KING JR",
     "KING JR": "DR MARTIN LUTHER KING JR",

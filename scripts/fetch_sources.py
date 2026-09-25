@@ -12,13 +12,14 @@ to avoid throttling):
   (census tracts are not pulled here: the portal's tract layers are map views without a
    row API; take 2020 TIGER tracts from the Census Bureau if a tract aggregate is wanted)
   footprints     data.cityofchicago.org  syp8-uezg   820,606 building footprints incl. geometry;
-                 --footprints only (large, ~1 GB CSV). Vintage: rows last updated 2015-08-06.
+                 --footprints only (large: about 450 MB of CSV). Vintage: rows last updated
+                 2015-08-15 (newest edit_date 2015-08-06).
 
 Usage:
   python scripts/fetch_sources.py                # small sources
   python scripts/fetch_sources.py --footprints   # plus the full footprint table
 """
-import argparse, csv, datetime as dt, hashlib, io, json, os, sys, time, urllib.parse, urllib.request
+import argparse, datetime as dt, hashlib, json, os, sys, time, urllib.parse, urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,7 +90,7 @@ def main():
     if args.footprints:
         ds = "syp8-uezg"
         meta["sources"]["footprints"] = {"dataset": ds, **metadata(CHI, ds)}
-        # CSV export streams the whole table with the_geom as WKT; ~1 GB. Kept out of git
+        # CSV export streams the whole table with the_geom as WKT; about 450 MB. Kept out of git
         # (see .gitignore); the manifest hash is what makes the snapshot reproducible.
         write(RAW / f"footprints_{ds}.csv", get(f"{CHI}/api/views/{ds}/rows.csv?accessType=DOWNLOAD"), manifest)
 

@@ -1,5 +1,5 @@
-"""The address parser. Every string here is literal: from PIPELINE §1, README §4, or the
-benchmarking release itself. The parser may refuse an address; it may not guess one."""
+"""The address parser. Every string here is literal, as the benchmarking release writes it or
+as METHODS.md (stage 1) lists it. The parser may refuse an address; it may not guess one."""
 import pytest
 
 from normalize_address import NAME_KEEPS_TYPE, NAME_SYNONYMS, normalize
@@ -10,7 +10,7 @@ def fields(raw):
     return (d["parse_ok"], d["number"], d["number_hi"], d["pre_dir"], d["st_name"], d["st_type"])
 
 
-# --- the space-separated range: the largest single cause of 2022 misses (README §4) ----------
+# --- the space-separated range: the largest single cause of 2022 misses in the first baseline -
 @pytest.mark.parametrize("raw, want", [
     ("849 863 W BUENA AVE", (True, 849, 863, "W", "BUENA", "AVE")),
     ("3913 3959 W MADISON ST", (True, 3913, 3959, "W", "MADISON", "ST")),
@@ -28,7 +28,7 @@ def test_a_numbered_street_is_not_read_as_a_range():
     assert fields("801- 831 W 119th St.") == (True, 801, 831, "W", "119TH", "ST")
 
 
-# --- hyphenated ranges, however the hyphen is spaced (PIPELINE §1, README §4) ----------------
+# --- hyphenated ranges, however the hyphen is spaced -----------------------------------------
 @pytest.mark.parametrize("raw, want", [
     ("315-331 W Main St", (True, 315, 331, "W", "MAIN", "ST")),
     ("4612 - 4730 S Drexel Blvd", (True, 4612, 4730, "S", "DREXEL", "BLVD")),
@@ -96,7 +96,7 @@ def test_a_second_address_is_carried_not_parsed():
     assert (d["number"], d["st_name"], d["extra"]) == (201, "GRAND", "516 N WELLS")
 
 
-# --- the four parse failures in the README §4 baseline ------------------------------------------
+# --- the four parse failures in the first baseline run ------------------------------------------
 def test_street_name_is_not_swallowed_as_a_unit():
     # 'STE' + 'WART': the unit keyword has to end at a word boundary.
     assert fields("6345 S Stewart") == (True, 6345, None, "S", "STEWART", "")
@@ -156,7 +156,8 @@ def test_not_an_address_stays_unparsed(raw):
 
 
 def test_typos_are_not_corrected():
-    # README §4: typos go to the coordinate tiers or to a hand-verified override.
+    # Typos go to the coordinate tiers, or to an override: a reviewed answer from the AI desk
+    # review, recorded in footprint_overrides.csv.
     assert normalize("4645 N. Sherdian Road")["st_name"] == "SHERDIAN"
     assert normalize("2247 N. Halstead Ave.")["st_name"] == "HALSTEAD"
 
