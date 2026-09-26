@@ -1,0 +1,46 @@
+name: Correction
+description: Report an error in a published figure, file or document
+title: "Correction: "
+labels: [correction]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for an error in a published data file, figure, map or document. For anything else, open a blank issue.
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong
+      description: The value or statement you believe is wrong, and what you believe it should be. A footprint matched to the wrong building counts.
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where it appears
+      description: The file, figure or page. For a CSV, give the filename, the property's `id` and the column. For a page on connorblandford.com, give its URL.
+      placeholder: data/processed/energy.csv, with the property's id and the column
+    validations:
+      required: true
+  - type: input
+    id: release
+    attributes:
+      label: Data release date
+      description: The release you used, as YYYY-MM-DD. It is `date-released` in CITATION.cff and is shown on https://connorblandford.com/data/chicago-building-energy/.
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source or evidence
+      description: Optional. A link, a record or a calculation that supports the correction.
+    validations:
+      required: false
+  - type: checkboxes
+    id: current
+    attributes:
+      label: Current release
+      options:
+        - label: I checked that the error is still in the current release.
+          required: true

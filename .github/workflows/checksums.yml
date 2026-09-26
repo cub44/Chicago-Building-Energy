@@ -1,0 +1,38 @@
+name: Checksums and tests
+
+# Verifies the data files against checksums.sha256 at the root and the map's files against
+# site/checksums.sha256, and runs the test suite. The raw snapshots are not published, so the
+# tests that need them skip.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "23 7 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  checksums:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Verify the data files against checksums.sha256
+        run: shasum -a 256 -c checksums.sha256
+      - name: Verify the map files against site/checksums.sha256
+        run: (cd site && shasum -a 256 -c checksums.sha256)
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Install the pinned requirements
+        run: python -m pip install -r requirements.txt
+      - name: Run the tests
+        run: python -m pytest tests -q
