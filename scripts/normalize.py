@@ -397,6 +397,7 @@ def floor_area_check(year_rows: pd.DataFrame) -> dict:
         "overstated_r": _r(np.corrcoef(fuel_ratio[over], ghg_ratio[over])[0, 1]) if over.sum() > 2 else None,
         "overstated_within_3_points": int(((fuel_ratio - ghg_ratio).abs()[over] < 0.03).sum()),
         "consistent_with_ghg": int(ctrl.sum()),
+        "consistent_within_3pct": int(((ghg_ratio - 1).abs()[ctrl] < 0.03).sum()),
         "consistent_median_ghg_ratio": _r(ghg_ratio[ctrl].median()) if ctrl.any() else None,
     }
     out["sum_total_kbtu"] = int(sub["site_energy_kbtu"].sum())

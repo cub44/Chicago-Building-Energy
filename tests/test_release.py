@@ -2,6 +2,7 @@
 import hashlib
 import json
 import re
+from decimal import Decimal
 
 import pytest
 
@@ -157,6 +158,26 @@ def test_the_map_manifest_names_the_snapshot_it_was_built_from():
     assert man["snapshot_date"] == latest_snapshot().name
     for name, meta in man["files"].items():
         assert hashlib.sha256((SITE / name).read_bytes()).hexdigest() == meta["sha256"], name
+
+
+# --- Number formatting ------------------------------------------------------------------------------------
+@pytest.mark.parametrize("value, printed", [
+    (7076588541.6000004, "7076588541.6"), (2337906499.3000002, "2337906499.3"), (0.1616, "0.1616"),
+    (1.66206, "1.66206"), (0.0617, "0.0617"), (1e-05, "0.00001"), (0.123456789, "0.1234568"),
+    (78.5, "78.5"), (2.0, "2"), (-0.5, "-0.5"), (float("nan"), ""), (None, ""), (True, "true")])
+def test_fmt_prints_no_binary_residue(value, printed):
+    assert build.fmt(value) == printed
+
+
+def test_no_published_decimal_carries_binary_residue():
+    """Every decimal cell is the shortest decimal that reads back as its value: 7076588541.6, never
+    the 7076588541.6000004 that a fixed seven places printed before the 2026-09-26 release."""
+    for name in ("buildings.csv", "energy.csv", "density_hex.csv", "density_ca.csv"):
+        frame = read_csv(name)
+        for col in frame.columns:
+            for v in frame[col]:
+                if re.fullmatch(r"-?\d+\.\d+", v):
+                    assert format(Decimal(repr(float(v))), "f") == v, (name, col, v)
 
 
 # --- Determinism ------------------------------------------------------------------------------------------

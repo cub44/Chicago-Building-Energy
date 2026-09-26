@@ -74,7 +74,8 @@ def build(energy: pd.DataFrame, buildings: pd.DataFrame, hexes: pd.DataFrame, ar
     for key, how, label, extra in (
             ("drawn_as_footprints", "footprint", "Drawn as footprints", "its largest attached City footprint"),
             ("drawn_as_markers", "trusted_coordinate", "Drawn as markers",
-             "a City coordinate that passed the community-area test or was accepted on review, having no confirmed footprint"),
+             "a City coordinate that passed the community-area test or was accepted on review (the AI desk review behind "
+             "footprint_overrides.csv), having no confirmed footprint"),
             ("not_mapped", "none", "Not mapped", "neither a footprint nor a coordinate that passed the test")):
         n = int((e["located_by"] == how).sum())
         fact(F, key, n, count(n), label, f"Covered properties whose located_by is {how}: placed by {extra}.",
@@ -121,23 +122,26 @@ def build(energy: pd.DataFrame, buildings: pd.DataFrame, hexes: pd.DataFrame, ar
          unit="percent")
     tgt = float(_dec(schema.MATCH_TARGET) * 100)
     fact(F, "match_target_pct", tgt, f"{fixed(tgt, 0)}%", "Match target set before matching",
-         "The release bar the reconciliation states, met or not: the share of reported properties at high or medium confidence.",
+         "The share of reported properties at high or medium confidence that the project set as its bar before matching, "
+         "against which the match rate is reported, met or not.",
          "buildings.csv", [B, FP], rounding="nearest percent", unit="percent")
     if prec:
-        fact(F, "precision_reviewed", prec["reviewed"], count(prec["reviewed"]), "Matches checked for precision",
-             "Rows of match_review.csv: the seeded sample of footprint matches checked one by one.", "match_review.csv",
-             [B, FP], unit="matches")
-        for key, v, label, what in (
-                ("precision_drawn_pct", prec["drawn_outlines"]["estimated_precision"], "Drawn outlines on the right building",
+        # The verdicts are an AI desk review; every precision fact says so in its label and definition.
+        fact(F, "precision_reviewed", prec["reviewed"], count(prec["reviewed"]), "Matches checked for precision (AI review)",
+             "Rows of match_review.csv: the seeded sample of footprint matches that AI reviewer agents checked one by one, "
+             "working to a written rubric; no person re-checked their verdicts.", "match_review.csv", [B, FP], unit="matches")
+        for key, v, short, what in (
+                ("precision_drawn_pct", prec["drawn_outlines"]["estimated_precision"], "drawn outlines",
                  "outlines the map draws"),
-                ("precision_high_pct", prec["by_confidence"]["high"]["estimated_precision"],
-                 "High-confidence matches on the right building", "high-confidence matches"),
-                ("precision_medium_pct", prec["by_confidence"]["medium"]["estimated_precision"],
-                 "Medium-confidence matches on the right building", "medium-confidence matches")):
+                ("precision_high_pct", prec["by_confidence"]["high"]["estimated_precision"], "high-confidence matches",
+                 "high-confidence matches"),
+                ("precision_medium_pct", prec["by_confidence"]["medium"]["estimated_precision"], "medium-confidence matches",
+                 "medium-confidence matches")):
             pv = float(_dec(v) * 100)
-            fact(F, key, pv, f"{fixed(pv, 0)}%", label,
-                 f"Population-weighted precision of the {what}, from the verdicts in match_review.csv (correct or one building of "
-                 "a campus, over correct plus wrong).", "match_review.csv", [B, FP], rounding="nearest percent", unit="percent")
+            fact(F, key, pv, f"{fixed(pv, 0)}%", f"Estimated share of {short} on the right building (AI review)",
+                 f"Population-weighted precision of the {what}, from the verdicts in match_review.csv (correct or one building "
+                 "of a campus, over correct plus wrong), which AI reviewer agents made working to a written rubric; no person "
+                 "re-checked them.", "match_review.csv", [B, FP], rounding="nearest percent", unit="percent")
     n = int(((sub["n_footprints"] == 0) & (sub["year_built"] > schema.FOOTPRINT_VINTAGE_YEAR)).sum())
     fact(F, "built_after_footprints_no_outline", n, count(n), f"Reported properties built after {schema.FOOTPRINT_VINTAGE_YEAR} with no outline",
          f"Submitted properties with no footprint_ids and a year_built after {schema.FOOTPRINT_VINTAGE_YEAR}.", "buildings.csv",
@@ -145,8 +149,10 @@ def build(energy: pd.DataFrame, buildings: pd.DataFrame, hexes: pd.DataFrame, ar
     fact(F, "footprint_vintage_year", schema.FOOTPRINT_VINTAGE_YEAR, str(schema.FOOTPRINT_VINTAGE_YEAR), "Footprint layer vintage",
          "The newest year_built in the City's building footprint layer, a 2015 snapshot.", "buildings.csv", [FP])
     placed = sum(1 for o in overrides.values() if len(o["footprint_ids"]) or o.get("coordinate"))
-    fact(F, "overrides", len(overrides), count(len(overrides)), "Properties resolved on review",
-         "Rows of footprint_overrides.csv: matches the tiers could not settle, resolved one at a time against named evidence.",
+    # The overrides are the same kind of AI desk review as the precision check, and say so.
+    fact(F, "overrides", len(overrides), count(len(overrides)), "Properties resolved on review (AI review)",
+         "Rows of footprint_overrides.csv: matches the tiers could not settle, resolved one at a time against named evidence "
+         "by AI reviewer agents working to a written rubric, as in the precision check; no person re-checked them.",
          "footprint_overrides.csv", [B, FP], unit="properties")
     fact(F, "overrides_placed", placed, count(placed), "Resolved properties placed",
          "Override rows with footprint_ids or a coordinate.", "footprint_overrides.csv", [B, FP], unit="properties")

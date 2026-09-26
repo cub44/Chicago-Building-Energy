@@ -1,6 +1,6 @@
 # Chicago building energy
 
-[Explore the project](https://connorblandford.com/projects/chicago-building-energy/). This is the dataset behind an exploratory map; the accompanying article is forthcoming. It covers the properties Chicago's Energy Benchmarking Ordinance requires to report: what they reported for **data year 2022** and which of them did not report, placed by City building footprint where one matched, and how that reported energy is distributed across hexagons and community areas. Data release: **2026-09-24**; what changed in it, and in the releases of 2026-09-23, 2026-09-22 and 2026-09-21 before it, is at the end.
+[Explore the project](https://connorblandford.com/projects/chicago-building-energy/). This is the dataset behind an exploratory map; the accompanying article is forthcoming. It covers the properties Chicago's Energy Benchmarking Ordinance requires to report: what they reported for **data year 2022** and which of them did not report, placed by City building footprint where one matched, and how that reported energy is distributed across hexagons and community areas. Data release: **2026-09-26**; what changed in it, and in the releases of 2026-09-24, 2026-09-23, 2026-09-22 and 2026-09-21 before it, is at the end.
 
 License: the data and documentation are under [CC BY 4.0](LICENSE), and the code under [MIT](LICENSE-CODE); see [Reuse and corrections](#reuse-and-corrections).
 
@@ -35,7 +35,7 @@ Inputs are the City of Chicago datasets `xq83-jr8c` (Chicago Energy Benchmarking
 
 ## Match precision
 
-A match tier says how a footprint was found, not whether it is the right building. To measure that, a seeded random sample of up to 100 matches per tier (406 in all: 100 from each tier except T2, whose 6 matches were all checked) was checked one match at a time against evidence the tier did not use: the footprint's own address range, building name, stories and plan area; the reported floor area against that; the neighboring footprints and their addresses; and the City coordinate. The checks were made by AI reviewers (Claude), one per tier, working to a written rubric; no person has yet re-checked them, and no imagery or site visit was used. Every verdict and its reason is in `match_review.csv`, so any of them can be verified. Precision is correct over correct plus wrong, where one building of a campus counts as correct; `unsure` is left out of it, and the floor counts it as wrong.
+A match tier says how a footprint was found, not whether it is the right building. To measure that, a seeded random sample of up to 100 matches per tier (406 in all: 100 from each of the four tiers with more than 100 matches, and all 6 of T2’s; T1b made none) was checked one match at a time against evidence the tier did not use: the footprint's own address range, building name, stories and plan area; the reported floor area against that; the neighboring footprints and their addresses; and the City coordinate. The checks were made by AI reviewers (Claude), one per tier, working to a written rubric; no person has yet re-checked them, and no imagery or site visit was used. Every verdict and its reason is in `match_review.csv`, so any of them can be verified. Precision is correct over correct plus wrong, where one building of a campus counts as correct; `unsure` is left out of it, and the floor counts it as wrong.
 
 | Tier | How the footprint was found | Matches, 2022 | Checked | Right | Wrong | Unsure | Precision (95% CI) |
 |---|---|---:|---:|---:|---:|---:|---|
@@ -44,6 +44,9 @@ A match tier says how a footprint was found, not whether it is the right buildin
 | T2 | Same number and street under another direction, confirmed by the coordinate | 6 | 6 | 6 | 0 | 0 | 100% (61–100%) |
 | coord_pip | The City coordinate falls inside the footprint | 125 | 100 | 76 | 12 | 12 | 86% (78–92%) |
 | coord_nearest | The footprint nearest the City coordinate, within 30 m | 439 | 100 | 53 | 36 | 11 | 60% (49–69%) |
+| T1b | Several footprints hold the number; the street type narrows them to one | 0 | — | — | — | — | — |
+| override | Set on review, one property at a time, from the evidence in `footprint_overrides.csv`: footprints, a coordinate, or neither | 16 | — | — | — | — | — |
+| none | No footprint attached; the property is placed at its City coordinate where one is usable, or not at all | 304 | — | — | — | — | — |
 
 "Right" includes one building of a campus. By `match_confidence`, weighting each tier's checked matches by how many matches it holds at that level:
 
@@ -95,6 +98,46 @@ the City revises rows retroactively. Everything published here came from the 202
 - **Many density cells rest on one building.** 591 of the 964 hexagons with a value hold a single reporting property, and 14 community areas hold fewer than five. Read `n_submitted` beside `kbtu_per_sqmi`.
 - **Names are as the City publishes them.** `property_name` is carried unedited. On the map, residential properties are labeled by address and type rather than by an owner or LLC name, and so is any property with no type whose name carries an owner, LLC or association token.
 - **Portal datasets get revised retroactively.** These figures come from a dated snapshot and will differ from a query run against the live portal today.
+
+## What changed on 2026-09-26
+
+Wording, disclosure and number formatting; **no figure changed**. `energy.csv`, `buildings.csv`,
+`classes.json` and `footprint_overrides.csv` are byte for byte the files published on 2026-09-24,
+and so are the map’s `community.topojson`, `footprints.topojson`, `hex.topojson`, `points.json`
+and `values_2022.json` and everything in `site/vendor/`. The files below changed.
+
+- **`density_ca.csv` and `density_hex.csv` print `kbtu_per_sqmi` without floating-point
+  residue.** 2 community-area rows and 119 hexagon rows carried digits the value does not have
+  (`7076588541.6000004` for 7,076,588,541.6). Each now prints as the shortest decimal that reads
+  back as the same number, so every value parses to exactly what it did before; no other cell
+  changed.
+- **`facts.json` says who checked the matches.** The three precision figures are labeled
+  “Estimated share of … on the right building (AI review)” and the count of matches checked
+  “(AI review)”, and each definition says the verdicts were made by AI reviewer agents working
+  to a written rubric and that no person re-checked them. The count of properties resolved on
+  review is labeled “(AI review)” too, and its definition, like that of the properties drawn as
+  markers, says the same of the overrides. The match target’s definition no longer points to a
+  report that is not published.
+- **`dictionary.md` stands on its own.** The reason 2023 is excluded now says what the location
+  test found (located by property `id` and address, 2023 matches about as well as 2022) instead of
+  only pointing to the test, whose report is not published. The greenhouse-gas check says the
+  columns agree within 3% for 1,566 of the other 1,569 records with both figures, not “exactly”.
+  The precision note drops “with a sample re-checked”, since no record of such a re-check was
+  kept. The review sheet’s note says how many rows are stale (none), and the checksum note
+  describes the published manifest, whose paths are rooted at `data/processed/`, rather than bare
+  filenames. The match-precision table above now lists every `match_method`, as the dictionary
+  says it does.
+- **`match_review.csv` names the Goodman Theatre** in one reason (`id` 158134), which said
+  “the theatre footprint”. No verdict changed.
+- **The map’s caveats (`site/data/caveats.json`)** say that a marker’s City coordinate passed
+  the location check or was accepted on review. They no longer say the map never uses a release’s
+  own coordinates: it uses one only where it passes that check or was accepted on review, and
+  never a 2023 coordinate. The note on 2023 adds that its matches have not been checked for
+  precision, and the caveats use typographic apostrophes. `site/data/manifest.json` carries the new
+  release date and the caveats file’s new hash.
+- **`.zenodo.json` is added** at the root with this release’s metadata, for Zenodo to read when
+  it archives a release, and `CITATION.cff` gives this release’s date. Both `checksums.sha256`
+  files list the new hashes, and the code is republished with these changes.
 
 ## What changed on 2026-09-24
 
@@ -180,9 +223,10 @@ The first release (2026-09-18) had these errors, all corrected in that release:
 ## Reuse and corrections
 
 [LICENSE](LICENSE) is the SPDX text of CC BY 4.0. It covers the data and the documentation: `data/`,
-`site/data/`, both `checksums.sha256` files, this README, `METHODS.md`, `CITATION.cff` and the
-dictionary. [LICENSE-CODE](LICENSE-CODE) is the MIT license. It covers the code: `scripts/`,
-`tests/` and `requirements.txt`. Each file holds its license and nothing else, so it can be read by
+`site/data/`, both `checksums.sha256` files, this README, `METHODS.md`, `CITATION.cff`,
+`.zenodo.json` and the dictionary. [LICENSE-CODE](LICENSE-CODE) is the MIT license. It covers the
+code: `scripts/`, `tests/`, `requirements.txt` and `.github/`, which holds the checksum workflow
+and the issue forms. Each file holds its license and nothing else, so it can be read by
 a tool as well as by a person. `site/vendor/` holds unmodified copies of d3 7.9.0 and
 topojson-client 3.1.0, which stay under their own ISC licenses, in `d3.LICENSE` and
 `topojson-client.LICENSE` beside them. The figures in `data/` are derived from public records the City of
@@ -190,4 +234,4 @@ Chicago publishes on its Data Portal (`xq83-jr8c`, `g5i5-yz37`, `igwz-8jzy`, `sy
 licenses above cover this project's selection, derivation and documentation, and do not relicense
 the City's underlying records, whose own terms of use govern their reuse.
 
-Suggested attribution: "Chicago building energy, Connor Ulrich Blandford, data release 2026-09-24," with a link to this repository. [CITATION.cff](CITATION.cff) gives the same citation in a form GitHub and reference managers can read. Cite the release date, the data year and the file you used. Report corrections through [Issues](https://github.com/cub44/Chicago-Building-Energy/issues), including the filename, the property `id` and the disputed value. A footprint matched to the wrong building is a correction worth sending.
+Suggested attribution: "Chicago building energy, Connor Ulrich Blandford, data release 2026-09-26," with a link to this repository. [CITATION.cff](CITATION.cff) gives the same citation in a form GitHub and reference managers can read. Cite the release date, the data year and the file you used. Report corrections through [Issues](https://github.com/cub44/Chicago-Building-Energy/issues), including the filename, the property `id` and the disputed value. A footprint matched to the wrong building is a correction worth sending.

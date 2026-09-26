@@ -1,7 +1,7 @@
 {
  "schema": 1,
  "project": "chicago-building-energy",
- "release": "2026-09-24",
+ "release": "2026-09-26",
  "generated_by": "scripts/build.py",
  "sources": [
   {
@@ -122,7 +122,7 @@
    "value": 418,
    "display": "418",
    "label": "Drawn as markers",
-   "definition": "Covered properties whose located_by is trusted_coordinate: placed by a City coordinate that passed the community-area test or was accepted on review, having no confirmed footprint.",
+   "definition": "Covered properties whose located_by is trusted_coordinate: placed by a City coordinate that passed the community-area test or was accepted on review (the AI desk review behind footprint_overrides.csv), having no confirmed footprint.",
    "source_file": "buildings.csv",
    "sources": [
     "benchmarking",
@@ -270,7 +270,7 @@
    "value": 90.0,
    "display": "90%",
    "label": "Match target set before matching",
-   "definition": "The release bar the reconciliation states, met or not: the share of reported properties at high or medium confidence.",
+   "definition": "The share of reported properties at high or medium confidence that the project set as its bar before matching, against which the match rate is reported, met or not.",
    "source_file": "buildings.csv",
    "sources": [
     "benchmarking",
@@ -282,8 +282,8 @@
   "precision_reviewed": {
    "value": 406,
    "display": "406",
-   "label": "Matches checked for precision",
-   "definition": "Rows of match_review.csv: the seeded sample of footprint matches checked one by one.",
+   "label": "Matches checked for precision (AI review)",
+   "definition": "Rows of match_review.csv: the seeded sample of footprint matches that AI reviewer agents checked one by one, working to a written rubric; no person re-checked their verdicts.",
    "source_file": "match_review.csv",
    "sources": [
     "benchmarking",
@@ -295,8 +295,8 @@
   "precision_drawn_pct": {
    "value": 94.31,
    "display": "94%",
-   "label": "Drawn outlines on the right building",
-   "definition": "Population-weighted precision of the outlines the map draws, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong).",
+   "label": "Estimated share of drawn outlines on the right building (AI review)",
+   "definition": "Population-weighted precision of the outlines the map draws, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong), which AI reviewer agents made working to a written rubric; no person re-checked them.",
    "source_file": "match_review.csv",
    "sources": [
     "benchmarking",
@@ -308,8 +308,8 @@
   "precision_high_pct": {
    "value": 99.29,
    "display": "99%",
-   "label": "High-confidence matches on the right building",
-   "definition": "Population-weighted precision of the high-confidence matches, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong).",
+   "label": "Estimated share of high-confidence matches on the right building (AI review)",
+   "definition": "Population-weighted precision of the high-confidence matches, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong), which AI reviewer agents made working to a written rubric; no person re-checked them.",
    "source_file": "match_review.csv",
    "sources": [
     "benchmarking",
@@ -321,8 +321,8 @@
   "precision_medium_pct": {
    "value": 74.0,
    "display": "74%",
-   "label": "Medium-confidence matches on the right building",
-   "definition": "Population-weighted precision of the medium-confidence matches, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong).",
+   "label": "Estimated share of medium-confidence matches on the right building (AI review)",
+   "definition": "Population-weighted precision of the medium-confidence matches, from the verdicts in match_review.csv (correct or one building of a campus, over correct plus wrong), which AI reviewer agents made working to a written rubric; no person re-checked them.",
    "source_file": "match_review.csv",
    "sources": [
     "benchmarking",
@@ -358,8 +358,8 @@
   "overrides": {
    "value": 16,
    "display": "16",
-   "label": "Properties resolved on review",
-   "definition": "Rows of footprint_overrides.csv: matches the tiers could not settle, resolved one at a time against named evidence.",
+   "label": "Properties resolved on review (AI review)",
+   "definition": "Rows of footprint_overrides.csv: matches the tiers could not settle, resolved one at a time against named evidence by AI reviewer agents working to a written rubric, as in the precision check; no person re-checked them.",
    "source_file": "footprint_overrides.csv",
    "sources": [
     "benchmarking",

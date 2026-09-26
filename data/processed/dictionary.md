@@ -1,16 +1,16 @@
 # Data dictionary - chicago-building-energy
 
-Script output (`scripts/build.py`); never hand-edited. Data release 2026-09-24. Vintage of every figure: City release of 2025-02-05, snapshot 2026-09-18. Covered-buildings list (g5i5-yz37) rows updated 2025-03-14; community areas (igwz-8jzy) 2025-04-22; building footprints (syp8-uezg) 2015-08-15.
+Script output (`scripts/build.py`); never hand-edited. Data release 2026-09-26. Vintage of every figure: City release of 2025-02-05, snapshot 2026-09-18. Covered-buildings list (g5i5-yz37) rows updated 2025-03-14; community areas (igwz-8jzy) 2025-04-22; building footprints (syp8-uezg) 2015-08-15.
 
-**Years.** Published: [2022]. Excluded: 2023 - not yet reviewed for release. Its own row coordinates fail the community-area test for 91% of rows and are never used, but the year can be located by id and address (see the location test). No row from an excluded year is in any file here. An empty cell means the City published nothing; no value is interpolated, estimated or geocoded.
+**Years.** Published: [2022]. Excluded: 2023 - not yet reviewed for release. Its own row coordinates fail the community-area test for 91% of rows and are never used, but the year can be located the way 2022 is, by property id and address, and matches about as well that way. No row from an excluded year is in any file here. An empty cell means the City published nothing; no value is interpolated, estimated or geocoded.
 
-**Total site energy, 2022.** The sum of the five fuel columns, for each of the 2,562 submitted records with a published site EUI; EUI x gross floor area is used only where the fuel columns are empty (0 records). For 989 records EUI x floor area runs 3% or more above the fuel total (median ratio 0.835), because the published floor area is inflated: the GHG columns fall short of GHG intensity x floor area by the same factor (median 0.8349, r = 0.9956) and agree exactly elsewhere (0.9998). `gfa_consistent` marks which records are affected; their site EUI is as the City computed it and is not affected.
+**Total site energy, 2022.** The sum of the five fuel columns, for each of the 2,562 submitted records with a published site EUI; EUI x gross floor area is used only where the fuel columns are empty (0 records). For 989 records EUI x floor area runs 3% or more above the fuel total (median ratio 0.835), because the published floor area is inflated: the GHG columns fall short of GHG intensity x floor area by the same factor (median 0.8349, r = 0.9956), and agree with it within 3% for 1,566 of the other 1,569 records with both figures (median 0.9998). `gfa_consistent` marks which records are affected; their site EUI is as the City computed it and is not affected.
 
 **Community area.** `community_area` is the text on the City's row, as typed: 132 spellings for 77 areas across these files, and empty for some rows. Grouping on it splits areas silently. `community_area_num` is the area the property is located in, by geometry, the same assignment the density tables use; group on that.
 
 **Small counts.** 591 of the 964 hexagons with a value hold a single reporting property, and 14 community areas hold fewer than 5. There one building sets the figure; read `n_submitted` beside `kbtu_per_sqmi`.
 
-**Match precision.** A seeded sample of up to 100 footprint matches per tier (406 in all) was checked one by one against evidence the tier did not use: the footprint's own address range, name, stories and size, its neighbors and their addresses, and the City coordinate. The checks were made by AI reviewers (Claude) working to a written rubric, with a sample re-checked; no person or imagery was involved. Every verdict and its reason is in `match_review.csv`. Precision is correct (including one building of a campus) over correct plus wrong; `unsure` is left out, and the floor counts it as wrong. Weighted by how many matches each tier made, about 91% of footprints attached by the tiers are the right building, and about 94% of the outlines the map draws (low-confidence matches are placed at their coordinate instead).
+**Match precision.** A seeded sample of up to 100 footprint matches per tier (406 in all) was checked one by one against evidence the tier did not use: the footprint's own address range, name, stories and size, its neighbors and their addresses, and the City coordinate. The checks were made by AI reviewers (Claude) working to a written rubric; no person or imagery was involved. Every verdict and its reason is in `match_review.csv`. Precision is correct (including one building of a campus) over correct plus wrong; `unsure` is left out, and the floor counts it as wrong. Weighted by how many matches each tier made, about 91% of footprints attached by the tiers are the right building, and about 94% of the outlines the map draws (low-confidence matches are placed at their coordinate instead).
 
 | tier | matches | checked | correct | partial | wrong | unsure | precision (95% CI) | floor |
 |---|---|---|---|---|---|---|---|---|
@@ -132,7 +132,7 @@ The answers the matcher applies last, after every tier. Each was resolved one id
 
 ## match_review.csv
 
-The precision check above, one row per sampled match, as reviewed. A row the build has since changed is stale and is not counted in the precision; the tables above say how many.
+The precision check above, one row per sampled match, as reviewed. A row the build has since changed is stale and is not counted in the precision; none of the 406 rows is stale in this release.
 
 | column | unit / values | source | definition |
 |---|---|---|---|
@@ -154,4 +154,4 @@ Every figure the project page states, one entry per figure: `value` (the exact f
 
 ## checksums.sha256
 
-SHA-256 of every other file in this folder, bare filenames, over the exact bytes.
+SHA-256 of every file in `data/processed/`, this dictionary included, over the exact bytes. The published copy sits at the root of the release, each path rooted at `data/processed/`, so `shasum -a 256 -c checksums.sha256` run there verifies the download. The map's own files have their own manifest, `site/checksums.sha256`, with paths relative to `site/`.

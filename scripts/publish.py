@@ -27,9 +27,11 @@ and read the build's working report of what did not resolve first. Then this scr
      alone is about 450 MB), so the public repo documents the method; it cannot rebuild these
      bytes without them;
   7. copies the public documents kept under release/ -- METHODS.md, the method without the
-     working notes, and CITATION.cff -- to the public repo's root. It refuses a document that
-     names this machine's paths or a file that is not published, and a CITATION.cff whose
-     version or date-released is not schema.RELEASE_DATE.
+     working notes, CITATION.cff, and .zenodo.json, the metadata Zenodo reads when it archives a
+     GitHub release -- to the public repo's root. It refuses a document that names this
+     machine's paths or a file that is not published, a CITATION.cff whose version or
+     date-released is not schema.RELEASE_DATE, and a .zenodo.json whose version is not that date
+     or whose title and dataset page are not CITATION.cff's.
 
 It never deletes. If a destination folder holds a file this release does not list, it stops
 and names it: the website build would refuse it anyway, and removing a published file is a
@@ -57,7 +59,7 @@ SITE_DATA = SITE / "data"
 CODE_DIRS = ["scripts", "tests"]          # published: the method, readable and rerunnable
 CODE_FILES = ["requirements.txt"]         # published: the pins the figures were produced under
 RELEASE_DOCS = ROOT / "release"
-DOCS = ["METHODS.md", "CITATION.cff"]     # published at the public repo's root, from release/
+DOCS = ["METHODS.md", "CITATION.cff", ".zenodo.json"]   # published at the public repo's root, from release/
 # What exists only in this working repository. A published document that cites one of these
 # points its reader at something they cannot open.
 UNPUBLISHED = ["PIPELINE", "MAP_SPEC", "RUBRIC", "reconciliation.md", "data/raw", "data/interim",
@@ -173,6 +175,29 @@ def docs_set() -> list[str]:
         if not m or m.group(1) != want:
             fail(f"release/CITATION.cff gives {key} {m.group(1) if m else '(none)'}; "
                  f"the release is {schema.RELEASE_DATE} (scripts/schema.py RELEASE_DATE)")
+    # .zenodo.json: Zenodo's legacy deposit metadata. The ORCID is the bare id there (CITATION.cff
+    # gives the full URL); the dataset page is the record's documentation.
+    try:
+        z = json.loads((RELEASE_DOCS / ".zenodo.json").read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        fail(f"release/.zenodo.json is not valid JSON: {e}")
+    cff_value = {k: (m.group(1) if (m := re.search(rf'^{k}: "(.*)"$', cff, re.M)) else None) for k in ("title", "url")}
+    checks = [
+        ("version", z.get("version") == schema.RELEASE_DATE, schema.RELEASE_DATE),
+        ("upload_type", z.get("upload_type") == "dataset", "dataset"),
+        ("license", z.get("license") == "cc-by-4.0", "cc-by-4.0"),
+        ("access_right", z.get("access_right") == "open", "open"),
+        ("title", z.get("title") == cff_value["title"], f"CITATION.cff's title {cff_value['title']!r}"),
+        ("creators", bool(z.get("creators")) and all(
+            re.fullmatch(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", c.get("orcid", "")) for c in z["creators"]),
+         "each creator with a bare ORCID id"),
+        ("related_identifiers", {"identifier": cff_value["url"], "relation": "isDocumentedBy",
+                                 "resource_type": "publication-other"} in z.get("related_identifiers", []),
+         f"the dataset page {cff_value['url']} as isDocumentedBy"),
+    ]
+    for key, ok, want in checks:
+        if not ok:
+            fail(f"release/.zenodo.json {key} is {z.get(key)!r}; it must be {want}")
     return list(DOCS)
 
 

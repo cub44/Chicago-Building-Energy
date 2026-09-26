@@ -20,10 +20,11 @@ DISPLAY_YEARS = [2022]
 # The date of this data release, written here when a release is cut: the pipeline reads no clock.
 # Every page that cites the release states this one date; the per-source dates live in
 # dictionary.md.
-RELEASE_DATE = "2026-09-24"
+RELEASE_DATE = "2026-09-26"
 EXCLUDED_YEARS = {2023: "not yet reviewed for release. Its own row coordinates fail the "
                         "community-area test for 91% of rows and are never used, but the year "
-                        "can be located by id and address (see the location test)"}
+                        "can be located the way 2022 is, by property id and address, and matches "
+                        "about as well that way"}
 
 # A year's coordinates are a candidate source only if at least this share of its rows with a
 # coordinate fall inside their own stated community area (match_footprints.py, rule 1). 2023's

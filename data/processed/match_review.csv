@@ -40,7 +40,7 @@ id,match_method,match_confidence,footprint_ids,verdict,reason,reviewed_on
 141524,T1,high,357267,correct,"357267 range 947-949 W Madison, 1 m; 15.5 implied floors on unknown stories; no better candidate.",2026-09-21
 156406,T1,high,814543,correct,"814543 range 19-21 N Wabash, 15 m; 5 stories vs 6.5 implied, acceptable with basement.",2026-09-21
 157971,T1,high,368657,correct,"368657 range 900-910 S Michigan, 9 m; 19 stories vs 20.2 implied floors.",2026-09-21
-158134,T1,high,814348,partial,"814348 at 170 N Dearborn is the theatre footprint; adjoining 814435 (150 N Dearborn, same label) unattached; 5.2 implied floors on 3 stories.",2026-09-21
+158134,T1,high,814348,partial,"814348 at 170 N Dearborn is the Goodman Theatre footprint; adjoining 814435 (150 N Dearborn, same label) unattached; 5.2 implied floors on 3 stories.",2026-09-21
 158307,T1,high,825025,correct,"825025 range 718-720 N Larrabee, footprint name matches, coordinate inside; 17 stories vs 12.3 implied.",2026-09-21
 158392,T1,high,352493,correct,"352493 at 55 W Wacker, 1 m; 16 stories vs 16.6 implied floors.",2026-09-21
 160137,T1,high,364929,correct,"364929 range 600-610 S Canal, 11 m; 12 stories vs 14.0 implied, modest excess.",2026-09-21

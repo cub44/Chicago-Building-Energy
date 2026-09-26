@@ -23,6 +23,7 @@ import hashlib
 import json
 import math
 import sys
+from decimal import Decimal
 from pathlib import Path
 
 import geopandas as gpd
@@ -68,7 +69,10 @@ HEX_SQMI = (math.sqrt(3) / 2) * HEX_W_FT ** 2 / schema.SQFT_PER_SQMI
 
 # --- deterministic writers ----------------------------------------------------------------------------
 def fmt(v) -> str:
-    """None/NaN -> empty. Booleans lower-case. Floats lose trailing zeros. Lists ';'-joined."""
+    """None/NaN -> empty. Booleans lower-case. Lists ';'-joined. A float prints as the shortest
+    decimal that reads back as the same number, never in exponent form and at most 7 places: a
+    fixed 7 places would print binary residue on a large value (7076588541.6 as
+    7076588541.6000004)."""
     if isinstance(v, (list, tuple, np.ndarray)):
         return ";".join(str(int(x)) for x in v)
     if v is None or v is pd.NA or (isinstance(v, float) and math.isnan(v)):
@@ -78,7 +82,11 @@ def fmt(v) -> str:
     if isinstance(v, (int, np.integer)):
         return str(int(v))
     if isinstance(v, (float, np.floating)):
-        return str(int(v)) if float(v).is_integer() else f"{float(v):.7f}".rstrip("0").rstrip(".")
+        x = float(v)
+        if x.is_integer():
+            return str(int(x))
+        s = format(Decimal(repr(x)), "f") if math.isfinite(x) else ""
+        return s if "." in s and len(s.split(".")[1]) <= 7 else f"{x:.7f}".rstrip("0").rstrip(".")
     return str(v)
 
 
@@ -663,9 +671,10 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
               f"empty ({fa['total_is_eui_x_gfa']:,} records). For {fa['overstated_3pct_or_more']:,} records EUI x floor area "
               f"runs 3% or more above the fuel total (median ratio {g['overstated_median_fuel_ratio']}), because the published "
               f"floor area is inflated: the GHG columns fall short of GHG intensity x floor area by the same factor "
-              f"(median {g['overstated_median_ghg_ratio']}, r = {g['overstated_r']}) and agree exactly elsewhere "
-              f"({g['consistent_median_ghg_ratio']}). `gfa_consistent` marks which records are affected; their site EUI "
-              "is as the City computed it and is not affected.", ""]
+              f"(median {g['overstated_median_ghg_ratio']}, r = {g['overstated_r']}), and agree with it within 3% for "
+              f"{g['consistent_within_3pct']:,} of the other {g['consistent_with_ghg']:,} records with both figures "
+              f"(median {g['consistent_median_ghg_ratio']}). `gfa_consistent` marks which records are affected; their site "
+              "EUI is as the City computed it and is not affected.", ""]
     L += [f"**Community area.** `community_area` is the text on the City's row, as typed: {spellings} spellings for 77 "
           "areas across these files, and empty for some rows. Grouping on it splits areas silently. "
           "`community_area_num` is the area the property is located in, by geometry, the same assignment the "
@@ -678,7 +687,7 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
         L += [f"**Match precision.** A seeded sample of up to 100 footprint matches per tier ({prec['reviewed']:,} in all) was "
               "checked one by one against evidence the tier did not use: the footprint's own address range, name, stories "
               "and size, its neighbors and their addresses, and the City coordinate. The checks were made by AI reviewers "
-              "(Claude) working to a written rubric, with a sample re-checked; no person or imagery was involved. Every "
+              "(Claude) working to a written rubric; no person or imagery was involved. Every "
               "verdict and its reason is in `match_review.csv`. Precision is correct (including one building of a campus) "
               "over correct plus wrong; `unsure` is left out, and the floor counts it as wrong. Weighted by how many "
               f"matches each tier made, about {prec['weighted_precision']:.0%} of footprints attached by the tiers are the "
@@ -786,9 +795,13 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
         ["note", "text", "derived", "The reasoning, naming the evidence it rests on."],
         ["source", "text", "derived", "The dataset columns and rows the note was read from."],
         ["verified_on", "date, YYYY-MM-DD", "derived", "When the row was reviewed."]])
+    stale = None if prec is None else prec["stale"]
     L += table("match_review.csv",
                "The precision check above, one row per sampled match, as reviewed. A row the build has since changed is "
-               "stale and is not counted in the precision; the tables above say how many.", [
+               "stale and is not counted in the precision"
+               + ("." if stale is None else
+                  f"; none of the {prec['reviewed']:,} rows is stale in this release." if stale == 0 else
+                  f"; {stale:,} of the {prec['reviewed']:,} rows are stale in this release."), [
         ["id", "integer", f"{B} `id`", "The property whose match was checked. Key with `footprint_ids`."],
         ["match_method", " / ".join(schema.MATCH_METHODS), "derived", "The tier that attached the footprints, as reviewed."],
         ["match_confidence", " / ".join(schema.MATCH_CONFIDENCES), "derived", "Its confidence, as reviewed."],
@@ -810,7 +823,11 @@ def dictionary(summary: dict, manifest: dict, spellings: int, small: dict, prec:
           "never computes its own. `site_eui` and `site_energy_kbtu` are classed over submitted properties with a "
           "published EUI; `kbtu_per_sqmi` separately for hexagons and community areas. `breaks` holds the six "
           "interior boundaries, rounded to three significant figures.", "",
-          "## checksums.sha256", "", "SHA-256 of every other file in this folder, bare filenames, over the exact bytes.", ""]
+          "## checksums.sha256", "",
+          "SHA-256 of every file in `data/processed/`, this dictionary included, over the exact bytes. The published "
+          "copy sits at the root of the release, each path rooted at `data/processed/`, so `shasum -a 256 -c "
+          "checksums.sha256` run there verifies the download. The map's own files have their own manifest, "
+          "`site/checksums.sha256`, with paths relative to `site/`.", ""]
     return "\n".join(L)
 
 

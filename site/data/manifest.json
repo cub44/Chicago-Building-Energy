@@ -32,7 +32,7 @@
   }
  },
  "benchmarking_rows_updated": "2025-02-05",
- "data_release": "2026-09-24",
+ "data_release": "2026-09-26",
  "metrics": {
   "buildings": [
    {
@@ -158,8 +158,8 @@
  },
  "files": {
   "caveats.json": {
-   "bytes": 5043,
-   "sha256": "7ea9f04ab503b5e14ea1dcce542c3bea8be0602b2e0ae24bcf964e229052a04e"
+   "bytes": 5207,
+   "sha256": "efee790a81c99254f4238ca8626314174b3eadfa68c10f5638f1495aa69346ed"
   },
   "community.topojson": {
    "bytes": 43432,
