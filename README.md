@@ -2,6 +2,8 @@
 
 [Explore the project](https://connorblandford.com/projects/chicago-building-energy/). This is the dataset behind an exploratory map; the accompanying article is forthcoming. It covers the properties Chicago's Energy Benchmarking Ordinance requires to report: what they reported for **data year 2022** and which of them did not report, placed by City building footprint where one matched, and how that reported energy is distributed across hexagons and community areas. Data release: **2026-09-26**; what changed in it, and in the releases of 2026-09-24, 2026-09-23, 2026-09-22 and 2026-09-21 before it, is at the end.
 
+DOI: [https://doi.org/10.5281/zenodo.22972207](https://doi.org/10.5281/zenodo.22972207). Zenodo archives each release from 2026-09-26 on, and gives each its own DOI; this one stands for all of them and resolves to the latest.
+
 License: the data and documentation are under [CC BY 4.0](LICENSE), and the code under [MIT](LICENSE-CODE); see [Reuse and corrections](#reuse-and-corrections).
 
 No software is required to read it: open the CSVs in a spreadsheet or your preferred analysis tool. The pipeline that produced them is published here too, under `scripts/` and `tests/`; see [The code](#the-code).
@@ -234,4 +236,4 @@ Chicago publishes on its Data Portal (`xq83-jr8c`, `g5i5-yz37`, `igwz-8jzy`, `sy
 licenses above cover this project's selection, derivation and documentation, and do not relicense
 the City's underlying records, whose own terms of use govern their reuse.
 
-Suggested attribution: "Chicago building energy, Connor Ulrich Blandford, data release 2026-09-26," with a link to this repository. [CITATION.cff](CITATION.cff) gives the same citation in a form GitHub and reference managers can read. Cite the release date, the data year and the file you used. Report corrections through [Issues](https://github.com/cub44/Chicago-Building-Energy/issues), including the filename, the property `id` and the disputed value. A footprint matched to the wrong building is a correction worth sending.
+Suggested attribution: "Chicago building energy, Connor Ulrich Blandford, data release 2026-09-26, [https://doi.org/10.5281/zenodo.22972207](https://doi.org/10.5281/zenodo.22972207)," with a link to this repository. [CITATION.cff](CITATION.cff) gives the same citation in a form GitHub and reference managers can read. Cite the release date, the data year and the file you used. Report corrections through [Issues](https://github.com/cub44/Chicago-Building-Energy/issues), including the filename, the property `id` and the disputed value. A footprint matched to the wrong building is a correction worth sending.
